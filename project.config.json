@@ -1,0 +1,34 @@
+{
+	"description": "爱彼儿微信小程序",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": false
+	},
+	"compileType": "miniprogram",
+	"appid_bk": "wxb945640b6fd4a85b",
+	"appid": "",
+	"projectname": "airmnb-weapp",
+	"miniprogramRoot": "./dist",
+	"isGameTourist": false,
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": []
+		}
+	}
+}
