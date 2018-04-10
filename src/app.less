@@ -1,0 +1,50 @@
+/* colors */
+@primery-light: rgb(238, 177, 199);
+@primery: #D81B60;
+@primery-dark: #880E4F;
+@secondary-light: rgb(169, 208, 241);
+@secondary: #1E88E5;
+@secondary-dark: #0D47A1;
+@gray-light: #FAFAFA;
+@gray: #D5D5D5;
+@gray-dark: #888888;
+
+.navigator-group {
+  width: 100%;
+  border-top: 1rpx solid @gray;
+  border-bottom: 1rpx solid @gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 40rpx 0 40rpx 0;
+}
+
+.navigator-group navigator {
+  width: 100%;
+  height: 80rpx;
+  display: flex;  
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1rpx solid @gray;
+  background-color: #FFFFFF;
+}
+
+.navigator-group navigator text {
+  margin-left: 1rem;
+}
+
+.navigator-group navigator::after {
+  content: '>';
+  color: @gray;
+  padding-right: 1rem;
+  font-weight: bold;
+}
+
+.navigator-group .last-navigator {
+  border-bottom: none;
+}
+
+page {
+  background-color: @gray-light;
+}

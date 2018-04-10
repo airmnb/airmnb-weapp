@@ -8,8 +8,8 @@
 		"newFeature": false
 	},
 	"compileType": "miniprogram",
-	"appid_bk": "wxb945640b6fd4a85b",
-	"appid": "",
+	"appid": "wxb945640b6fd4a85b",
+	"appid_bk": "",
 	"projectname": "airmnb-weapp",
 	"miniprogramRoot": "./dist",
 	"isGameTourist": false,

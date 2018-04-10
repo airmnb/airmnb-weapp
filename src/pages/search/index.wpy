@@ -17,6 +17,9 @@
 </style>
 <template>
   <view class="container">
+    <view class="navigator-group">
+      <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover"><text>我的搜索记录</text></navigator>
+    </view>
     <view class="userinfo" @tap="handleViewTap">
       <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"/>
       <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
@@ -85,11 +88,11 @@
   import { connect } from 'wepy-redux'
   import Panel from '@/components/panel' // alias example
   import Counter from 'counter' // alias example
-  import List from '../components/list' // aliasFields example
+  import List from '@/components/list' // aliasFields example
   import moduleA from 'module-a' // aliasFields ignore module example
-  import Group from '../components/group'
+  import Group from '@/components/group'
   import Toast from 'wepy-com-toast'
-  import testMixin from '../mixins/test'
+  import testMixin from '@/mixins/test'
 
   console.log('moduleA ignored: ', moduleA) // => moduleA ignored: {}
 
@@ -106,9 +109,6 @@
   })
 
   export default class Index extends wepy.page {
-    config = {
-      navigationBarTitleText: 'test'
-    }
     components = {
       panel: Panel,
       counter1: Counter,

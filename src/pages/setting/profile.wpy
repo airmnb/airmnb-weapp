@@ -1,0 +1,17 @@
+<style lang="less">
+
+</style>
+
+<template>
+  <view>
+    <panel>Profile</panel>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Profile extends wepy.page {
+    config = {
+      navigationBarTitleText: '账户设置'
+    }
+  }
+</script>

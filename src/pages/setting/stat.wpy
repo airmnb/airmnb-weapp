@@ -1,0 +1,18 @@
+<style lang="less">
+
+</style>
+
+<template>
+  <view>
+    <panel>Stat</panel>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Stat extends wepy.page {
+    config = {
+      navigationBarTitleText: '爱彼儿 - 统计数据'
+    }
+
+  }
+</script>

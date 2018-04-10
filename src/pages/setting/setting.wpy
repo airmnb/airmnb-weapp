@@ -1,11 +1,21 @@
+<style src='/app.less' lang='less'></style>
 <style lang="less">
 
 </style>
 
-<template>
+<template class="page-gray">
   <view>
-    <panel>setting<panel>
+    <view class="navigator-group">
+      <navigator url="/pages/setting/profile" hover-class="navigator-hover"><text>账户设置</text></navigator>
+      <navigator url="/pages/setting/babies" class="last-navigator" hover-class="navigator-hover"><text>我的孩子</text></navigator>
+    </view>
+    <view class="navigator-group">
+      <navigator url="/pages/setting/aboutus" hover-class="navigator-hover"><text>关于爱彼儿</text></navigator>
+      <navigator url="/pages/setting/stat" class="last-navigator" hover-class="navigator-hover"><text>爱彼儿统计数据</text></navigator>
+    </view>
   </view>
 </template>
 <script>
+import wepy from 'wepy';
+export default class Index extends wepy.page {}
 </script>
