@@ -1,0 +1,11 @@
+<style lang="less">
+
+</style>
+
+<template>
+  <view>
+    <panel>provider<panel>
+  </view>
+</template>
+<script>
+</script>
