@@ -8,13 +8,21 @@ page {
   height: 100%;
 }
 
+page > view {
+  height: 100%;
+}
+
 </style>
 
 <template>
-  <map id="map" class='map' longitude="{{lng}}" latitude="{{lat}}" scale="14" bindcontroltap="controltap" bindregionchange="regionchange"
-    show-location controls="{{controls}}">
-  </map>
+  <view>
+    <!-- <view class="search-bar">
 
+    </view> -->
+    <map id="map" class='map' longitude="{{lng}}" latitude="{{lat}}" scale="14" bindcontroltap="controltap" bindregionchange="regionchange"
+      show-location controls="{{controls}}">
+    </map>
+  </view>
   <!-- <view>
 
     <view class="navigator-group">
@@ -28,97 +36,95 @@ page {
 <script>
   import wepy from 'wepy'
   export default class Map extends wepy.page {
-    config = {
-      navigationBarTitleText: '爱彼儿 - 地图搜索'
-    }
     data = {
-        lng: 0,
-        lat: 0,
-        controls: [{
-          id: 1,
-          iconPath: '/images/fa-circle-whereami.png',
-          position: {
-            left: 20,
-            top: 10,
-            width: 50,
-            height: 50
-          },
-          clickable: true
+      showsSearchBar: false,
+      lng: 0,
+      lat: 0,
+      controls: [{
+        id: 1,
+        iconPath: '/images/fa-circle-whereami.png',
+        position: {
+          left: 20,
+          top: 10,
+          width: 50,
+          height: 50
         },
-        {
-          id: 2,
-          iconPath: '/images/fa-circle-filter.png',
-          position: {
-            left: 80,
-            top: 10,
-            width: 50,
-            height: 50
-          },
-          clickable: true
-        }]
-      }
-      
-      methods = {
-        controltap(e) {
-          if(e.controlId === 1) {
-            // Current location
-            this.centerByCurrentLocation();
-          } else if (e.controlId === 2) {
-            // Go to search setting
-            this.gotoSearchSetting();
-          }
+        clickable: true
+      },
+      {
+        id: 2,
+        iconPath: '/images/fa-circle-filter.png',
+        position: {
+          left: 80,
+          top: 10,
+          width: 50,
+          height: 50
+        },
+        clickable: true
+      }]
+    }
+
+    methods = {
+      controltap(e) {
+        if(e.controlId === 1) {
+          // Current location
+          this.centerByCurrentLocation();
+        } else if (e.controlId === 2) {
+          // Go to search setting
+          this.gotoSearchSetting();
         }
       }
+    }
 
-      onLoad (options) {
-        this.centerByCurrentLocation();
-      }
+    onLoad (options) {
+      this.centerByCurrentLocation();
+    }
 
-      async onShow () {
-        console.log('map onshow');
-        const result = await searchService.search();
-      }
+    async onShow () {
+      console.log('map onshow');
+      const result = await searchService.search();
+    }
 
-      /**
-       * 页面相关事件处理函数--监听用户下拉动作
-       */
-      onPullDownRefresh () {
-      
-      }
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh () {
+    
+    }
 
-      /**
-       * 页面上拉触底事件的处理函数
-       */
-      onReachBottom () {
-      
-      }
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom () {
+    
+    }
 
-      /**
-       * 用户点击右上角分享
-       */
-      onShareAppMessage () {
-      
-      }
+    /**
+     * 用户点击右上角分享
+     */
+    onShareAppMessage () {
+    
+    }
 
-      centerByCurrentLocation() {
-        const self = this;
-        wx.getLocation({
-          success: function(e) {
-            console.log("current location", e);
-            self.setData({
-              lng: e.longitude,
-              lat: e.latitude
-            });
-          },
-          fail: function(e) {
-            console.log("getLocation failed", e);
-          }
-        });
-      }
+    centerByCurrentLocation() {
+      const self = this;
+      wx.getLocation({
+        success: function(e) {
+          console.log("current location", e);
+          self.setData({
+            lng: e.longitude,
+            lat: e.latitude
+          });
+        },
+        fail: function(e) {
+          console.log("getLocation failed", e);
+        }
+      });
+    }
 
-      gotoSearchSetting() {
-        wx.navigateTo({url: '/pages/searchSetting/searchSetting'});
-      }
+    gotoSearchSetting() {
+      wx.navigateTo({url: '/pages/search/searchConfig'});
+    }
 
       
   }

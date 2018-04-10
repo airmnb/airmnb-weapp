@@ -14,7 +14,7 @@
 </template>
 <script>
   import wepy from 'wepy'
-  export default class Index extends wepy.page {
-
+  export default class SearchConfig extends wepy.page {
+    config = {}
   }
 </script>

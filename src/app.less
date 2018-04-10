@@ -9,6 +9,39 @@
 @gray: #D5D5D5;
 @gray-dark: #888888;
 
+.panel {
+  width: 100%;
+  border-top: 1rpx solid @gray;
+  border-bottom: 1rpx solid @gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 40rpx 0 40rpx 0;
+  .panel-item {
+    width: 100%;
+    height: 80rpx;
+    display: flex;  
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1rpx solid @gray;
+    background-color: #FFFFFF;
+    .label {
+      margin-left: 1rem;
+      flex: 1;
+    }
+    input {
+      color: @gray-dark;
+      flex: 2;
+    }
+  }
+  .first-item {
+    border-top: none;
+  }
+}
+
+
 .navigator-group {
   width: 100%;
   border-top: 1rpx solid @gray;
@@ -47,4 +80,50 @@
 
 page {
   background-color: @gray-light;
+}
+
+.stat-item {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  height: 80rpx;
+  border-bottom: 1rpx solid @gray;
+  margin-bottom: 40rpx;
+}
+
+.stat-label {
+
+}
+
+.sub-title {
+  font-size: 0.6rem;
+  font-weight: bold;
+  margin-left: 1rem;
+  color: @gray-dark;
+  display: block;
+}
+
+.stat-value {
+  color: @secondary-dark;
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.btn-secondary {
+  background-color: @secondary;
+  color: #FFFFFF;
+  border-color: @secondary-dark;
+}
+
+.btn-secondary:active {
+  background-color: @secondary-dark;
+  color: @secondary-light;
+  border-color: @secondary-dark;
+}
+
+.search-bar {
+  height: 80rpx;
+  width: 100%;
+  border-bottom: 1rpx solid @gray;
 }

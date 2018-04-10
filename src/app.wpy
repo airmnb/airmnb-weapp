@@ -26,6 +26,7 @@ export default class extends wepy.app {
 	config = {
 		pages: [
       'pages/search/map', 
+      'pages/search/searchConfig', 
       'pages/provider/provider', 
       'pages/mine/mine', 
       'pages/setting/setting',

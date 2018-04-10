@@ -4,7 +4,24 @@
 
 <template>
   <view>
-    <panel>Profile</panel>
+    <!-- <panel>Profile</panel> -->
+    <view class="panel">
+      <view class="panel-item first-item">
+        <text class="label">爱彼儿昵称</text>
+        <input maxLengh="20" />
+      </view>
+    </view>
+    <view class="panel">
+      <view class="panel-item first-item">
+        <text class="label">姓名</text>
+        <input maxLengh="5" />
+      </view>
+      <view class="panel-item">
+        <text class="label">手机</text>
+        <input maxLengh="5" />
+      </view>
+    </view>
+    <button @tap="save" class="btn-secondary">保 存</button>
   </view>
 </template>
 <script>
@@ -12,6 +29,12 @@
   export default class Profile extends wepy.page {
     config = {
       navigationBarTitleText: '账户设置'
+    }
+
+    methods = {
+      save() {
+
+      }
     }
   }
 </script>
