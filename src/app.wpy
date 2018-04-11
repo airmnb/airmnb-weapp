@@ -18,6 +18,7 @@ import Promise from 'promise-polyfill';
 
 import { setStore } from 'wepy-redux';
 import configStore from './store';
+import apiFacade from '@/util/apiFacade';
 
 const store = configStore();
 setStore(store);
@@ -85,41 +86,21 @@ export default class extends wepy.app {
 		this.use('promisify');
 	}
 
-	onLaunch() {
-		this.getWechatOpenId();
-	}
-
-	async getWechatOpenId() {
-		console.log('enter login');
-		const resp = await wepy.login();
-		const code = resp.code;
-		console.log('login code: ', code);
-
-		const appResp = await wepy.request({
-			url: 'https://www.airmnb.com/sso/wechat/login',
-			// url: 'http://localhost:5000/sso/wechat/login',
-			data: {
-				code
-			}
+	async onLaunch() {
+		wepy.showLoading({
+			mask: true
 		});
-		console.log('app resp: ', appResp);
-		if(appResp.data.code == 0) {
-			return appResp.data.data.openid;
+		setTimeout(() => wepy.hideLoading(),3000);
+		try {
+			// Wechat login and get Airmnb profile
+			const profile = await apiFacade.loginService.login();
+			// Get Wechat user info
+			const userInfo = await wepy.getUserInfo({withCredentials: true});
+			this.globalData.userInfo = userInfo;
+			console.log(userInfo);
+		}finally{
+			wepy.hideLoading();
 		}
-		return null;
-	}
-
-	getUserInfo(cb) {
-		const that = this;
-		if (this.globalData.userInfo) {
-			return this.globalData.userInfo;
-		}
-		wepy.getUserInfo({
-			success(res) {
-				that.globalData.userInfo = res.userInfo;
-				cb && cb(res.userInfo);
-			}
-		});
 	}
 }
 </script>
