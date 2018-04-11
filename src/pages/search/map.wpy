@@ -1,8 +1,5 @@
 <style lang="less">
-.map {
-  width: 100%; 
-  height: 100%;
-}
+
 
 page {
   height: 100%;
@@ -15,10 +12,10 @@ page > view {
 </style>
 
 <template>
-  <view>
-    <!-- <view class="search-bar">
-
-    </view> -->
+  <view style="overflow:hidden">
+    <view class="search-bar">
+      <button @tap="gotoSearchConfig">搜 索</button>
+    </view>
     <map id="map" class='map' longitude="{{lng}}" latitude="{{lat}}" scale="14" bindcontroltap="controltap" bindregionchange="regionchange"
       show-location controls="{{controls}}">
     </map>
@@ -50,17 +47,6 @@ page > view {
           height: 50
         },
         clickable: true
-      },
-      {
-        id: 2,
-        iconPath: '/images/fa-circle-filter.png',
-        position: {
-          left: 80,
-          top: 10,
-          width: 50,
-          height: 50
-        },
-        clickable: true
       }]
     }
 
@@ -69,10 +55,10 @@ page > view {
         if(e.controlId === 1) {
           // Current location
           this.centerByCurrentLocation();
-        } else if (e.controlId === 2) {
-          // Go to search setting
-          this.gotoSearchSetting();
         }
+      },
+      gotoSearchConfig() {
+        wepy.navigateTo({url: '/pages/search/searchConfig'});
       }
     }
 

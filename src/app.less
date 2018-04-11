@@ -79,7 +79,7 @@
 }
 
 page {
-  background-color: @gray-light;
+  background-color: #F5F5F5;
 }
 
 .stat-item {
@@ -122,8 +122,41 @@ page {
   border-color: @secondary-dark;
 }
 
+.btn-block {
+  margin: 20rpx;
+}
+
 .search-bar {
-  height: 80rpx;
   width: 100%;
   border-bottom: 1rpx solid @gray;
+
+  button,input {
+    margin: 20rpx;
+    height: 70rpx;
+    color: @gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid @gray;
+    background-color: #FFFFFF;
+  }
+
+  input {
+    color: @gray-dark;
+    padding: 10rpx;
+    border-radius: 8rpx;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+
+  button:active {
+    background-color: #FFFFFF;
+  }
+}
+
+.map {
+  width: 100%; 
+  height: ~"calc(100% - 110rpx)";;
 }

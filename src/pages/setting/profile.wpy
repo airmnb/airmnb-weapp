@@ -18,10 +18,10 @@
       </view>
       <view class="panel-item">
         <text class="label">手机</text>
-        <input maxLengh="5" />
+        <input maxLengh="15" type="number" />
       </view>
     </view>
-    <button @tap="save" class="btn-secondary">保 存</button>
+    <button @tap="save" class="btn-secondary btn-block">保 存</button>
   </view>
 </template>
 <script>
