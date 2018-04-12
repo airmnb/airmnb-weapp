@@ -77,7 +77,7 @@ export default class extends wepy.app {
 	};
 
 	globalData = {
-		userInfo: null
+		profile: null
 	};
 
 	constructor() {
@@ -94,10 +94,9 @@ export default class extends wepy.app {
 		try {
 			// Wechat login and get Airmnb profile
 			const profile = await apiFacade.loginService.login();
+			console.log('profile', profile);
 			// Get Wechat user info
-			const userInfo = await wepy.getUserInfo({withCredentials: true});
-			this.globalData.userInfo = userInfo;
-			console.log(userInfo);
+			this.globalData.profile = profile;
 		}finally{
 			wepy.hideLoading();
 		}
