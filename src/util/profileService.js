@@ -1,8 +1,12 @@
 import restClient from "./restClient";
 
 class ProfileService {
-  get(){
+  async get(userId){
+    return await restClient.get(`users/${userId}`);
+  }
 
+  async save(profile) {
+    await restClient.post(`users`, profile);
   }
 }
 const profileService = new ProfileService();

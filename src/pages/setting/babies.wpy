@@ -5,7 +5,7 @@
 <template>
   <view>
     <view class="navigator-group">
-      <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover"><text>登录新的的孩子信息</text></navigator>
+      <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover"><text>登录新的孩子信息</text></navigator>
     </view>
   </view>
 </template>

@@ -5,20 +5,30 @@
 <template>
   <view>
     <!-- <panel>Profile</panel> -->
+      <view class="panel">
+      <view class="panel-item first-item">
+        <text class="label">爱彼儿ID</text>
+        <input value="{{profile.userId}}" disabled />
+      </view>
+    </view>
     <view class="panel">
       <view class="panel-item first-item">
         <text class="label">爱彼儿昵称</text>
-        <input maxLengh="20" />
+        <input maxlengh="20" value="{{profile.nickName}}" bindinput="changeNickName" />
       </view>
     </view>
     <view class="panel">
       <view class="panel-item first-item">
         <text class="label">姓名</text>
-        <input maxLengh="5" />
+        <input maxlengh="5" value="{{profile.fullName}}"/>
       </view>
       <view class="panel-item">
         <text class="label">手机</text>
-        <input maxLengh="15" type="number" />
+        <input maxlengh="15" type="number" value="{{profile.mobile}}"/>
+      </view>
+      <view class="panel-item">
+        <text class="label">电子信箱</text>
+        <input maxlengh="30" value="{{profile.email}}"/>
       </view>
     </view>
     <button @tap="save" class="btn-secondary btn-block">保 存</button>
@@ -26,15 +36,28 @@
 </template>
 <script>
   import wepy from 'wepy'
+  import apiFacade from '@/util/apiFacade';
   export default class Profile extends wepy.page {
     config = {
       navigationBarTitleText: '账户设置'
     }
 
-    methods = {
-      save() {
+    data = {
+      profile: null
+    }
 
+    methods = {
+      changeNickName(e) {
+        this.profile.nickName = e.detail.value;
+      },
+      save() {
+        apiFacade.profileService.save(this.profile);
+        wepy.navigateBack();
       }
+    }
+
+    onShow() {
+      this.profile = this.$parent.globalData.profile;
     }
   }
 </script>
