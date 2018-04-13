@@ -1,9 +1,10 @@
 <style lang="less">
   .label {
-    flex: 3;
+    flex: none;
+    white-space: nowrap;
   }
   .value {
-    flex: 1;
+    flex: none;
   }
 </style>
 
