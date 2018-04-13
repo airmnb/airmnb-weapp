@@ -8,6 +8,8 @@
 @gray-light: #FAFAFA;
 @gray: #D5D5D5;
 @gray-dark: #888888;
+@white: #FFFFFF;
+@black: #000000;
 
 .panel {
   width: 100%;
@@ -26,17 +28,35 @@
     align-items: center;
     justify-content: space-between;
     border-top: 1rpx solid @gray;
-    background-color: #FFFFFF;
+    background-color: @white;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
     .label {
-      margin-left: 1rem;
       flex: 1;
     }
-    input {
+    input,.value {
       color: @gray-dark;
       flex: 2;
     }
+    .value {
+      text-align: right;
+    }
+    button {
+      height: 80rpx;
+      border-radius: 0px;
+      width: 100%;
+      background-color: @white;
+      position: flex;
+      justify-content: center;
+      align-content: center;
+    }
+    button::after{ 
+      border-radius: 0px;
+      border: none;
+    }
   }
-  .first-item {
+  .panel-item:first-of-type {
     border-top: none;
   }
 }
@@ -51,31 +71,29 @@
   align-items: center;
   justify-content: center;
   margin: 40rpx 0 40rpx 0;
-}
 
-.navigator-group navigator {
-  width: 100%;
-  height: 80rpx;
-  display: flex;  
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1rpx solid @gray;
-  background-color: #FFFFFF;
-}
+  navigator {
+    width: 100%;
+    height: 80rpx;
+    display: flex;  
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1rpx solid @gray;
+    background-color: @white;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
 
-.navigator-group navigator text {
-  margin-left: 1rem;
-}
+    &::after {
+      content: '>';
+      color: @gray;
+      font-weight: bold;
+    }
+  }
 
-.navigator-group navigator::after {
-  content: '>';
-  color: @gray;
-  padding-right: 1rem;
-  font-weight: bold;
-}
-
-.navigator-group .last-navigator {
-  border-bottom: none;
+  navigator:first-of-type {
+    border-top: none;
+  }
 }
 
 page {
@@ -112,7 +130,7 @@ page {
 
 .btn-secondary {
   background-color: @secondary;
-  color: #FFFFFF;
+  color: @white;
   border-color: @secondary-dark;
 }
 
@@ -137,8 +155,8 @@ page {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid @gray;
-    background-color: #FFFFFF;
+    border: 1rpx solid @gray;
+    background-color: @white;
   }
 
   input {
@@ -152,7 +170,7 @@ page {
   
 
   button:active {
-    background-color: #FFFFFF;
+    background-color: @white;
   }
 }
 

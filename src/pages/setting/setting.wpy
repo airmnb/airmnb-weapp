@@ -6,12 +6,12 @@
 <template class="page-gray">
   <view>
     <view class="navigator-group">
-      <navigator url="/pages/setting/profile" hover-class="navigator-hover"><text>账户设置</text></navigator>
-      <navigator url="/pages/setting/babies" class="last-navigator" hover-class="navigator-hover"><text>我的孩子</text></navigator>
+      <navigator url="/pages/setting/profile" hover-class="navigator-hover">账户设置</navigator>
+      <navigator url="/pages/setting/babies" class="last-navigator" hover-class="navigator-hover">我的孩子</navigator>
     </view>
     <view class="navigator-group">
-      <navigator url="/pages/setting/aboutus" hover-class="navigator-hover"><text>关于爱彼儿</text></navigator>
-      <navigator url="/pages/setting/stat" class="last-navigator" hover-class="navigator-hover"><text>爱彼儿统计数据</text></navigator>
+      <navigator url="/pages/setting/aboutus" hover-class="navigator-hover">关于爱彼儿</navigator>
+      <navigator url="/pages/setting/stat" class="last-navigator" hover-class="navigator-hover">爱彼儿统计数据</navigator>
     </view>
   </view>
 </template>

@@ -5,20 +5,20 @@
 <template>
   <view>
     <!-- <panel>Profile</panel> -->
-      <view class="panel">
-      <view class="panel-item first-item">
+    <view class="panel">
+      <view class="panel-item">
         <text class="label">爱彼儿ID</text>
         <input value="{{profile.userId}}" disabled />
       </view>
     </view>
     <view class="panel">
-      <view class="panel-item first-item">
+      <view class="panel-item">
         <text class="label">爱彼儿昵称</text>
         <input maxlengh="20" value="{{profile.nickName}}" bindinput="changeNickName" />
       </view>
     </view>
     <view class="panel">
-      <view class="panel-item first-item">
+      <view class="panel-item">
         <text class="label">姓名</text>
         <input maxlengh="5" value="{{profile.fullName}}"/>
       </view>
@@ -31,7 +31,11 @@
         <input maxlengh="30" value="{{profile.email}}"/>
       </view>
     </view>
-    <button @tap="save" class="btn-secondary btn-block">保 存</button>
+    <view class="panel">
+      <view class="panel-item">
+        <button @tap="save">保 存</button>
+      </view>
+    </view>
   </view>
 </template>
 <script>

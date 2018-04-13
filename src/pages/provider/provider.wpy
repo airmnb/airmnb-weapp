@@ -5,8 +5,8 @@
 <template>
   <view>
     <view class="navigator-group">
-      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover"><text>新建活动</text></navigator>
-      <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover"><text>以往提供的活动（已结束）</text></navigator>
+      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover">新建活动</navigator>
+      <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover">以往提供的活动（已结束）</navigator>
     </view>
     <text class="sub-title">正在进行中的活动</text>
   </view>

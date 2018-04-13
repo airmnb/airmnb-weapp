@@ -1,36 +1,45 @@
 <style lang="less">
-  page > view {
-    padding: 20rpx;
+  .label {
+    flex: 3;
+  }
+  .value {
+    flex: 1;
   }
 </style>
 
 <template>
   <view>
-    <view class="stat-item">
-      <text class="stat-label">登录用户</text>
-      <text class="stat-value">{{totalUsers}}</text>
+    <view class="panel">
+      <view class="panel-item">
+        <text class="label">登录用户</text>
+        <text class="value">{{totalUsers}}</text>
+      </view>
+      <view class="panel-item">
+        <text class="label">登录的孩子</text>
+        <text class="value">{{totalBabies}}</text>
+      </view>
+      <view class="panel-item">
+        <text class="label">活动提供者（团体或个人）</text>
+        <text class="value">{{totalProviders}}</text>
+      </view>
+      <view class="panel-item">
+        <text class="label">创建的活动</text>
+        <text class="value">{{totalActivities}}</text>
+      </view>
+      <view class="panel-item">
+        <text class="label">预约的活动</text>
+        <text class="value">{{totalBookings}}</text>
+      </view>
+      <view class="panel-item">
+        <text class="label">成交的活动</text>
+        <text class="value">{{totalTransactions}}</text>
+      </view>
     </view>
-    <view class="stat-item">
-      <text class="stat-label">登录的孩子</text>
-      <text class="stat-value">{{totalBabies}}</text>
+    <view class="panel">  
+      <view class="panel-item">
+        <button @tap="refresh">刷  新</button>
+      </view>
     </view>
-    <view class="stat-item">
-      <text class="stat-label">活动提供者（团体或个人）</text>
-      <text class="stat-value">{{totalProviders}}</text>
-    </view>
-    <view class="stat-item">
-      <text class="stat-label">创建的活动</text>
-      <text class="stat-value">{{totalActivities}}</text>
-    </view>
-    <view class="stat-item">
-      <text class="stat-label">预约的活动</text>
-      <text class="stat-value">{{totalBookings}}</text>
-    </view>
-    <view class="stat-item">
-      <text class="stat-label">成交的活动</text>
-      <text class="stat-value">{{totalTransactions}}</text>
-    </view>
-    <button @tap="refresh" class="btn-secondary">刷 新</button>
   </view>
 </template>
 <script>
