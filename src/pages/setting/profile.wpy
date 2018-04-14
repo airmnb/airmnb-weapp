@@ -8,32 +8,29 @@
     <view class="panel">
       <view class="panel-item">
         <text class="label">爱彼儿ID</text>
-        <input value="{{profile.userId}}" disabled />
+        <input value="{{userId}}" disabled />
       </view>
+    </view>
+
+    <view class="panel">
+      <navigator url="/pages/controls/input?key=nickName&value={{nickName}}&label=爱彼儿昵称" 
+      hover-class="navigator-hover">爱彼儿昵称<text class="value">{{nickName}}</text>
+      </navigator>
+    </view>
+    <view class="panel">
+      <navigator url="/pages/controls/input?key=fullName&value={{fullName}}&label=姓名" 
+      hover-class="navigator-hover">姓名<text class="value">{{fullName}}</text>
+      </navigator>
+      <navigator url="/pages/controls/input?key=mobile&value={{mobile}}&type=number&label=手机" 
+      hover-class="navigator-hover">手机<text class="value">{{mobile}}</text>
+      </navigator>
+      <navigator url="/pages/controls/input?key=email&value={{email}}&label=电子信箱" 
+      hover-class="navigator-hover">电子信箱<text class="value">{{email}}</text>
+      </navigator>
     </view>
     <view class="panel">
       <view class="panel-item">
-        <text class="label">爱彼儿昵称</text>
-        <input maxlengh="20" value="{{profile.nickName}}" bindinput="changeNickName" />
-      </view>
-    </view>
-    <view class="panel">
-      <view class="panel-item">
-        <text class="label">姓名</text>
-        <input maxlengh="5" value="{{profile.fullName}}"/>
-      </view>
-      <view class="panel-item">
-        <text class="label">手机</text>
-        <input maxlengh="15" type="number" value="{{profile.mobile}}"/>
-      </view>
-      <view class="panel-item">
-        <text class="label">电子信箱</text>
-        <input maxlengh="30" value="{{profile.email}}"/>
-      </view>
-    </view>
-    <view class="panel">
-      <view class="panel-item">
-        <button @tap="save">保 存</button>
+        <button @tap="save">保  存</button>
       </view>
     </view>
   </view>
@@ -47,7 +44,11 @@
     }
 
     data = {
-      profile: null
+      userId: undefined,
+      nickName: undefined,
+      fullName: undefined,
+      mobile: undefined,
+      email: undefined
     }
 
     methods = {
@@ -60,8 +61,16 @@
       }
     }
 
+    onLoad() {
+      const profile = this.$parent.globalData.profile;
+      this.userId = profile.userId;
+      this.nickName = profile.nickName;
+      this.fullName = profile.fullName;
+      this.mobile = profile.mobile;
+      this.email = profile.email;
+    }
+
     onShow() {
-      this.profile = this.$parent.globalData.profile;
     }
   }
 </script>

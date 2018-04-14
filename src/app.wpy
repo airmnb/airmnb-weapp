@@ -34,7 +34,8 @@ export default class extends wepy.app {
       'pages/setting/profile',
       'pages/setting/babies',
       'pages/setting/aboutus',
-      'pages/setting/stat'
+			'pages/setting/stat',
+			'pages/controls/input'
     ],
 		window: {
 			backgroundTextStyle: 'light',

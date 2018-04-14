@@ -4,7 +4,7 @@
 
 <template>
   <view>
-    <view class="navigator-group">
+    <view class="panel">
       <navigator url="/pages/setting/add_baby" hover-class="navigator-hover">我的收藏</navigator>
       <navigator url="/pages/setting/add_baby" hover-class="navigator-hover">我参与的活动评价</navigator>
       <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover">以往参加的活动（已结束）</navigator>

@@ -17,7 +17,7 @@
 </style>
 <template>
   <view class="container">
-    <view class="navigator-group">
+    <view class="panel">
       <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover"><text>我的搜索记录</text></navigator>
     </view>
     <view class="userinfo" @tap="handleViewTap">

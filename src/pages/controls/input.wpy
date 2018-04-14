@@ -1,0 +1,62 @@
+<style lang="less">
+
+</style>
+
+<template>
+  <view>
+    <form bindsubmit="onsave">
+      <view class="panel">
+        <view class="panel-item">
+          <input value="{{value}}" bindconfirm="ondone" focus="true" name="input" type="{{type}}"/>
+        </view>
+      </view>
+      <view class="{{type==='number' ? 'panel' : 'hide'}}">
+        <view class="panel-item">
+          <button formType="submit">确  定</button>
+        </view>
+      </view>
+    </form>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Input extends wepy.page {
+    config = {
+    }
+
+    data = {
+      key: undefined,
+      value: '',
+      type: 'text',
+      label: '输入'
+    }
+
+    methods = {
+      ondone(e) {
+        this.updateParentData(e.detail.value);
+      },
+      onsave(e){
+        console.log('onsave', e);
+        this.updateParentData(e.detail.value.input);
+      }
+    }
+
+    onLoad(options) {
+      console.log('debug', 'onLoad of input control', options);
+      this.key = options.key;
+      this.value = options.value;
+      this.type = options.type || 'text';
+
+      wepy.setNavigationBarTitle({title: options.label || '输入'});
+    }
+
+    updateParentData(value) {
+      const pages = getCurrentPages();
+      const prePage = pages[pages.length - 2];
+      const data = {};
+      data[this.key] = value;
+      prePage.setData(data); // Update parent page's data
+      wepy.navigateBack();
+    }
+  }
+</script>
