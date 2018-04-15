@@ -1,11 +1,11 @@
 <style lang="less">
-
 </style>
 
 <template>
   <view>
     <view class="panel">
-      <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover">登录新的孩子信息</text></navigator>
+      <navigator url="/pages/setting/add_baby" class="last-navigator" 
+        hover-class="navigator-hover">登录新的孩子信息</navigator>
     </view>
   </view>
 </template>

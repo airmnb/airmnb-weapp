@@ -9,21 +9,20 @@ class LoginService {
       throw "debug"; 
       await wepy.checkSession();
     }catch(e) {
-      const userId = await this.localLogin();
+      const user = await this.localLogin();
       const wechatUserInfo = await this.getWechatUserInfo();
-      return {
-        userId,
+      return Object.assign({
         nickName: wechatUserInfo.nickName,
         avatarUrl: wechatUserInfo.avatarUrl,
-      };
+      }, user);
     }
   }
 
   async localLogin() {
     const resp = await wepy.login();
     const code = resp.code;
-    const userId = await restClient.get('/auth/wechat/login', {code});
-    return userId;
+    const user = await restClient.get('/auth/wechat/login', {code});
+    return user;
   }
 
   async getWechatUserInfo() {

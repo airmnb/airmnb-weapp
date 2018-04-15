@@ -1,5 +1,4 @@
 <style lang="less">
-
 </style>
 
 <template>
@@ -66,19 +65,28 @@
       changeNickName(e) {
         this.profile.nickName = e.detail.value;
       },
-      save() {
-        apiFacade.profileService.save(this.profile);
+      async save() {
+        const profile = {
+          userId: this.userId,
+          nickName: this.nickName,
+          fullName: this.fullName,
+          mobile: this.mobile,
+          email: this.email
+        };
+        wepy.showLoading();
+        await apiFacade.profileService.save(profile);
+        wepy.hideLoading();
         wepy.navigateBack();
       }
     }
 
     onLoad() {
-      const profile = this.$parent.globalData.profile;
-      this.userId = profile.userId;
-      this.nickName = profile.nickName;
-      this.fullName = profile.fullName;
-      this.mobile = profile.mobile;
-      this.email = profile.email;
+      const user = this.$parent.globalData.profile.user;
+      this.userId = user.id;
+      this.nickName = user.nickName || '';
+      this.fullName = user.fullName || '';
+      this.mobile = user.mobile;
+      this.email = user.email || '';
     }
 
     onShow() {

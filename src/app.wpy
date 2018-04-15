@@ -93,11 +93,11 @@ export default class extends wepy.app {
 		});
 		setTimeout(() => wepy.hideLoading(),3000);
 		try {
-			// Wechat login and get Airmnb profile
-			const profile = await apiFacade.loginService.login();
-			console.log('profile', profile);
+			// Wechat login and get Airmnb user
+			const user = await apiFacade.loginService.login();
+			console.log('user', user);
 			// Get Wechat user info
-			this.globalData.profile = profile;
+			this.globalData.profile = user;
 		}finally{
 			wepy.hideLoading();
 		}

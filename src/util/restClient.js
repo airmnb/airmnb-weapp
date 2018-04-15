@@ -2,6 +2,7 @@ import wepy from 'wepy';
 
 let url_base = 'https://www.airmnb.com/api/1.0'
 url_base = 'http://localhost:5000/api/1.0'
+console.log('API URL base', url_base);
 
 class RestClient {
   path2Url(path) {

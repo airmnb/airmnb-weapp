@@ -1,7 +1,7 @@
 const LessPluginAutoPrefix = require('less-plugin-autoprefix');
 
 const path = require('path');
-var prod = process.env.NODE_ENV === 'production';
+var prod = process.env.NODE_ENV === 'prod';
 
 module.exports = {
   wpyExt: '.wpy',
