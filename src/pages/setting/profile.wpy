@@ -21,6 +21,17 @@
       <navigator url="/pages/controls/input?key=fullName&value={{fullName}}&label=姓名" 
       hover-class="navigator-hover">姓名<text class="value">{{fullName}}</text>
       </navigator>
+      <view class="panel-item">
+        <text class="label">性别</text>
+        <radio-group class="radio-group" bindchange="radioChange">
+          <label class="radio">
+            <radio value="1" checked="{{item.checked}}" color="#D81B60"/>男
+          </label>
+          <label class="radio">
+            <radio value="2" checked="{{item.checked}}" color="#D81B60"/>女
+          </label>
+        </radio-group>
+      </view>
       <navigator url="/pages/controls/input?key=mobile&value={{mobile}}&type=number&label=手机" 
       hover-class="navigator-hover">手机<text class="value">{{mobile}}</text>
       </navigator>
