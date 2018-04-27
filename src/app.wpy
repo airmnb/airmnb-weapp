@@ -54,25 +54,25 @@ export default class extends wepy.app {
 					pagePath: 'pages/search/map',
 					// iconPath: 'images/fa-search-off.png',
 					// selectedIconPath: 'images/fa-search.png',
-					text: '搜索活动'
+					text: 'Search'
 				},
 				{
 					pagePath: 'pages/mine/mine',
 					// iconPath: 'images/fa-bookmark-off.png',
 					// selectedIconPath: 'images/fa-bookmark.png',
-					text: '我的'
+					text: 'As Consumer'
 				},
 				{
 					pagePath: 'pages/provider/provider',
 					// iconPath: 'images/fa-bookmark-off.png',
 					// selectedIconPath: 'images/fa-bookmark.png',
-					text: '提供活动'
+					text: 'As Provider'
 				},
 				{
 					pagePath: 'pages/setting/setting',
 					// iconPath: 'images/fa-home-off.png',
 					// selectedIconPath: 'images/fa-home.png',
-					text: '设置'
+					text: 'Settings'
 				}
 			]
 		}

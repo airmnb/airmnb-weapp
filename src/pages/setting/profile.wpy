@@ -6,7 +6,7 @@
     <!-- <panel>Profile</panel> -->
     <view class="panel">
       <view class="panel-item">
-        <text class="label">爱彼儿ID</text>
+        <text class="label">爱彼儿账户名</text>
         <input value="{{userId}}" disabled />
       </view>
     </view>
@@ -81,6 +81,9 @@
     }
 
     onLoad() {
+      wepy.setNavigationBarTitle({
+        title: "profile_title".i
+      });
       const user = this.$parent.globalData.profile.user;
       this.userId = user.id;
       this.nickName = user.nickName || '';

@@ -5,15 +5,20 @@
   <view>
     <view class="panel">
       <navigator url="/pages/setting/add_baby" class="last-navigator" 
-        hover-class="navigator-hover">登录新的孩子信息</navigator>
+        hover-class="navigator-hover">{{i18n_addbaby}}</navigator>
     </view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
   export default class Babies extends wepy.page {
-    config = {
-      navigationBarTitleText: '我的孩子'
+    data = {
+      i18n_addbaby: "babies_add".i
+    }
+    onLoad() {
+      wepy.setNavigationBarTitle({
+        title: "babies_title".i
+      });
     }
   }
 </script>
