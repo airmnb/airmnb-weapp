@@ -21,7 +21,7 @@ class LoginService {
   async localLogin() {
     const resp = await wepy.login();
     const code = resp.code;
-    const user = await restClient.get('/auth/wechat/login', {code});
+    const user = await restClient.get('/login/weapp', {code});
     return user;
   }
 

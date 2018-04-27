@@ -1,12 +1,9 @@
 import wepy from 'wepy';
 
-let url_base = 'https://www.airmnb.com/api/1.0'
-url_base = 'http://localhost:5000/api/1.0'
-console.log('API URL base', url_base);
-
 class RestClient {
   path2Url(path) {
-    return url_base + splitter + path;
+    const splitter = path.charAt(0) === '/' ? '' : '/';    
+    return wepy.config.app_url + splitter + path;
   }
 
   async httpRequest(opt) {
@@ -14,11 +11,13 @@ class RestClient {
   }
 
   async http(method, path, data) {
-    const splitter = path.charAt(0) === '/' ? '' : '/';
-    const url = url_base + splitter + path;
+    const url = this.path2Url(path);
     const opt = {
       url,
       method,
+      headers: {
+        'Accept-language': wepy.config.language
+      },
       data
     };
     const res = await this.httpRequest(opt);
@@ -45,6 +44,5 @@ class RestClient {
   }
 }
 
-const restClient = new RestClient();
+export const restClient = new RestClient();
 
-export default restClient;

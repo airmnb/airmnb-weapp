@@ -14,7 +14,7 @@ page > view {
 <template>
   <view style="overflow:hidden">
     <view class="search-bar">
-      <button @tap="gotoSearchConfig">搜 索</button>
+      <button @tap="gotoSearchConfig">{{i18n_Search}}</button>
     </view>
     <map id="map" class='map' longitude="{{lng}}" latitude="{{lat}}" scale="14" bindcontroltap="controltap" bindregionchange="regionchange"
       show-location controls="{{controls}}">
@@ -47,7 +47,8 @@ page > view {
           height: 50
         },
         clickable: true
-      }]
+      }],
+      i18n_Search: "map_search_bar".i18n()
     }
 
     methods = {
@@ -59,6 +60,10 @@ page > view {
       },
       gotoSearchConfig() {
         wepy.navigateTo({url: '/pages/search/searchConfig'});
+      },
+      getString(key) {
+        console.log('i18n', key, wepy.i18n(key));
+        return wepy.i18n(key);
       }
     }
 
