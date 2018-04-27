@@ -41,7 +41,7 @@ export default class extends wepy.app {
 		window: {
 			backgroundTextStyle: 'light',
 			navigationBarBackgroundColor: '#D81B60',
-			navigationBarTitleText: '爱彼儿',
+			// navigationBarTitleText: '爱彼儿',
 			navigationBarTextStyle: 'white',
 			backgroundColor: '#FAFAFA'
 		},
@@ -98,6 +98,8 @@ export default class extends wepy.app {
 			console.log('user', user);
 			// Get Wechat user info
 			this.globalData.profile = user;
+
+			
 		}finally{
 			wepy.hideLoading();
 		}

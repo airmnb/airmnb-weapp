@@ -12,51 +12,55 @@
   <view>
     <view class="panel">
       <view class="panel-item">
-        <text class="label">登录用户</text>
+        <text class="label">{{i18n_users}}</text>
         <text class="value">{{totalUsers}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">登录的孩子</text>
+        <text class="label">{{i18n_babies}}</text>
         <text class="value">{{totalBabies}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">活动提供者（团体或个人）</text>
+        <text class="label">{{i18n_providers}}</text>
         <text class="value">{{totalProviders}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">创建的活动</text>
+        <text class="label">{{i18n_activities}}</text>
         <text class="value">{{totalActivities}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">预约的活动</text>
+        <text class="label">{{i18n_bookings}}</text>
         <text class="value">{{totalBookings}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">成交的活动</text>
+        <text class="label">{{i18n_transactions}}</text>
         <text class="value">{{totalTransactions}}</text>
       </view>
     </view>
     <view class="panel">  
       <view class="panel-item">
-        <button @tap="refresh">刷  新</button>
+        <button @tap="refresh">{{i18n_refresh}}</button>
       </view>
     </view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import amb from '@/util/amb'
   export default class Stat extends wepy.page {
-    config = {
-      navigationBarTitleText: '爱彼儿 - 统计数据'
-    }
-
     data = {
       totalUsers: '...',
       totalBabies: '...',
       totalProviders: '...',
       totalActivities: '...',
       totalBookings: '...',
-      totalTransactions: '...'
+      totalTransactions: '...',
+      i18n_users: "stat_users".i,
+      i18n_refresh: "stat_refresh".i,
+      i18n_babies: "stat_babies".i,
+      i18n_providers: "stat_providers".i,
+      i18n_activities: "stat_activities".i,
+      i18n_bookings: "stat_bookings".i,
+      i18n_transactions: "stat_transactions".i
     }
 
     methods = {
@@ -66,6 +70,9 @@
     }
 
     onLoad() {
+      wepy.setNavigationBarTitle({
+        title: "stat_title".i
+      });
       this.refreshStat();
     }
 

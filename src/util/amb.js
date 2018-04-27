@@ -13,10 +13,28 @@ amb.config = {
 // https://developers.weixin.qq.com/miniprogram/dev/api/open.html
 amb.i18nDic = {
 	"en": {
-		"map_search_bar": "Search"
+		"map_search_bar": "Search",
+		"stat_refresh": "Refresh",
+		"stat_users": "Users",
+		"stat_babies": "Babies",
+		"stat_providers": "Providers",
+		"stat_activities": "Activities",
+		"stat_bookings": "Bookings",
+		"stat_transactions": "Transactions",
+		"stat_title": "Statistic",
+		"map_title": "Air Mom & Baby"
 	},
 	"zh_CN": {
-		"map_search_bar": "搜  索"
+		"map_search_bar": "搜  索",
+		"stat_refresh": "刷  新",
+		"stat_users": "登录用户",
+		"stat_babies": "登录的孩子",
+		"stat_providers": "活动提供者（团体或个人）",
+		"stat_activities": "创建的活动",
+		"stat_bookings": "预约的活动",
+		"stat_transactions": "成交的活动",
+		"stat_title": "爱彼儿 - 统计数据",
+		"map_title": "爱彼儿"
   },
   "zh_TW": {
 
@@ -37,14 +55,16 @@ amb.setLocale = (lang) => {
   }
 }
 
-amb.i18n = function(key, lang) {
-	const langKey = lang || amb.config.language;
-	const dic = amb.i18nDic[langKey];
-	return dic[key] || key;
+amb.blah = (key) => {
+	return key.toUpperCase();
 }
 
-String.prototype.i18n = function(lang) {
-  return amb.i18n(this, lang);
-}
+Object.defineProperty(String.prototype, 'i', {
+	get: function () { 
+		const langKey = amb.config.language;
+		const dic = amb.i18nDic[langKey];
+		return dic[this] || dic['en'] || this;
+	},
+});
 
 export default amb;

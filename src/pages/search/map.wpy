@@ -48,7 +48,7 @@ page > view {
         },
         clickable: true
       }],
-      i18n_Search: "map_search_bar".i18n()
+      i18n_Search: "map_search_bar".i
     }
 
     methods = {
@@ -61,13 +61,12 @@ page > view {
       gotoSearchConfig() {
         wepy.navigateTo({url: '/pages/search/searchConfig'});
       },
-      getString(key) {
-        console.log('i18n', key, wepy.i18n(key));
-        return wepy.i18n(key);
-      }
     }
 
     onLoad (options) {
+      wepy.setNavigationBarTitle({
+        title: "map_title".i
+      });
       this.centerByCurrentLocation();
     }
 
