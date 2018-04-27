@@ -6,41 +6,41 @@
     <!-- <panel>Profile</panel> -->
     <view class="panel">
       <view class="panel-item">
-        <text class="label">爱彼儿账户名</text>
+        <text class="label">{{i_accountid}}</text>
         <input value="{{userId}}" disabled />
       </view>
     </view>
 
     <view class="panel">
-      <navigator url="/pages/controls/input?key=nickName&value={{nickName}}&label=爱彼儿昵称" 
-      hover-class="navigator-hover">爱彼儿昵称<text class="value">{{nickName}}</text>
+      <navigator url="/pages/controls/input?key=nickName&value={{nickName}}&label={{i_accountname}}" 
+      hover-class="navigator-hover">{{i_accountname}}<text class="value">{{nickName}}</text>
       </navigator>
     </view>
     <view class="panel">
-      <navigator url="/pages/controls/input?key=fullName&value={{fullName}}&label=姓名" 
-      hover-class="navigator-hover">姓名<text class="value">{{fullName}}</text>
+      <navigator url="/pages/controls/input?key=fullName&value={{fullName}}&label={{i_fullname}}" 
+      hover-class="navigator-hover">{{i_fullname}}<text class="value">{{fullName}}</text>
       </navigator>
       <view class="panel-item">
-        <text class="label">性别</text>
+        <text class="label">{{i_gender}}</text>
         <radio-group class="radio-group" bindchange="radioChange">
           <label class="radio">
-            <radio value="1" checked="{{item.checked}}" color="#D81B60"/>男
+            <radio value="1" checked="{{item.checked}}" color="#D81B60"/>{{i_male}}
           </label>
           <label class="radio">
-            <radio value="2" checked="{{item.checked}}" color="#D81B60"/>女
+            <radio value="2" checked="{{item.checked}}" color="#D81B60"/>{{i_female}}
           </label>
         </radio-group>
       </view>
-      <navigator url="/pages/controls/input?key=mobile&value={{mobile}}&type=number&label=手机" 
-      hover-class="navigator-hover">手机<text class="value">{{mobile}}</text>
+      <navigator url="/pages/controls/input?key=mobile&value={{mobile}}&type=number&label={{i_mobile}}" 
+      hover-class="navigator-hover">{{i_mobile}}<text class="value">{{mobile}}</text>
       </navigator>
-      <navigator url="/pages/controls/input?key=email&value={{email}}&label=电子信箱" 
-      hover-class="navigator-hover">电子信箱<text class="value">{{email}}</text>
+      <navigator url="/pages/controls/input?key=email&value={{email}}&label={{i_email}}" 
+      hover-class="navigator-hover">{{i_email}}<text class="value">{{email}}</text>
       </navigator>
     </view>
     <view class="panel">
       <view class="panel-item">
-        <button @tap="save">保  存</button>
+        <button @tap="save">{{i_save}}</button>
       </view>
     </view>
   </view>
@@ -49,16 +49,21 @@
   import wepy from 'wepy'
   import apiFacade from '@/util/apiFacade';
   export default class Profile extends wepy.page {
-    config = {
-      navigationBarTitleText: '账户设置'
-    }
-
     data = {
       userId: undefined,
       nickName: undefined,
       fullName: undefined,
       mobile: undefined,
-      email: undefined
+      email: undefined,
+      i_save: "button_save".i,
+      i_email: "email".i,
+      i_mobile: "mobile".i,
+      i_male: "male".i,
+      i_female: "female".i,
+      i_gender: "gender".i,
+      i_fullname: "fullname".i,
+      i_accountname: "account_name".i,
+      i_accountid: "account_id".i
     }
 
     methods = {

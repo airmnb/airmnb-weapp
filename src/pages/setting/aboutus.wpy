@@ -10,14 +10,16 @@
 
 <template>
   <view>
-    <text selectable="true" class="p">Air Mom & Baby (爱彼儿) ，是一家总部位于澳大利亚的互联网科技公司。作为C2C撮合平台，Parents可以在中国、美国、日本、澳大利亚等地区快速寻找您社区附近的便捷、安全、可靠的临时幼儿照看服务。同时您也可以申请作为一位Air Mom，共享您的时间与丰富的育儿经验、为有需要的人提供相应的照看服务。希望您与爱彼儿一起，构建您身边的安全、可靠的共享妈妈新生态！</text>
+    <text selectable="true" class="p">(Needs an API call for this content) Air Mom & Baby (爱彼儿) ，是一家总部位于澳大利亚的互联网科技公司。作为C2C撮合平台，Parents可以在中国、美国、日本、澳大利亚等地区快速寻找您社区附近的便捷、安全、可靠的临时幼儿照看服务。同时您也可以申请作为一位Air Mom，共享您的时间与丰富的育儿经验、为有需要的人提供相应的照看服务。希望您与爱彼儿一起，构建您身边的安全、可靠的共享妈妈新生态！</text>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
   export default class AboutUs extends wepy.page {
-    config = {
-      navigationBarTitleText: '关于爱彼儿'
+    onLoad() {
+      wepy.setNavigationBarTitle({
+        title: "aboutus_title".i
+      });
     }
   }
 </script>

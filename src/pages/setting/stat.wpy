@@ -12,33 +12,33 @@
   <view>
     <view class="panel">
       <view class="panel-item">
-        <text class="label">{{i18n_users}}</text>
+        <text class="label">{{i_users}}</text>
         <text class="value">{{totalUsers}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">{{i18n_babies}}</text>
+        <text class="label">{{i_babies}}</text>
         <text class="value">{{totalBabies}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">{{i18n_providers}}</text>
+        <text class="label">{{i_providers}}</text>
         <text class="value">{{totalProviders}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">{{i18n_activities}}</text>
+        <text class="label">{{i_activities}}</text>
         <text class="value">{{totalActivities}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">{{i18n_bookings}}</text>
+        <text class="label">{{i_bookings}}</text>
         <text class="value">{{totalBookings}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">{{i18n_transactions}}</text>
+        <text class="label">{{i_transactions}}</text>
         <text class="value">{{totalTransactions}}</text>
       </view>
     </view>
     <view class="panel">  
       <view class="panel-item">
-        <button @tap="refresh">{{i18n_refresh}}</button>
+        <button @tap="refresh">{{i_refresh}}</button>
       </view>
     </view>
   </view>
@@ -54,13 +54,13 @@
       totalActivities: '...',
       totalBookings: '...',
       totalTransactions: '...',
-      i18n_users: "stat_users".i,
-      i18n_refresh: "stat_refresh".i,
-      i18n_babies: "stat_babies".i,
-      i18n_providers: "stat_providers".i,
-      i18n_activities: "stat_activities".i,
-      i18n_bookings: "stat_bookings".i,
-      i18n_transactions: "stat_transactions".i
+      i_users: "stat_users".i,
+      i_refresh: "stat_refresh".i,
+      i_babies: "stat_babies".i,
+      i_providers: "stat_providers".i,
+      i_activities: "stat_activities".i,
+      i_bookings: "stat_bookings".i,
+      i_transactions: "stat_transactions".i
     }
 
     methods = {

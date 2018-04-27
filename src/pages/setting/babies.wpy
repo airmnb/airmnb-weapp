@@ -5,7 +5,7 @@
   <view>
     <view class="panel">
       <navigator url="/pages/setting/add_baby" class="last-navigator" 
-        hover-class="navigator-hover">{{i18n_addbaby}}</navigator>
+        hover-class="navigator-hover">{{i_addbaby}}</navigator>
     </view>
   </view>
 </template>
@@ -13,7 +13,7 @@
   import wepy from 'wepy'
   export default class Babies extends wepy.page {
     data = {
-      i18n_addbaby: "babies_add".i
+      i_addbaby: "babies_add".i
     }
     onLoad() {
       wepy.setNavigationBarTitle({

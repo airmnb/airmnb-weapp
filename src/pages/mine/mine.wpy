@@ -5,21 +5,21 @@
 <template>
   <view>
     <view class="panel">
-      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover">{{i18n_favorites}}</navigator>
-      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover">{{i18n_mycomments}}</navigator>
-      <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover">{{i18n_history}}</navigator>
+      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover">{{i_favorites}}</navigator>
+      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover">{{i_mycomments}}</navigator>
+      <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover">{{i_history}}</navigator>
     </view>
-    <text class="sub-title">{{i18n_ongoing}}</text>
+    <text class="sub-title">{{i_ongoing}}</text>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
   export default class Index extends wepy.page {
     data = {
-      i18n_favorites: "mine_favorites".i,
-      i18n_mycomments: "mine_mycomments".i,
-      i18n_history: "mine_history".i,
-      i18n_ongoing: "mine_ongoing".i,
+      i_favorites: "mine_favorites".i,
+      i_mycomments: "mine_mycomments".i,
+      i_history: "mine_history".i,
+      i_ongoing: "mine_ongoing".i,
     }
     onLoad() {
       wepy.setNavigationBarTitle({

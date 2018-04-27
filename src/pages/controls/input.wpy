@@ -12,7 +12,7 @@
       </view>
       <view class="{{type==='number' ? 'panel' : 'hide'}}">
         <view class="panel-item">
-          <button formType="submit">确  定</button>
+          <button formType="submit">{{i_ok}}</button>
         </view>
       </view>
     </form>
@@ -28,7 +28,8 @@
       key: undefined,
       value: '',
       type: 'text',
-      label: '输入'
+      label: "label_input".i,
+      i_ok: "button_ok".i,
     }
 
     methods = {
@@ -47,7 +48,7 @@
       this.value = options.value;
       this.type = options.type || 'text';
 
-      wepy.setNavigationBarTitle({title: options.label || '输入'});
+      wepy.setNavigationBarTitle({title: options.label || "label_input".i});
     }
 
     updateParentData(value) {

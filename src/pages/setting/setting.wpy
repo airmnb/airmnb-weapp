@@ -6,12 +6,12 @@
 <template class="page-gray">
   <view>
     <view class="panel">
-      <navigator url="/pages/setting/profile" hover-class="navigator-hover">{{i18n_profile}}</navigator>
-      <navigator url="/pages/setting/babies" class="last-navigator" hover-class="navigator-hover">{{i18n_mybabies}}</navigator>
+      <navigator url="/pages/setting/profile" hover-class="navigator-hover">{{i_profile}}</navigator>
+      <navigator url="/pages/setting/babies" class="last-navigator" hover-class="navigator-hover">{{i_mybabies}}</navigator>
     </view>
     <view class="panel">
-      <navigator url="/pages/setting/aboutus" hover-class="navigator-hover">{{i18n_aboutus}}</navigator>
-      <navigator url="/pages/setting/stat" class="last-navigator" hover-class="navigator-hover">{{i18n_statistic}}</navigator>
+      <navigator url="/pages/setting/aboutus" hover-class="navigator-hover">{{i_aboutus}}</navigator>
+      <navigator url="/pages/setting/stat" class="last-navigator" hover-class="navigator-hover">{{i_statistic}}</navigator>
     </view>
   </view>
 </template>
@@ -19,10 +19,10 @@
 import wepy from 'wepy';
 export default class Index extends wepy.page {
   data = {
-    i18n_profile: "setting_profile".i,
-    i18n_mybabies: "setting_mybabies".i,
-    i18n_aboutus: "setting_aboutus".i,
-    i18n_statistic: "setting_statistic".i,
+    i_profile: "setting_profile".i,
+    i_mybabies: "setting_mybabies".i,
+    i_aboutus: "setting_aboutus".i,
+    i_statistic: "setting_statistic".i,
   }
 
   onLoad() {

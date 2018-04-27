@@ -14,7 +14,7 @@ page > view {
 <template>
   <view style="overflow:hidden">
     <view class="search-bar">
-      <button @tap="gotoSearchConfig">{{i18n_Search}}</button>
+      <button @tap="gotoSearchConfig">{{i_Search}}</button>
     </view>
     <map id="map" class='map' longitude="{{lng}}" latitude="{{lat}}" scale="14" bindcontroltap="controltap" bindregionchange="regionchange"
       show-location controls="{{controls}}">
@@ -48,7 +48,7 @@ page > view {
         },
         clickable: true
       }],
-      i18n_Search: "map_search_bar".i
+      i_Search: "map_search_bar".i
     }
 
     methods = {
