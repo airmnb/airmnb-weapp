@@ -89,7 +89,6 @@ export default class extends wepy.app {
 	}
 
 	async onLaunch() {
-		console.log('amb', amb);
 		amb.loading();
 
 		try {

@@ -6,28 +6,29 @@
 <template class="page-gray">
   <view>
     <view class="panel">
-      <navigator url="/pages/setting/profile" hover-class="navigator-hover">{{i_profile}}</navigator>
-      <navigator url="/pages/setting/babies" class="last-navigator" hover-class="navigator-hover">{{i_mybabies}}</navigator>
+      <navigator url="/pages/setting/profile" hover-class="navigator-hover">{{i.setting_profile}}</navigator>
+      <navigator url="/pages/setting/babies" class="last-navigator" hover-class="navigator-hover">{{i.setting_mybabies}}</navigator>
     </view>
     <view class="panel">
-      <navigator url="/pages/setting/aboutus" hover-class="navigator-hover">{{i_aboutus}}</navigator>
-      <navigator url="/pages/setting/stat" class="last-navigator" hover-class="navigator-hover">{{i_statistic}}</navigator>
+      <navigator url="/pages/setting/aboutus" hover-class="navigator-hover">{{i.setting_aboutus}}</navigator>
+      <navigator url="/pages/setting/stat" class="last-navigator" hover-class="navigator-hover">{{i.setting_statistic}}</navigator>
     </view>
   </view>
 </template>
 <script>
 import wepy from 'wepy';
+import amb from '@/util/amb'
+
+console.log('amb.pageI18nData', amb.pageI18nData.setting_language);
+
 export default class Index extends wepy.page {
   data = {
-    i_profile: "setting_profile".i,
-    i_mybabies: "setting_mybabies".i,
-    i_aboutus: "setting_aboutus".i,
-    i_statistic: "setting_statistic".i,
+    i: amb.pageI18nData
   }
 
   onLoad() {
     wepy.setNavigationBarTitle({
-      title: "setting_title".i
+      title: amb.pageI18nData.setting_title
     });
   }
 }

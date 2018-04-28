@@ -5,25 +5,24 @@
 <template>
   <view>
     <view class="panel">
-      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover">{{i_favorites}}</navigator>
-      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover">{{i_mycomments}}</navigator>
-      <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover">{{i_history}}</navigator>
+      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover">{{i.mine_favorites}}</navigator>
+      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover">{{i.mine_mycomments}}</navigator>
+      <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover">{{i.mine_history}}</navigator>
     </view>
-    <text class="sub-title">{{i_ongoing}}</text>
+    <text class="sub-title">{{i.mine_ongoing}}</text>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import amb from '@/util/amb'
+  
   export default class Index extends wepy.page {
     data = {
-      i_favorites: "mine_favorites".i,
-      i_mycomments: "mine_mycomments".i,
-      i_history: "mine_history".i,
-      i_ongoing: "mine_ongoing".i,
+      i: amb.pageI18nData
     }
     onLoad() {
       wepy.setNavigationBarTitle({
-        title: "mine_title".i
+        title: amb.pageI18nData.mine_title
       });
     }
   }

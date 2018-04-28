@@ -18,7 +18,7 @@
   export default class AboutUs extends wepy.page {
     onLoad() {
       wepy.setNavigationBarTitle({
-        title: "aboutus_title".i
+        title: amb.pageI18nData.aboutus_title
       });
     }
   }

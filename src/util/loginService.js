@@ -1,8 +1,11 @@
 import restClient from "./restClient";
 import wepy from 'wepy';
+import amb from '@/util/amb';
 
 class LoginService {
   async login() {
+    const wechatUserInfo = await this.getWechatUserInfo();
+
     try {
       // Always call API to get the profile
       // TOOD: Cache the profile in storage.
@@ -10,7 +13,6 @@ class LoginService {
       await wepy.checkSession();
     }catch(e) {
       const user = await this.localLogin();
-      const wechatUserInfo = await this.getWechatUserInfo();
       return Object.assign({
         nickName: wechatUserInfo.nickName,
         avatarUrl: wechatUserInfo.avatarUrl,
@@ -22,6 +24,7 @@ class LoginService {
     const resp = await wepy.login();
     const code = resp.code;
     const user = await restClient.get('/login/weapp', {code});
+    console.log('amb user', user);
     return user;
   }
 

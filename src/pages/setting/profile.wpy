@@ -6,47 +6,48 @@
     <!-- <panel>Profile</panel> -->
     <view class="panel">
       <view class="panel-item">
-        <text class="label">{{i_accountid}}</text>
+        <text class="label">{{i.account_id}}</text>
         <input value="{{userId}}" disabled />
       </view>
     </view>
 
     <view class="panel">
-      <navigator url="/pages/controls/input?key=nickName&value={{nickName}}&label={{i_accountname}}" 
-      hover-class="navigator-hover">{{i_accountname}}<text class="value">{{nickName}}</text>
+      <navigator url="/pages/controls/input?key=nickName&value={{nickName}}&label={{i.account_name}}" 
+      hover-class="navigator-hover">{{i.account_name}}<text class="value">{{nickName}}</text>
       </navigator>
     </view>
     <view class="panel">
-      <navigator url="/pages/controls/input?key=fullName&value={{fullName}}&label={{i_fullname}}" 
-      hover-class="navigator-hover">{{i_fullname}}<text class="value">{{fullName}}</text>
+      <navigator url="/pages/controls/input?key=fullName&value={{fullName}}&label={{i.fullname}}" 
+      hover-class="navigator-hover">{{i.fullname}}<text class="value">{{fullName}}</text>
       </navigator>
       <view class="panel-item">
-        <text class="label">{{i_gender}}</text>
+        <text class="label">{{i.gender}}</text>
         <radio-group class="radio-group" bindchange="radioChange">
           <label class="radio">
-            <radio value="1" checked="{{item.checked}}" color="#D81B60"/>{{i_male}}
+            <radio value="1" checked="{{item.checked}}" color="#D81B60"/>{{i.male}}
           </label>
           <label class="radio">
-            <radio value="2" checked="{{item.checked}}" color="#D81B60"/>{{i_female}}
+            <radio value="2" checked="{{item.checked}}" color="#D81B60"/>{{i.female}}
           </label>
         </radio-group>
       </view>
-      <navigator url="/pages/controls/input?key=mobile&value={{mobile}}&type=number&label={{i_mobile}}" 
-      hover-class="navigator-hover">{{i_mobile}}<text class="value">{{mobile}}</text>
+      <navigator url="/pages/controls/input?key=mobile&value={{mobile}}&type=number&label={{i.mobile}}" 
+      hover-class="navigator-hover">{{i.mobile}}<text class="value">{{mobile}}</text>
       </navigator>
-      <navigator url="/pages/controls/input?key=email&value={{email}}&label={{i_email}}" 
-      hover-class="navigator-hover">{{i_email}}<text class="value">{{email}}</text>
+      <navigator url="/pages/controls/input?key=email&value={{email}}&label={{i.email}}" 
+      hover-class="navigator-hover">{{i.email}}<text class="value">{{email}}</text>
       </navigator>
     </view>
     <view class="panel">
       <view class="panel-item">
-        <button @tap="save">{{i_save}}</button>
+        <button @tap="save">{{i.button_save}}</button>
       </view>
     </view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import amb from '@/util/amb'
   import apiFacade from '@/util/apiFacade';
   export default class Profile extends wepy.page {
     data = {
@@ -55,15 +56,7 @@
       fullName: undefined,
       mobile: undefined,
       email: undefined,
-      i_save: "button_save".i,
-      i_email: "email".i,
-      i_mobile: "mobile".i,
-      i_male: "male".i,
-      i_female: "female".i,
-      i_gender: "gender".i,
-      i_fullname: "fullname".i,
-      i_accountname: "account_name".i,
-      i_accountid: "account_id".i
+      i: amb.pageI18nData
     }
 
     methods = {
@@ -87,7 +80,7 @@
 
     onLoad() {
       wepy.setNavigationBarTitle({
-        title: "profile_title".i
+        title: amb.pageI18nData.profile_title
       });
       const user = this.$parent.globalData.profile.user;
       this.userId = user.id;

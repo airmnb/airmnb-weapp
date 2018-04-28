@@ -1,9 +1,10 @@
 import wepy from 'wepy';
+import amb from './amb';
 
 class RestClient {
   path2Url(path) {
-    const splitter = path.charAt(0) === '/' ? '' : '/';    
-    return wepy.config.app_url + splitter + path;
+    const splitter = path.charAt(0) === '/' ? '' : '/';
+    return amb.config.app_url + splitter + path;
   }
 
   async httpRequest(opt) {

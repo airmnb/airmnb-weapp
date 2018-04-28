@@ -14,7 +14,7 @@ page > view {
 <template>
   <view style="overflow:hidden">
     <view class="search-bar">
-      <button @tap="gotoSearchConfig">{{i_Search}}</button>
+      <button @tap="gotoSearchConfig">{{i.map_search_bar}}</button>
     </view>
     <map id="map" class='map' longitude="{{lng}}" latitude="{{lat}}" scale="14" bindcontroltap="controltap" bindregionchange="regionchange"
       show-location controls="{{controls}}">
@@ -32,6 +32,7 @@ page > view {
 </template>
 <script>
   import wepy from 'wepy'
+  import amb from '@/util/amb'
   export default class Map extends wepy.page {
     data = {
       showsSearchBar: false,
@@ -48,7 +49,7 @@ page > view {
         },
         clickable: true
       }],
-      i_Search: "map_search_bar".i
+      i: amb.pageI18nData
     }
 
     methods = {
@@ -65,7 +66,7 @@ page > view {
 
     onLoad (options) {
       wepy.setNavigationBarTitle({
-        title: "map_title".i
+        title: amb.pageI18nData.map_title
       });
       this.centerByCurrentLocation();
     }

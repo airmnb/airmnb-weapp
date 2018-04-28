@@ -12,33 +12,33 @@
   <view>
     <view class="panel">
       <view class="panel-item">
-        <text class="label">{{i_users}}</text>
+        <text class="label">{{i.stat_users}}</text>
         <text class="value">{{totalUsers}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">{{i_babies}}</text>
+        <text class="label">{{i.stat_babies}}</text>
         <text class="value">{{totalBabies}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">{{i_providers}}</text>
+        <text class="label">{{i.stat_providers}}</text>
         <text class="value">{{totalProviders}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">{{i_activities}}</text>
+        <text class="label">{{i.stat_activities}}</text>
         <text class="value">{{totalActivities}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">{{i_bookings}}</text>
+        <text class="label">{{i.stat_bookings}}</text>
         <text class="value">{{totalBookings}}</text>
       </view>
       <view class="panel-item">
-        <text class="label">{{i_transactions}}</text>
+        <text class="label">{{i.stat_transactions}}</text>
         <text class="value">{{totalTransactions}}</text>
       </view>
     </view>
     <view class="panel">  
       <view class="panel-item">
-        <button @tap="refresh">{{i_refresh}}</button>
+        <button @tap="refresh">{{i.stat_refresh}}</button>
       </view>
     </view>
   </view>
@@ -54,13 +54,7 @@
       totalActivities: '...',
       totalBookings: '...',
       totalTransactions: '...',
-      i_users: "stat_users".i,
-      i_refresh: "stat_refresh".i,
-      i_babies: "stat_babies".i,
-      i_providers: "stat_providers".i,
-      i_activities: "stat_activities".i,
-      i_bookings: "stat_bookings".i,
-      i_transactions: "stat_transactions".i
+      i: amb.pageI18nData
     }
 
     methods = {
@@ -71,7 +65,7 @@
 
     onLoad() {
       wepy.setNavigationBarTitle({
-        title: "stat_title".i
+        title: amb.pageI18nData.stat_title
       });
       this.refreshStat();
     }

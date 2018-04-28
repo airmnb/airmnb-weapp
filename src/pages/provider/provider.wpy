@@ -5,27 +5,25 @@
 <template>
   <view>
     <view class="panel">
-      <navigator url="/pages/provider/venues" hover-class="navigator-hover">{{i_venues}}</navigator>
+      <navigator url="/pages/provider/venues" hover-class="navigator-hover">{{i.provider_venues}}</navigator>
     </view>
     <view class="panel">
-      <navigator url="/pages/provider/newactivity" hover-class="navigator-hover">{{i_newactivity}}</navigator>
-      <navigator url="/pages/provider/history" class="last-navigator" hover-class="navigator-hover">{{i_history}}</navigator>
+      <navigator url="/pages/provider/newactivity" hover-class="navigator-hover">{{i.provider_newactivity}}</navigator>
+      <navigator url="/pages/provider/history" class="last-navigator" hover-class="navigator-hover">{{i.provider_history}}</navigator>
     </view>
-    <text class="sub-title">{{i_ongoing}}</text>
+    <text class="sub-title">{{i.provider_ongoing}}</text>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import amb from '@/util/amb'
   export default class Index extends wepy.page {
     data = {
-      i_newactivity: "provider_newactivity".i,
-      i_venues: "provider_venues".i,
-      i_history: "provider_history".i,
-      i_ongoing: "provider_ongoing".i,
+      i: amb.pageI18nData
     }
     onLoad() {
       wepy.setNavigationBarTitle({
-        title: "provider_title".i
+        title: amb.pageI18nData.provider_title
       });
     }
   }

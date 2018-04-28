@@ -12,7 +12,7 @@
       </view>
       <view class="{{type==='number' ? 'panel' : 'hide'}}">
         <view class="panel-item">
-          <button formType="submit">{{i_ok}}</button>
+          <button formType="submit">{{i.button_ok}}</button>
         </view>
       </view>
     </form>
@@ -20,6 +20,8 @@
 </template>
 <script>
   import wepy from 'wepy'
+  import amb from '@/util/amb'
+  
   export default class Input extends wepy.page {
     config = {
     }
@@ -28,8 +30,8 @@
       key: undefined,
       value: '',
       type: 'text',
-      label: "label_input".i,
-      i_ok: "button_ok".i,
+      label: amb.pageI18nData.label_input,
+      i: amb.pageI18nData
     }
 
     methods = {
@@ -48,7 +50,7 @@
       this.value = options.value;
       this.type = options.type || 'text';
 
-      wepy.setNavigationBarTitle({title: options.label || "label_input".i});
+      wepy.setNavigationBarTitle({title: options.label || amb.pageI18nData.label_input});
     }
 
     updateParentData(value) {

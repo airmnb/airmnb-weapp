@@ -22,9 +22,15 @@ amb.loading = (seconds)=>{
 	setTimeout(() => wepy.hideLoading(), 1000 * (seconds || 3));
 }
 
+function getCurrentPageUrl(){
+	const pages = getCurrentPages();
+	const currentPage = pages[pages.length-1];
+	return currentPage.route;
+}
+
 amb.setLocale = (lang) => {
-  if(lang) {
-    amb.config.language = lang;
+  if(lang && amb.config.language !== lang) {
+		amb.config.language = lang;
   }
 }
 
@@ -32,12 +38,28 @@ amb.blah = (key) => {
 	return key.toUpperCase();
 }
 
+function translate(str) {
+	const langKey = amb.config.language;
+	const dic = amb.i18nDic[langKey];
+	return dic[str] || dic['en'] || '$[' + str + ']';
+}
+
 Object.defineProperty(String.prototype, 'i', {
 	get: function () { 
-		const langKey = amb.config.language;
-		const dic = amb.i18nDic[langKey];
-		return dic[this] || dic['en'] || this;
+		return translate(this);
 	},
+});
+
+const keys = Object.keys(i18n.en);
+
+amb.pageI18nData = {};
+Object.keys(i18n.en).forEach(k => {
+	amb.pageI18nData[k] = translate(k);
+	// Object.defineProperty(amb.pageI18nData, k, {
+	// 	get: function () { 
+	// 		return translate(k);
+	// 	},
+	// });
 });
 
 export default amb;

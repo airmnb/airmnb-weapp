@@ -5,7 +5,7 @@
 <template>
   <view>
     <view class="search-bar">
-      <input placeholder="{{i_keywords}}" maxLength="30" focus/>
+      <input placeholder="{{i.search_keywards}}" maxLength="30" focus/>
     </view>
     <!-- <view class="panel">
       <navigator url="/pages/setting/add_baby" hover-class="navigator-hover"><text>我的收藏</text></navigator>
@@ -13,15 +13,15 @@
       <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover"><text>以往参加的活动（已结束）</text></navigator>
     </view>
     <text class="sub-title">预订中的活动</text> -->
-    <button @tap="search" class="btn-secondary btn-block">{{i_search}}</button>
+    <button @tap="search" class="btn-secondary btn-block">{{i.map_search_bar}}</button>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import amb from '@/util/amb'
   export default class SearchConfig extends wepy.page {
     data = {
-      i_keywords: "search_keywards".i,
-      i_search: "map_search_bar".i,
+      i: amb.pageI18nData
     }
     methods = {
       async search() {
@@ -31,7 +31,7 @@
 
     onLoad() {
       wepy.setNavigationBarTitle({
-        title: "searchconfig_title".i
+        title: amb.pageI18nData.searchconfig_title
       });
     }
   }
