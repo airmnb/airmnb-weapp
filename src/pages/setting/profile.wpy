@@ -48,7 +48,7 @@
 <script>
   import wepy from 'wepy'
   import amb from '@/util/amb'
-  import apiFacade from '@/util/apiFacade';
+  import profileService from '@/util/profileService';
   export default class Profile extends wepy.page {
     data = {
       userId: undefined,
@@ -72,7 +72,7 @@
           email: this.email
         };
         wepy.showLoading();
-        await apiFacade.profileService.save(profile);
+        await profileService.save(profile);
         wepy.hideLoading();
         wepy.navigateBack();
       }

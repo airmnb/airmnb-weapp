@@ -18,7 +18,7 @@ import Promise from 'promise-polyfill';
 
 import { setStore } from 'wepy-redux';
 import configStore from './store';
-import apiFacade from '@/util/apiFacade';
+import loginService from '@/util/loginService';
 import amb from '@/util/amb';
 
 const store = configStore();
@@ -93,7 +93,7 @@ export default class extends wepy.app {
 
 		try {
 			// Wechat login and get Airmnb user
-			const user = await apiFacade.loginService.login();
+			const user = await loginService.login();
 			console.log('user', user);
 			// Get Wechat user info
 			this.globalData.profile = user;
