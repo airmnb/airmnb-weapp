@@ -1,4 +1,4 @@
-import restClient from "./restClient";
+import {apiClient} from "./restClient";
 
 class ProfileService {
   async get(userId){

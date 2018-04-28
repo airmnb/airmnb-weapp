@@ -2,9 +2,13 @@ import wepy from 'wepy';
 import amb from './amb';
 
 class RestClient {
+  constructor(urlRoot) {
+    this.urlRoot = urlRoot.replace(/\/*$/, '');
+  }
+
   path2Url(path) {
     const splitter = path.charAt(0) === '/' ? '' : '/';
-    return amb.config.app_url + splitter + path;
+    return this.urlRoot + splitter + path;
   }
 
   async httpRequest(opt) {
@@ -45,7 +49,10 @@ class RestClient {
   }
 }
 
-const restClient = new RestClient();
+// https://www.airmnb.com
+export const appClient = new RestClient(amb.config.app_url); 
 
-export default restClient;
+// https://www.airmnb.com/api/1.0
+const apiUrl = amb.config.app_url.replace(/\/*$/, '') + '/' + amb.config.api_path.replace(/^\/*/, '');
+export const apiClient = new RestClient(apiUrl); 
 
