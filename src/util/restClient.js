@@ -17,7 +17,7 @@ class RestClient {
       url,
       method,
       headers: {
-        'Accept-language': wepy.config.language
+        'Accept-language': amb.config.language
       },
       data
     };
@@ -45,5 +45,7 @@ class RestClient {
   }
 }
 
-export const restClient = new RestClient();
+const restClient = new RestClient();
+
+export default restClient;
 

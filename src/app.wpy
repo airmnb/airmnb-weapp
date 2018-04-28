@@ -98,7 +98,8 @@ export default class extends wepy.app {
 			// Get Wechat user info
 			this.globalData.profile = user;
 
-			
+		// } catch(e) {
+		// 	console.error(e);
 		}finally{
 			wepy.hideLoading();
 		}

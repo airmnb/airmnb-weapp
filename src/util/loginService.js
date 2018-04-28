@@ -2,6 +2,7 @@ import restClient from "./restClient";
 import wepy from 'wepy';
 import amb from '@/util/amb';
 
+
 class LoginService {
   async login() {
     const wechatUserInfo = await this.getWechatUserInfo();
@@ -23,8 +24,9 @@ class LoginService {
   async localLogin() {
     const resp = await wepy.login();
     const code = resp.code;
-    const user = await restClient.get('/login/weapp', {code});
-    console.log('amb user', user);
+    const user = await restClient.get('/api/1.0/auth/wechat/login', {code});
+    console.log('/login/weapp', user);
+
     return user;
   }
 
