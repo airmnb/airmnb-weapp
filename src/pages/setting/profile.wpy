@@ -12,36 +12,35 @@
     </view>
 
     <view class="panel">
-      <navigator url="/pages/controls/input?key=nickName&value={{nickName}}&label={{i.account_name}}" 
+      <navigator url="/pages/controls/input?key=user.nickName&value={{nickName}}&label={{i.account_name}}" 
       hover-class="navigator-hover">{{i.account_name}}<text class="value">{{nickName}}</text>
       </navigator>
     </view>
     <view class="panel">
-      <navigator url="/pages/controls/input?key=fullName&value={{user.fullName}}&label={{i.fullname}}" 
+      <navigator url="/pages/controls/input?key=user.fullName&value={{user.fullName}}&label={{i.fullname}}" 
       hover-class="navigator-hover">{{i.fullname}}<text class="value">{{user.fullName}}</text>
       </navigator>
       <view class="panel-item">
         <text class="label">{{i.gender}}</text>
-        <radio-group class="radio-group" bindchange="radioChange">
+        <radio-group class="radio-group" bindchange="setGender">
           <label class="radio">
-            <radio value="1" checked="{{item.checked}}" color="#D81B60"/>{{i.male}}
+            <radio value="1" checked="{{user.gender==1}}" color="#D81B60"/>{{i.male}}
           </label>
           <label class="radio">
-            <radio value="2" checked="{{item.checked}}" color="#D81B60"/>{{i.female}}
+            <radio value="2" checked="{{user.gender==2}}" color="#D81B60"/>{{i.female}}
           </label>
         </radio-group>
       </view>
       <navigator url="/pages/controls/input?key=user.mobile&value={{user.mobile}}&type=number&label={{i.mobile}}" 
       hover-class="navigator-hover">{{i.mobile}}<text class="value">{{user.mobile}}</text>
       </navigator>
-      <navigator url="/pages/controls/input?key=email&value={{user.email}}&label={{i.email}}" 
+      <navigator url="/pages/controls/input?key=user.email&value={{user.email}}&label={{i.email}}" 
       hover-class="navigator-hover">{{i.email}}<text class="value">{{user.email}}</text>
       </navigator>
     </view>
     <view class="panel">
       <view class="panel-item">
         <button @tap="save">{{i.button_save}}</button>
-        <button @tap="print">Print {{count.value}}</button>
       </view>
     </view>
   </view>
@@ -61,20 +60,18 @@
     methods = {
       async save() {
         wepy.showLoading();
-
-        Object.update(amb.data.user, this.user);
+        Object.assign(amb.data.user, this.user);
         await userService.save(this.user);
         wepy.hideLoading();
         wepy.navigateBack();
       },
-      print() {
-        this.saveProfile();
+      setGender(e) {
+        const value = e.detail.value;
+        this.user.gender = value;
       }
     }
 
     onLoad() {
-      // thid.bindWxPage.bindWxWepyParent(this);
-      
       wepy.setNavigationBarTitle({
         title: amb.pageI18nData.profile_title
       });
@@ -85,11 +82,11 @@
       // this.fullName = user.fullName || '';
       // this.mobile = user.mobile;
       // this.email = user.email || '';
-      console.log('onLoad data', this);
+      //console.log('onLoad data', this);
     }
 
     onShow() {
-      console.log('onShow data', this);
+      //console.log('onShow data', this);
     }
   }
 </script>

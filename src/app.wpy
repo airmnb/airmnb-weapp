@@ -93,7 +93,14 @@ export default class extends wepy.app {
 
 		try {
 			// Wechat login and get Airmnb user
-			const user = await loginService.login();
+			// const user = await loginService.login();
+			const user = {
+				id: '680ed7ac-6a3d-4b6c-b534-1008f1c9caf3',
+				nickName: 'superopengl',
+				fullName: 'Jun Shao',
+				mobile: '0405581228',
+				email: 'mr.shaojun@gmail.com'
+			};
 			console.log('user', user);
 			// Get Wechat user info
 			amb.data.user = user;

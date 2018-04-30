@@ -36,11 +36,17 @@ function updateData(wepypage, obj) {
 
 const $initFunc = wepy.page.prototype.$init;
 wepy.page.prototype.$init = function() {
+	// Call parent's $init
   $initFunc.apply(this, arguments);
 
 	const wepypage = this;
 	// Add an updateDate method on wx.Page object
 	this.$wxpage.updateData = function(obj) {
+		console.log('before update', wepypage.user, obj);
 		updateData(wepypage, obj);
+		// Has to update $wxpage as well, otherwise the real mobile doesn't update the UI.
+		this.setData(obj); 
+		console.log('after update', wepypage.user, obj);
+		
 	}
 }
