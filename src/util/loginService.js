@@ -22,17 +22,19 @@ class LoginService {
   }
 
   async localLogin() {
-    const resp = await wepy.login();
-    const code = resp.code;
-    let user = await appClient.get('/api/1.0/auth/wechat/login', {code});
     // TODO: Mock user here for debug
-    user = {
+    return {
       id: '680ed7ac-6a3d-4b6c-b534-1008f1c9caf3',
       nickName: 'superopengl',
       fullName: 'Jun Shao',
       mobile: '0405581228',
       email: 'mr.shaojun@gmail.com'
     };
+
+    const resp = await wepy.login();
+    const code = resp.code;
+    let user = await appClient.get('/api/1.0/auth/wechat/login', {code});
+
     console.log('/login/weapp', user);
 
     return user;
