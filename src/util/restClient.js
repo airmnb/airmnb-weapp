@@ -20,8 +20,9 @@ class RestClient {
     const opt = {
       url,
       method,
-      headers: {
-        'Accept-language': amb.config.language
+      header: {
+        'Accept-language': amb.config.language,
+        'Authorization': `bearer ${amb.config.jwt}`
       },
       data
     };
