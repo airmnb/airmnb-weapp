@@ -56,9 +56,15 @@
     updateParentData(value) {
       const pages = getCurrentPages();
       const prePage = pages[pages.length - 2];
-      const data = {};
-      data[this.key] = value;
-      prePage.setData(data); // Update parent page's data
+      const key = this.key;
+      // prePage.$wepypage.updateData({
+      //   [key]: value
+      // }); // Update parent page's data
+      // prePage.$wepypage.$apply();
+      prePage.updateData({
+        [key]: value
+      }); // Update parent page's data
+      // prePage.$wepypage.$apply();
       wepy.navigateBack();
     }
   }

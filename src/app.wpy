@@ -79,7 +79,7 @@ export default class extends wepy.app {
 	};
 
 	globalData = {
-		profile: null
+		// user amb.data instead
 	};
 
 	constructor() {
@@ -96,7 +96,7 @@ export default class extends wepy.app {
 			const user = await loginService.login();
 			console.log('user', user);
 			// Get Wechat user info
-			this.globalData.profile = user;
+			amb.data.user = user;
 
 		// } catch(e) {
 		// 	console.error(e);
