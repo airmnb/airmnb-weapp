@@ -13,6 +13,8 @@
 
 <script>
 import wepy from 'wepy';
+import '@/util/wepy-shim'
+
 import 'wepy-async-function';
 import Promise from 'promise-polyfill';
 

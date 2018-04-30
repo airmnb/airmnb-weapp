@@ -48,7 +48,6 @@
 </template>
 <script>
   import wepy from 'wepy'
-  import '@/util/wepy-shim'
   import amb from '@/util/amb'
   import userService from '@/util/userService';
   export default class Profile extends wepy.page {

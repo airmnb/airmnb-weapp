@@ -42,11 +42,8 @@ wepy.page.prototype.$init = function() {
 	const wepypage = this;
 	// Add an updateDate method on wx.Page object
 	this.$wxpage.updateData = function(obj) {
-		console.log('before update', wepypage.user, obj);
 		updateData(wepypage, obj);
 		// Has to update $wxpage as well, otherwise the real mobile doesn't update the UI.
-		this.setData(obj); 
-		console.log('after update', wepypage.user, obj);
-		
+		this.setData(obj);
 	}
 }
