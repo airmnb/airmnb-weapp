@@ -7,7 +7,8 @@
     <form bindsubmit="onsave">
       <view class="panel">
         <view class="panel-item">
-          <textarea value="{{value}}" bindconfirm="ondone" focus="true" name="input" type="{{type}}"/>
+          <textarea value="{{value}}" bindconfirm="ondone"
+            focus="true" name="input" type="{{type}}"/>
         </view>
       </view>
     </form>

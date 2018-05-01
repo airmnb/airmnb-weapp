@@ -18,13 +18,12 @@ import '@/util/wepy-shim'
 import 'wepy-async-function';
 import Promise from 'promise-polyfill';
 
-import { setStore } from 'wepy-redux';
-import configStore from './store';
+// import { setStore } from 'wepy-redux';
 import loginService from '@/util/loginService';
 import amb from '@/util/amb';
 
-const store = configStore();
-setStore(store);
+//const store = configStore();
+//setStore(store);
 
 export default class extends wepy.app {
 	config = {
