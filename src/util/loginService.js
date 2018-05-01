@@ -1,4 +1,4 @@
-import {appClient} from "./restClient";
+import {sysClient} from "./restClient";
 import wepy from 'wepy';
 import amb from '@/util/amb';
 
@@ -33,7 +33,7 @@ class LoginService {
 
     const resp = await wepy.login();
     const code = resp.code;
-    let user = await appClient.get('/api/1.0/auth/wechat/login', {code});
+    let user = await sysClient.get('/api/1.0/auth/wechat/login', {code});
 
     console.log('/login/weapp', user);
 

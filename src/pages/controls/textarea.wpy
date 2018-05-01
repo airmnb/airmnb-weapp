@@ -1,0 +1,52 @@
+<style lang="less">
+
+</style>
+
+<template>
+  <view>
+    <form bindsubmit="onsave">
+      <view class="panel">
+        <view class="panel-item">
+          <textarea value="{{value}}" bindconfirm="ondone" focus="true" name="input" type="{{type}}"/>
+        </view>
+      </view>
+    </form>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import amb from '@/util/amb'
+  
+  export default class Input extends wepy.page {
+    data = {
+      i: amb.pageI18nData,
+      key: undefined,
+      value: '',
+      label: amb.pageI18nData.label_input,
+    }
+
+    methods = {
+      ondone(e) {
+        this.updateParentData(e.detail.value);
+      }
+    }
+
+    onLoad(options) {
+      console.log('debug', 'onLoad of textarea control', options);
+      this.key = options.key;
+      this.value = options.value;
+
+      wepy.setNavigationBarTitle({title: options.label || amb.pageI18nData.label_input});
+    }
+
+    updateParentData(value) {
+      const pages = getCurrentPages();
+      const prePage = pages[pages.length - 2];
+      const key = this.key;
+      prePage.updateData({
+        [key]: value
+      });
+      wepy.navigateBack();
+    }
+  }
+</script>

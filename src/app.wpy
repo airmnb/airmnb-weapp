@@ -35,17 +35,19 @@ export default class extends wepy.app {
       'pages/mine/mine', 
       'pages/setting/setting',
       'pages/setting/profile',
-      'pages/setting/babies',
-      'pages/setting/aboutus',
+			'pages/setting/babies',
+			'pages/setting/add_baby',
+			'pages/setting/aboutus',
 			'pages/setting/stat',
-			'pages/controls/input'
+			'pages/controls/textarea',
+			'pages/controls/input',
     ],
 		window: {
 			backgroundTextStyle: 'light',
 			navigationBarBackgroundColor: '#D81B60',
 			// navigationBarTitleText: '爱彼儿',
 			navigationBarTextStyle: 'white',
-			backgroundColor: '#D5D5D5'
+			backgroundColor: '#F5F5F5'
 		},
 		tabBar: {
 			selectedColor: '#FFFFFF',

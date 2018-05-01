@@ -43,6 +43,10 @@ const i18n = {
     "account_name": "Account Name",
     "account_id": "Account ID",
     "label_input": "Input",
+    "addbaby_title": "Register Baby",
+    "dob": "Date of Birth",
+    "baby_nickname": "Nickname",
+    "baby_desc": "Additional Information",
   },
   "zh_CN": {
     "map_search_bar": "搜  索",
@@ -88,6 +92,10 @@ const i18n = {
     "account_name": "爱彼儿昵称",
     "account_id": "爱彼儿ID",
     "label_input": "输入",
+    "addbaby_title": "注册宝宝信息",
+    "dob": "出生日期",
+    "baby_nickname": "宝宝名字",
+    "baby_desc": "其它信息",
   },
   "zh_TW": {}
 }

@@ -50,10 +50,13 @@ class RestClient {
   }
 }
 
-// https://www.airmnb.com
-export const appClient = new RestClient(amb.config.app_url); 
+// https://www.airmnb.com/sys
+const urlBase = amb.config.app_url.replace(/\/*$/, '') + '/'
+
+const sysUrl = urlBase + 'sys';
+export const sysClient = new RestClient(sysUrl); 
 
 // https://www.airmnb.com/api/1.0
-const apiUrl = amb.config.app_url.replace(/\/*$/, '') + '/' + amb.config.api_path.replace(/^\/*/, '');
+const apiUrl = urlBase + amb.config.api_path.replace(/^\/*/, '');
 export const apiClient = new RestClient(apiUrl); 
 

@@ -28,10 +28,12 @@ function setData(wepypage, key, value) {
 	});
 }
 
-function updateData(wepypage, obj) {
+function updateDataFunc(wepypage, obj) {
 	Object.keys(obj).forEach(k => {
 		setData(wepypage, k, obj[k]);
 	});
+	// Has to update $wxpage as well, otherwise the real mobile doesn't update the UI.
+	wepypage.$wxpage.setData(obj);
 }
 
 const $initFunc = wepy.page.prototype.$init;
@@ -42,8 +44,10 @@ wepy.page.prototype.$init = function() {
 	const wepypage = this;
 	// Add an updateDate method on wx.Page object
 	this.$wxpage.updateData = function(obj) {
-		updateData(wepypage, obj);
-		// Has to update $wxpage as well, otherwise the real mobile doesn't update the UI.
-		this.setData(obj);
+		updateDataFunc(wepypage, obj);
 	}
+}
+
+wepy.page.prototype.updateData = function(obj) {
+	updateDataFunc(this, obj);
 }

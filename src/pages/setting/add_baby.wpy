@@ -1,0 +1,76 @@
+<style lang="less">
+
+</style>
+
+<template>
+  <view>
+    <view class="panel">
+      <navigator url="/pages/controls/input?key=baby.nickName&value={{baby.nickName}}&label={{i.baby_nickname}}" 
+      hover-class="navigator-hover">{{i.baby_nickname}}<text class="value">{{baby.nickName}}</text>
+      </navigator>
+    </view>
+    <view class="panel">
+      <picker mode="date" value="{{baby.dob}}" start="2002-01-01" end="2018-12-31" bindchange="dobChange">  
+        <view class="panel-item">
+          <text class="label">{{i.dob}}</text>
+          <text class="value">{{baby.dob}}</text>
+        </view>
+      </picker>
+      <view class="panel-item">
+        <text class="label">{{i.gender}}</text>
+        <radio-group class="radio-group" bindchange="setGender">
+          <label class="radio">
+            <radio value="1" checked="{{baby.gender==1}}" color="#D81B60"/>{{i.male}}
+          </label>
+          <label class="radio">
+            <radio value="2" checked="{{baby.gender==2}}" color="#D81B60"/>{{i.female}}
+          </label>
+        </radio-group>
+      </view>
+      <navigator url="/pages/controls/textarea?key=baby.desc&value={{baby.desc}}&label={{i.baby_desc}}" 
+        hover-class="navigator-hover">{{i.baby_desc}}
+      </navigator>
+    </view>
+    <view class="panel">
+      <view class="panel-item">
+        <button @tap="save">{{i.button_save}}</button>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import amb from '@/util/amb';
+export default class AddBaby extends wepy.page {
+	data = {
+    i: amb.pageI18nData,
+    baby: {
+      nickName: '',
+      gender: '',
+      dob: '',
+      desc: ''
+    }
+  };
+  methods = {
+    setGender(e) {
+      this.baby.gender = e.detail.value;
+    },
+    dobChange(e) {
+      this.updateData({
+        'baby.dob': e.detail.value
+      });
+    },
+    async save() {
+      wepy.showLoading();
+      console.log('baby to save', this.baby);
+      wepy.hideLoading();
+      wepy.navigateBack();
+    }
+  }
+	onLoad() {
+		wepy.setNavigationBarTitle({
+			title: amb.pageI18nData.addbaby_title
+		});
+	}
+}
+</script>
