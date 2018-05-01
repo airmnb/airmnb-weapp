@@ -76,17 +76,9 @@
         title: amb.pageI18nData.profile_title
       });
       this.user = amb.data.user;
-      // Object.assign(this.user, user);
-      // this.id = user.id;
-      // this.nickName = user.nickName || '';
-      // this.fullName = user.fullName || '';
-      // this.mobile = user.mobile;
-      // this.email = user.email || '';
-      //console.log('onLoad data', this);
     }
 
     onShow() {
-      //console.log('onShow data', this);
     }
   }
 </script>

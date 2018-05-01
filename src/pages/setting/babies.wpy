@@ -7,6 +7,7 @@
       <navigator url="/pages/setting/add_baby" class="last-navigator" 
         hover-class="navigator-hover">{{i.babies_add}}</navigator>
     </view>
+    <text class="sub-title">{{i.babies_mine}}</text>
   </view>
 </template>
 <script>

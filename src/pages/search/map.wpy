@@ -72,8 +72,7 @@ page > view {
     }
 
     async onShow () {
-      console.log('map onshow');
-      const result = await searchService.search();
+      // const result = await searchService.search();
     }
 
     /**

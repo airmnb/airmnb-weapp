@@ -33,7 +33,6 @@
     }
 
     onLoad(options) {
-      console.log('debug', 'onLoad of textarea control', options);
       this.key = options.key;
       this.value = options.value;
 
