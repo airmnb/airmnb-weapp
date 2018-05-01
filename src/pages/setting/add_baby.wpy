@@ -1,5 +1,10 @@
 <style lang="less">
-
+.text-elipsis { 
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  width: 80rpx; 
+  white-space: nowrap;
+}
 </style>
 
 <template>
@@ -29,6 +34,7 @@
       </view>
       <navigator url="/pages/controls/textarea?key=baby.desc&value={{baby.desc}}&label={{i.baby_desc}}" 
         hover-class="navigator-hover">{{i.baby_desc}}
+        <text class="value text-elipsis">{{baby.desc}}</text>
       </navigator>
     </view>
     <view class="panel">
@@ -71,6 +77,9 @@ export default class AddBaby extends wepy.page {
 		wepy.setNavigationBarTitle({
 			title: amb.pageI18nData.addbaby_title
 		});
-	}
+  }
+  onShow() {
+    console.log('baby', this.baby);
+  }
 }
 </script>

@@ -4,11 +4,17 @@
 
 <template>
   <view>
-    <form bindsubmit="onsave">
+    <form bindsubmit="ondone">
       <view class="panel">
         <view class="panel-item">
           <textarea value="{{value}}" bindconfirm="ondone"
             focus="true" name="input" type="{{type}}"/>
+        </view>
+      </view>
+
+      <view class="panel">
+        <view class="panel-item">
+          <button formType="submit">{{i.button_ok}}</button>
         </view>
       </view>
     </form>
@@ -28,7 +34,7 @@
 
     methods = {
       ondone(e) {
-        this.updateParentData(e.detail.value);
+        this.updateParentData(e.detail.value.input);
       }
     }
 

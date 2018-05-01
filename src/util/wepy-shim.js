@@ -34,6 +34,7 @@ function updateDataFunc(wepypage, obj) {
 	});
 	// Has to update $wxpage as well, otherwise the real mobile doesn't update the UI.
 	wepypage.$wxpage.setData(obj);
+	wepypage.$apply();
 }
 
 const $initFunc = wepy.page.prototype.$init;
