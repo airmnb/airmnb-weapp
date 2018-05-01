@@ -17,6 +17,18 @@ amb.i18nDic = i18n;
 
 amb.data = {};
 
+amb.getDate = function(offsetDays) {
+	let today = new Date()
+	today.setDate(today.getDate() + (offsetDays || 0));
+	return today.toISOString().slice(0, 10);
+}
+
+amb.getTime = function(offsetMins) {
+	let now = new Date();
+	now = new Date(now.getTime() + (offsetMins || 0)*60000);
+	return now.toLocaleTimeString().substring(0,5);
+}
+
 // Loading dialog
 amb.loading = (seconds)=>{
 	wepy.showLoading({

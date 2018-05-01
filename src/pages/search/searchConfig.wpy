@@ -5,15 +5,30 @@
 <template>
   <view>
     <view class="search-bar">
-      <input placeholder="{{i.search_keywards}}" maxLength="30" focus/>
+      <input style="height:35rpx;" placeholder="{{i.search_keywards}}" maxLength="30" focus/>
     </view>
-    <!-- <view class="panel">
-      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover"><text>我的收藏</text></navigator>
-      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover"><text>我参与的活动评价</text></navigator>
-      <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover"><text>以往参加的活动（已结束）</text></navigator>
+
+    <view class="panel">
+      <!-- Start time -->
+      <picker mode="date" value="{{startDate}}" start="{{minDate}}" end="{{maxDate}}" bindchange="startDateChange">
+        <view class="panel-item">
+          <text class="label">{{i.dob}}</text>
+          <text class="value">{{startDate}}</text>
+        </view>
+      </picker>
+      <picker mode="time" value="{{startTime}}" start="06:00" end="20:00" bindchange="startTimeChange">
+        <view class="panel-item">
+          <text class="label">{{i.dob}}</text>
+          <text class="value">{{startTime}}</text>
+        </view>
+      </picker>
     </view>
-    <text class="sub-title">预订中的活动</text> -->
-    <button @tap="search" class="btn-secondary btn-block">{{i.map_search_bar}}</button>
+
+    <view class="panel">
+      <view class="panel-item">
+        <button @tap="search">{{i.map_search_bar}}</button>
+      </view>
+    </view>
   </view>
 </template>
 <script>
@@ -21,9 +36,23 @@
   import amb from '@/util/amb'
   export default class SearchConfig extends wepy.page {
     data = {
-      i: amb.pageI18nData
+      i: amb.pageI18nData,
+      minDate: amb.getDate(),
+      maxDate: amb.getDate(90),
+      startDate: amb.getDate(),
+      startTime: amb.getTime(),
     }
     methods = {
+      startDateChange(e) {
+        this.updateData({
+          startDate: e.detail.value
+        });
+      },
+      startTimeChange(e) {
+        this.updateData({
+          startTime: e.detail.value
+        });
+      },
       async search() {
         wepy.navigateBack();
       }

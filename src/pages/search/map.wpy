@@ -2,120 +2,132 @@
 
 
 page {
-  height: 100%;
+	height: 100%;
 }
 
 page > view {
-  height: 100%;
+	height: 100%;
+}
+
+
+.map {
+	width: 100%; 
+	// height: ~"calc(100% - 110rpx)";;
+	height: 750rpx;
 }
 
 </style>
 
 <template>
-  <view style="overflow:hidden">
-    <view class="search-bar">
-      <button @tap="gotoSearchConfig">{{i.map_search_bar}}</button>
-    </view>
-    <map id="map" class='map' longitude="{{lng}}" latitude="{{lat}}" scale="14" bindcontroltap="controltap" bindregionchange="regionchange"
-      show-location controls="{{controls}}">
-    </map>
-  </view>
-  <!-- <view>
-
-    <view class="panel">
-      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover"><text>我的收藏</text></navigator>
-      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover"><text>我参与的活动评价</text></navigator>
-      <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover"><text>以往参加的活动（已结束）</text></navigator>
-    </view>
-    <panel>预订中的活动</panel>
-  </view> -->
+	<view style="overflow:hidden">
+		<!-- <view class="search-bar">
+			<button @tap="gotoSearchConfig">{{keywords ? keywords : i.map_search_bar}}</button>
+		</view> -->
+		<map id="map" class='map' longitude="{{lng}}" latitude="{{lat}}" scale="14" bindcontroltap="controltap" bindregionchange="regionchange"
+			show-location controls="{{controls}}">
+		</map>
+	</view>
 </template>
 <script>
-  import wepy from 'wepy'
-  import amb from '@/util/amb'
-  export default class Map extends wepy.page {
-    data = {
-      showsSearchBar: false,
-      lng: 0,
-      lat: 0,
-      controls: [{
-        id: 1,
-        iconPath: '/images/fa-circle-whereami.png',
-        position: {
-          left: 20,
-          top: 10,
-          width: 50,
-          height: 50
-        },
-        clickable: true
-      }],
-      i: amb.pageI18nData
-    }
+	import wepy from 'wepy'
+	import amb from '@/util/amb'
+	export default class Map extends wepy.page {
+		data = {
+			i: amb.pageI18nData,
+			showsSearchBar: false,
+			lng: 0,
+			lat: 0,
+			controls: [{
+				id: 1,
+				iconPath: '/images/fa-circle-whereami.png',
+				position: {
+					left: 20,
+					top: 10,
+					width: 40,
+					height: 40
+				},
+				clickable: true
+			},{
+				id: 2,
+				iconPath: '/images/fa-circle-filter.png',
+				position: {
+					left: 80,
+					top: 10,
+					width: 40,
+					height: 40
+				},
+				clickable: true
+			}],
+			keywords: '',
+		}
 
-    methods = {
-      controltap(e) {
-        if(e.controlId === 1) {
-          // Current location
-          this.centerByCurrentLocation();
-        }
-      },
-      gotoSearchConfig() {
-        wepy.navigateTo({url: '/pages/search/searchConfig'});
-      },
-    }
+		methods = {
+			controltap(e) {
+				if(e.controlId === 1) {
+					// Current location
+					this.centerByCurrentLocation();
+				}else if(e.controlId === 2) {
+					wepy.navigateTo({url: '/pages/search/searchConfig'});
+				}
+			},
+			gotoSearchConfig() {
+				wepy.navigateTo({url: '/pages/search/searchConfig'});
+			},
+		}
 
-    onLoad (options) {
-      wepy.setNavigationBarTitle({
-        title: amb.pageI18nData.map_title
-      });
-      this.centerByCurrentLocation();
-    }
+		onLoad (options) {
+			wepy.setNavigationBarTitle({
+				title: amb.pageI18nData.map_title
+			});
+			this.centerByCurrentLocation();
+		}
 
-    async onShow () {
-      // const result = await searchService.search();
-    }
+		async onShow () {
+			// const result = await searchService.search();
+		}
 
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh () {
-    
-    }
+		/**
+		 * 页面相关事件处理函数--监听用户下拉动作
+		 */
+		onPullDownRefresh () {
+			this.keywords += '1';
+			console.log('pull down', new Date());
+		}
 
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom () {
-    
-    }
+		/**
+		 * 页面上拉触底事件的处理函数
+		 */
+		onReachBottom () {
+		
+		}
 
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage () {
-    
-    }
+		/**
+		 * 用户点击右上角分享
+		 */
+		onShareAppMessage () {
+		
+		}
 
-    centerByCurrentLocation() {
-      const self = this;
-      wx.getLocation({
-        success: function(e) {
-          console.log("current location", e);
-          self.setData({
-            lng: e.longitude,
-            lat: e.latitude
-          });
-        },
-        fail: function(e) {
-          console.log("getLocation failed", e);
-        }
-      });
-    }
+		centerByCurrentLocation() {
+			const self = this;
+			wx.getLocation({
+				success: function(e) {
+					console.log("current location", e);
+					self.setData({
+						lng: e.longitude,
+						lat: e.latitude
+					});
+				},
+				fail: function(e) {
+					console.log("getLocation failed", e);
+				}
+			});
+		}
 
-    gotoSearchSetting() {
-      wx.navigateTo({url: '/pages/search/searchConfig'});
-    }
+		gotoSearchSetting() {
+			wx.navigateTo({url: '/pages/search/searchConfig'});
+		}
 
-      
-  }
+			
+	}
 </script>
