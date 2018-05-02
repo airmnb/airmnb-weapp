@@ -1,14 +1,21 @@
 <style lang="less">
 .text-elipsis { 
   text-overflow: ellipsis;
-  overflow: hidden; 
+  overflow: hidden;
   width: 80rpx; 
   white-space: nowrap;
+}
+canvas {
+  margin: 20rpx;
 }
 </style>
 
 <template>
   <view>
+    <view class="panel" bindtap="chooseImage">
+      <text class="sub-title">{{i.baby_avatar}}</text>
+      <canvas style="width: 200px; height: 200px;" canvas-id="avatar"></canvas>
+    </view>
     <view class="panel">
       <navigator url="/pages/controls/input?key=baby.nickName&value={{baby.nickName}}&label={{i.baby_nickname}}" 
       hover-class="navigator-hover">{{i.baby_nickname}}<text class="value">{{baby.nickName}}</text>
@@ -54,10 +61,21 @@ export default class AddBaby extends wepy.page {
       nickName: '',
       gender: '',
       dob: '',
-      desc: ''
+      desc: '',
+      avatar: 'https://wx.qlogo.cn/mmopen/vi_32/HtuJMvbicZibQtppqr6j7PGDejvNShDc6uwDRSltnMiaNyndNIu65VXLwI48SITLgqMpJXz5dCB9ePfb5I7X66jgw/0'
     }
   };
   methods = {
+    async chooseImage() {
+      const ctx = wepy.createCanvasContext('avatar');
+      const res = await wepy.chooseImage({
+        count: 1,
+        sizeType: ['compressed']
+      });
+      ctx.drawImage(res.tempFilePaths[0], 0, 0, 200, 200)
+      ctx.draw();
+      console.log('image', res);
+    },
     setGender(e) {
       this.baby.gender = e.detail.value;
     },

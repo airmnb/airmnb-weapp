@@ -23,19 +23,19 @@ class LoginService {
 
   async localLogin() {
     // TODO: Mock user here for debug
-    return {
-      id: '680ed7ac-6a3d-4b6c-b534-1008f1c9caf3',
-      nickName: 'superopengl',
-      fullName: 'Jun Shao',
-      mobile: '0405581228',
-      email: 'mr.shaojun@gmail.com'
-    };
+    // return {
+    //   id: '680ed7ac-6a3d-4b6c-b534-1008f1c9caf3',
+    //   nickName: 'superopengl',
+    //   fullName: 'Jun Shao',
+    //   mobile: '0405581228',
+    //   email: 'mr.shaojun@gmail.com'
+    // };
 
     const resp = await wepy.login();
     const code = resp.code;
-    let user = await sysClient.get('/api/1.0/auth/wechat/login', {code});
+    let user = await sysClient.get('/login/weapp', {code});
 
-    console.log('/login/weapp', user);
+    console.log('/sys/login/weapp After', user);
 
     return user;
   }
