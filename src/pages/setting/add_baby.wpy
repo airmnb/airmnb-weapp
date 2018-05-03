@@ -9,14 +9,20 @@
 canvas {
   margin: 20rpx;
 }
+
+.avatar {
+  margin: 20rpx;
+  width: 200px;
+  height: 200px;
+}
 </style>
 
 <template>
   <view>
     <view class="panel" bindtap="chooseImage">
       <text class="sub-title">{{i.baby_avatar}}</text>
-      <canvas style="width: 200px; height: 200px;" canvas-id="avatar"></canvas>
-      <image src="{{baby.avatar}}"></image>
+      <canvas style="width: 200px; height: 200px; opacity: 80" canvas-id="avatar"></canvas>
+      <image class="avatar" src="{{baby.avatar}}"></image>
     </view>
     <view class="panel">
       <navigator url="/pages/controls/input?key=baby.nickName&value={{baby.nickName}}&label={{i.baby_nickname}}" 

@@ -99,7 +99,7 @@ const drawCanvas = function(canvas) {
 	});
 }
 
-amb.chooseImageBase64Src = async (canvasId, imgWidth, imgHeight) => {
+amb.chooseImageSrcBase64 = async (canvasId, imgWidth, imgHeight) => {
 	const canvas = wx.createCanvasContext(canvasId)
 	const res = await wepy.chooseImage({
 		count: 1,
