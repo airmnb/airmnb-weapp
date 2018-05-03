@@ -70,7 +70,7 @@ export default class AddBaby extends wepy.page {
   };
   methods = {
     async chooseImage() {
-      const src = await amb.chooseImageBase64Src('avatar', 200, 200)
+      const src = await amb.chooseImageSrcBase64('avatar', 200, 200)
       this.updateData({
         'baby.avatar': src
       });

@@ -99,43 +99,29 @@ const drawCanvas = function(canvas) {
 	});
 }
 
-amb.chooseImageBase64Src = function(canvasId, imgWidth, imgHeight) {
-	return new Promise((resolve, rej) => {
-		const canvas = wx.createCanvasContext(canvasId)
-		const res = wx.chooseImage({
-			count: 1,
-			sizeType: ['compressed'],
-			success: (res) => {
-				// 1. 绘制图片至canvas
-				canvas.drawImage(res.tempFilePaths[0], 0, 0, imgWidth, imgHeight)
-				// 绘制完成后执行回调，API 1.7.0
-				canvas.draw(false, () => {
-					// 2. 获取图像数据， API 1.9.0
-					wx.canvasGetImageData({
-						canvasId: canvasId,
-						x: 0,
-						y: 0,
-						width: imgWidth,
-						height: imgHeight,
-						success(res) {
-							// 3. png编码
-							const pngData = UPNG.encode([res.data.buffer], res.width, res.height)
-							// 4. base64编码
-							const base64 = wx.arrayBufferToBase64(pngData)
-							resolve(`data:image/png;base64,${base64}`);
-						},
-						fail(err) {
-							rej(err)
-						}
-					})
-				})
-			},
-			fail(err){
-				rej(err)
-			}
-		});
-
+amb.chooseImageBase64Src = async (canvasId, imgWidth, imgHeight) => {
+	const canvas = wx.createCanvasContext(canvasId)
+	const res = await wepy.chooseImage({
+		count: 1,
+		sizeType: ['compressed'],
 	});
+	// 1. 绘制图片至canvas
+	canvas.drawImage(res.tempFilePaths[0], 0, 0, imgWidth, imgHeight)
+	await drawCanvas(canvas);
+	// 绘制完成后执行回调，API 1.7.0
+	// 2. 获取图像数据， API 1.9.0
+	const imageData = await wepy.canvasGetImageData({
+			canvasId: canvasId,
+			x: 0,
+			y: 0,
+			width: imgWidth,
+			height: imgHeight,
+	});
+	// 3. png编码
+	const pngData = UPNG.encode([imageData.data.buffer], imageData.width, imageData.height)
+	// 4. base64编码
+	const base64 = wx.arrayBufferToBase64(pngData)
+	return `data:image/png;base64,${base64}`;
 }
 
 export default amb;
