@@ -5,6 +5,7 @@
   width: 80rpx; 
   white-space: nowrap;
 }
+
 canvas {
   margin: 20rpx;
 }
@@ -12,9 +13,10 @@ canvas {
 
 <template>
   <view>
-    <view class="panel" bindtap="chooseImage">
+    <view class="panel" bindtap="chooseImage2">
       <text class="sub-title">{{i.baby_avatar}}</text>
       <canvas style="width: 200px; height: 200px;" canvas-id="avatar"></canvas>
+      <image src="{{baby.avatar}}"></image>
     </view>
     <view class="panel">
       <navigator url="/pages/controls/input?key=baby.nickName&value={{baby.nickName}}&label={{i.baby_nickname}}" 
@@ -54,6 +56,7 @@ canvas {
 <script>
 import wepy from 'wepy';
 import amb from '@/util/amb';
+import UPNG from 'upng-js'
 export default class AddBaby extends wepy.page {
 	data = {
     i: amb.pageI18nData,
@@ -62,10 +65,47 @@ export default class AddBaby extends wepy.page {
       gender: '',
       dob: '',
       desc: '',
-      avatar: 'https://wx.qlogo.cn/mmopen/vi_32/HtuJMvbicZibQtppqr6j7PGDejvNShDc6uwDRSltnMiaNyndNIu65VXLwI48SITLgqMpJXz5dCB9ePfb5I7X66jgw/0'
+      avatar: ''
     }
   };
   methods = {
+    async chooseImage2() {
+      const canvasID = 'avatar'
+      const imgWidth = 200
+      const imgHeight = 200
+      const canvas = wx.createCanvasContext(canvasID)
+      const res = await wepy.chooseImage({
+        count: 1,
+        sizeType: ['compressed']
+      });
+      // 1. 绘制图片至canvas
+      canvas.drawImage(res.tempFilePaths[0], 0, 0, imgWidth, imgHeight)
+      // 绘制完成后执行回调，API 1.7.0
+      const that = this;
+      canvas.draw(false, () => {
+        // 2. 获取图像数据， API 1.9.0
+        wx.canvasGetImageData({
+          canvasId: canvasID,
+          x: 0,
+          y: 0,
+          width: imgWidth,
+          height: imgHeight,
+          success(res) {
+            // 3. png编码
+            let pngData = UPNG.encode([res.data.buffer], res.width, res.height)
+            // 4. base64编码
+            let base64 = wx.arrayBufferToBase64(pngData)
+            // that.baby.avatar = `data:image/png;base64,${base64}`;
+            that.updateData({
+              'baby.avatar': `data:image/png;base64,${base64}`
+            });
+            // console.log(that.baby.avatar);
+            // ...
+          }
+        })
+      })
+      return;
+    },
     async chooseImage() {
       const ctx = wepy.createCanvasContext('avatar');
       const res = await wepy.chooseImage({
@@ -73,8 +113,29 @@ export default class AddBaby extends wepy.page {
         sizeType: ['compressed']
       });
       ctx.drawImage(res.tempFilePaths[0], 0, 0, 200, 200)
-      ctx.draw();
-      console.log('image', res);
+      ctx.draw(false);
+      // const canvasData = await wepy.canvasGetImageData({
+      //   canvasId: 'avatar',
+      //   x: 0,
+      //   y: 0,
+      //   width: 200,
+      //   height: 200,
+      // })
+
+      this.baby.avatar = await amb.getCanvasImgBase64Data('avatar', 200, 200);
+      // var reader = new FileReader()
+      // reader.onload = function (e) {
+      //       var arrayBuffer = reader.result;
+      //       var base64 = wx.arrayBufferToBase64(arrayBuffer)
+      //       console.log('reader', base64);
+      // }
+      // reader.readAsArrayBuffer(new Blob(res.tempFilePaths[0]))
+
+      // let pngData = upng.encode([res.data.buffer], res.width, res.height)
+      // 4. base64编码
+      // let base64 = wepy.arrayBufferToBase64(canvasData.data.buffer);
+      // this.baby.avatar = `data:image/png;base64,${base64}`;
+      console.log('this.baby.avatar', this.baby.avatar);
     },
     setGender(e) {
       this.baby.gender = e.detail.value;

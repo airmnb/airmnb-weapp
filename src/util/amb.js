@@ -1,5 +1,6 @@
 import wepy from 'wepy';
 import i18n from '@/util/i18n'
+import UPNG from 'upng-js'
 
 const amb = amb || {};
 
@@ -88,6 +89,27 @@ Object.update = function(target, update) {
 			target[k] = update[k];
 		}
 	});
+}
+
+amb.getCanvasImgBase64Data = async function(canvasId, width, height) {
+	const canvasData = await wx.canvasGetImageData({
+		canvasId: canvasId,
+		x: 0,
+		y: 0,
+		width: width,
+		height: height,
+		success: function(res) {
+			console.log('res', res);
+			let pngData = UPNG.encode([res.data.buffer], res.width, res.height)
+      // 4. base64编码
+			let base64 = wx.arrayBufferToBase64(pngData)
+			console.log(`data:image/png;base64,${base64}`);
+		}
+	})
+	// console.log(canvasData);
+	// const pngData = UPNG.encode([canvasData.data.buffer], canvasData.width, canvasData.height)
+	// const base64 = wx.arrayBufferToBase64(pngData)
+	// return `data:image/png;base64,${base64}`;
 }
 
 export default amb;
