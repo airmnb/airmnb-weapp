@@ -2,8 +2,9 @@ import wepy from 'wepy';
 import amb from './amb';
 
 class RestClient {
-  constructor(urlRoot) {
+  constructor(urlRoot, tokenFunc) {
     this.urlRoot = urlRoot.replace(/\/*$/, '');
+    this.tokenFunc = tokenFunc;
   }
 
   path2Url(path) {
@@ -17,13 +18,16 @@ class RestClient {
 
   async http(method, path, data) {
     const url = this.path2Url(path);
+    const header = {
+      'Accept-language': amb.config.language,
+    }
+    if(this.tokenFunc) {
+      header['Authorization'] = this.tokenFunc();//`bearer ${amb.config.jwt}`
+    }
     const opt = {
       url,
       method,
-      header: {
-        'Accept-language': amb.config.language,
-        'Authorization': `bearer ${amb.config.jwt}`
-      },
+      header: header,
       data
     };
     const res = await this.httpRequest(opt);
@@ -51,12 +55,12 @@ class RestClient {
 }
 
 // https://www.airmnb.com/sys
-const urlBase = amb.config.app_url.replace(/\/*$/, '') + '/'
+const urlBase = amb.config.app_url.replace(/\/*$/, '')
 
-const sysUrl = urlBase + 'sys';
+const sysUrl = urlBase + '/sys';
 export const sysClient = new RestClient(sysUrl); 
 
 // https://www.airmnb.com/api/1.0
-const apiUrl = urlBase + amb.config.api_path.replace(/^\/*/, '');
-export const apiClient = new RestClient(apiUrl); 
+const apiUrl = urlBase + '/api/' + amb.config.api_version;
+export const apiClient = new RestClient(apiUrl, () => `bearer ${amb.config.jwt}`); 
 

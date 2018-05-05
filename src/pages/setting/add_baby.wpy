@@ -19,9 +19,9 @@ canvas {
 
 <template>
   <view>
-    <view class="panel" bindtap="chooseImage">
+    <view class="panel" bindtap="chooseImage2">
       <text class="sub-title">{{i.baby_avatar}}</text>
-      <canvas style="width: 200px; height: 200px; opacity: 80" canvas-id="avatar"></canvas>
+      <!-- <canvas style="width: 200px; height: 200px; opacity: 80" canvas-id="avatar"></canvas> -->
       <image class="avatar" src="{{baby.avatar}}"></image>
     </view>
     <view class="panel">
@@ -75,6 +75,23 @@ export default class AddBaby extends wepy.page {
     }
   };
   methods = {
+    async chooseImage2() {
+      const res = await wepy.chooseImage({
+        count: 1,
+        sizeType: ['compressed'],
+      });
+      console.log('chose file', res)
+      const localPath = res.tempFilePaths[0]
+      const resp = await wepy.uploadFile({
+        url: 'http://localhost:5000/api/9.0/imgencode', //仅为示例，非真实的接口地址
+        filePath: localPath,
+        name: 'image'}
+      )
+      const base64Src = resp.data;
+      this.updateData({
+        'baby.avatar': base64Src
+      });
+    },
     async chooseImage() {
       const src = await amb.chooseImageSrcBase64('avatar', 200, 200)
       this.updateData({
@@ -95,6 +112,9 @@ export default class AddBaby extends wepy.page {
       wepy.hideLoading();
       wepy.navigateBack();
     }
+  }
+  getFileName(path) {
+    const index = path.lastIndexOf('')
   }
 	onLoad() {
 		wepy.setNavigationBarTitle({

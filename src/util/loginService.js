@@ -1,25 +1,37 @@
-import {sysClient} from "./restClient";
+import {sysClient, apiClient} from "./restClient";
 import wepy from 'wepy';
 import amb from '@/util/amb';
-
 
 class LoginService {
   async login() {
     const wechatUserInfo = await this.getWechatUserInfo();
-
+    let jwt = null;
     try {
       // Always call API to get the profile
       // TOOD: Cache the profile in storage.
       throw "debug"; 
       await wepy.checkSession();
+      jwt = this.getApiJwtFromLocalStorage();
     }catch(e) {
-      const user = await this.localLogin();
+      const resp = await this.localLogin();
+      jwt = resp.sessionToken;
       return Object.assign({
         nickName: wechatUserInfo.nickName,
         avatarUrl: wechatUserInfo.avatarUrl,
-      }, user);
+      }, resp);
+    }finally{
+      amb.config.jwt = jwt;
+      console.log('jwt', jwt);
     }
   }
+
+  async getApiJwtFromLocalStorage(){
+    const jwt = wx.getStorageSync('jwt') || null;
+    if(!jet) {
+      throw new Error('No jwt found in local storage')
+    }
+  }
+
 
   async localLogin() {
     // TODO: Mock user here for debug
@@ -31,13 +43,15 @@ class LoginService {
     //   email: 'mr.shaojun@gmail.com'
     // };
 
-    const resp = await wepy.login();
-    const code = resp.code;
-    let user = await sysClient.get('/login/weapp', {code});
+    const wxResp = await wepy.login();
+    const code = wxResp.code;
+    let response = await sysClient.get('/login/weapp', {code});
 
-    console.log('/sys/login/weapp After', user);
+    console.log('/sys/login/weapp After', response);
 
-    return user;
+    // apiClient.get('/users');
+    // sysClient.get('/debug');
+    return response;
   }
 
   async getWechatUserInfo() {

@@ -92,6 +92,7 @@ export default class extends wepy.app {
 	}
 
 	async onLaunch() {
+		console.log('SDK version', wx.getSystemInfoSync())
 		amb.loading();
 
 		try {
