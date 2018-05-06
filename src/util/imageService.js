@@ -14,13 +14,8 @@ class ImageService {
       sizeType: ['compressed'],
     });
     const localPath = res.tempFilePaths[0]
-    console.log('image request', {
-      url: apiClient.path2Url('/images/'),
-      header: apiClient.getRequestHeaders(),
-      filePath: localPath,
-      name: 'dataFile'});
     const apiResp = await wepy.uploadFile({
-      url: apiClient.path2Url('/images/'),
+      url: apiClient.path2Url('/images'),
       header: apiClient.getRequestHeaders(),
       filePath: localPath,
       name: 'dataFile'}

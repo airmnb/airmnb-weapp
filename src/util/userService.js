@@ -2,7 +2,7 @@ import {apiClient} from "./restClient";
 
 class UserService {
   async get(userId){
-    return await apiClient.get(`users/${userId}/`);
+    return await apiClient.get(`users/${userId}`);
   }
 
   async save(user) {
