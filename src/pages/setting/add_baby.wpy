@@ -63,7 +63,7 @@ canvas {
 import wepy from 'wepy';
 import amb from '@/util/amb';
 import UPNG from 'upng-js'
-import imageServcie from '@/util/imageService'
+import imageService from '@/util/imageService'
 
 export default class AddBaby extends wepy.page {
 	data = {
@@ -78,10 +78,10 @@ export default class AddBaby extends wepy.page {
   };
   methods = {
     async chooseImage() {
-      const imageId = await imageServcie.chooseImage();
+      const imageId = await imageService.chooseImage();
       const srcUrl = imageService.getSrcUrl(imageId);
       this.updateData({
-        'baby.avatar': src
+        'baby.avatar': srcUrl
       });
     },
     setGender(e) {

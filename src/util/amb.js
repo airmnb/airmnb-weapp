@@ -5,8 +5,8 @@ import UPNG from 'upng-js'
 const amb = amb || {};
 
 amb.config = { 
-	app_url2: 'https://www.airmnb.com', 
-	app_url: 'http://localhost:5000',
+	app_url2: 'http://www.airmnb.com', 
+	app_url: 'http2://localhost:5000',
 	api_version: '1.0',
 	language: 'en',
 	jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOiI0MmUwMDFhZS00NjQ5LTQ2MGItYjIzYy0zNjczNzRhY2YyMDUiLCJ1c2VySWQiOiJmZGFiYzk2Yi03MDQ0LTQyZWUtOTMwMC0zMjJiZjQ1ZDk0MzEiLCJleHRyYSI6eyJkYXRhIjoid2hhdGV2ZXIifX0.djCKSEpqWMTDP-CxN_Tam86I7X4R9fq6zRlToawiMn4'
