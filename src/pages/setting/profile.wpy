@@ -7,7 +7,7 @@
     <view class="panel">
       <view class="panel-item">
         <text class="label">{{i.account_id}}</text>
-        <text class="value uuid" selectable="true">{{user.id}}</text>
+        <text class="value uuid" selectable="true">{{user.userId}}</text>
         <!-- <input class="uuid" value="{{user.id}}" disabled> -->
       </view>
     </view>
