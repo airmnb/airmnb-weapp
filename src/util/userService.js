@@ -1,12 +1,12 @@
 import {apiClient} from "./restClient";
 
 class UserService {
-  async get(id){
-    return await apiClient.get(`users/${id}/`);
+  async get(userId){
+    return await apiClient.get(`users/${userId}/`);
   }
 
   async save(user) {
-    //await apiClient.post('users', user);
+    await apiClient.put(`/users/${user.userId}`, user);
   }
 }
 const userService = new UserService();

@@ -5,6 +5,7 @@ import amb from '@/util/amb';
 class LoginService {
   async login() {
     const wechatUserInfo = await this.getWechatUserInfo();
+    console.log('wechatUserInfo', wechatUserInfo);
     let jwt = null;
     try {
       // Always call API to get the profile
@@ -15,10 +16,11 @@ class LoginService {
     }catch(e) {
       const resp = await this.localLogin();
       jwt = resp.sessionToken;
-      return Object.assign({
-        nickName: wechatUserInfo.nickName,
-        avatarUrl: wechatUserInfo.avatarUrl,
-      }, resp);
+      const user = resp.user;
+      user.avatarUrl = wechatUserInfo.avatarUrl;
+      user.nickName = user.nickName || wechatUserInfo.nickName;
+      console.log('insternal user', user);
+      return user;
     }finally{
       amb.config.jwt = jwt;
       this.saveApiJwtToLocalStorage(jwt);
