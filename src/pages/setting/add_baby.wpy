@@ -19,7 +19,7 @@ canvas {
 
 <template>
   <view>
-    <view class="panel" bindtap="chooseImage2">
+    <view class="panel" bindtap="chooseImage">
       <text class="sub-title">{{i.baby_avatar}}</text>
       <!-- <canvas style="width: 200px; height: 200px; opacity: 80" canvas-id="avatar"></canvas> -->
       <image class="avatar" src="{{baby.avatar}}"></image>
@@ -63,6 +63,8 @@ canvas {
 import wepy from 'wepy';
 import amb from '@/util/amb';
 import UPNG from 'upng-js'
+import imageServcie from '@/util/imageService'
+
 export default class AddBaby extends wepy.page {
 	data = {
     i: amb.pageI18nData,
@@ -75,25 +77,9 @@ export default class AddBaby extends wepy.page {
     }
   };
   methods = {
-    async chooseImage2() {
-      const res = await wepy.chooseImage({
-        count: 1,
-        sizeType: ['compressed'],
-      });
-      console.log('chose file', res)
-      const localPath = res.tempFilePaths[0]
-      const resp = await wepy.uploadFile({
-        url: 'http://localhost:5000/api/9.0/imgencode', //仅为示例，非真实的接口地址
-        filePath: localPath,
-        name: 'image'}
-      )
-      const base64Src = resp.data;
-      this.updateData({
-        'baby.avatar': base64Src
-      });
-    },
     async chooseImage() {
-      const src = await amb.chooseImageSrcBase64('avatar', 200, 200)
+      const imageId = await imageServcie.chooseImage();
+      const srcUrl = imageService.getSrcUrl(imageId);
       this.updateData({
         'baby.avatar': src
       });

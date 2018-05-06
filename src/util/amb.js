@@ -5,12 +5,14 @@ import UPNG from 'upng-js'
 const amb = amb || {};
 
 amb.config = { 
-	app_url: 'https://www.airmnb.com', 
-	app_url2: 'http://localhost:5000',
+	app_url2: 'https://www.airmnb.com', 
+	app_url: 'http://localhost:5000',
 	api_version: '1.0',
 	language: 'en',
-	jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0b3B0YWwuY29tIiwiZXhwIjoxNDI2NDIwODAwLCJodHRwOi8vdG9wdGFsLmNvbS9qd3RfY2xhaW1zL2lzX2FkbWluIjp0cnVlLCJjb21wYW55IjoiVG9wdGFsIiwiYXdlc29tZSI6dHJ1ZX0.yRQYnWzskCZUxPwaQupWkiUzKELZ49eM7oWxAQK_ZXw'
+	jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOiI0MmUwMDFhZS00NjQ5LTQ2MGItYjIzYy0zNjczNzRhY2YyMDUiLCJ1c2VySWQiOiJmZGFiYzk2Yi03MDQ0LTQyZWUtOTMwMC0zMjJiZjQ1ZDk0MzEiLCJleHRyYSI6eyJkYXRhIjoid2hhdGV2ZXIifX0.djCKSEpqWMTDP-CxN_Tam86I7X4R9fq6zRlToawiMn4'
 };
+
+console.log('amb.config', amb.config);
 
 // Only supports three languages en, zh_CN, zh_TW
 // https://developers.weixin.qq.com/miniprogram/dev/api/open.html
@@ -99,29 +101,12 @@ const drawCanvas = function(canvas) {
 	});
 }
 
-amb.chooseImageSrcBase64 = async (canvasId, imgWidth, imgHeight) => {
-	const canvas = wx.createCanvasContext(canvasId)
-	const res = await wepy.chooseImage({
-		count: 1,
-		sizeType: ['compressed'],
-	});
-	// 1. 绘制图片至canvas
-	canvas.drawImage(res.tempFilePaths[0], 0, 0, imgWidth, imgHeight)
-	await drawCanvas(canvas);
-	// 绘制完成后执行回调，API 1.7.0
-	// 2. 获取图像数据， API 1.9.0
-	const imageData = await wepy.canvasGetImageData({
-			canvasId: canvasId,
-			x: 0,
-			y: 0,
-			width: imgWidth,
-			height: imgHeight,
-	});
-	// 3. png编码
-	const pngData = UPNG.encode([imageData.data.buffer], imageData.width, imageData.height)
-	// 4. base64编码
-	const base64 = wx.arrayBufferToBase64(pngData)
-	return `data:image/png;base64,${base64}`;
+function throwError(message, err) {
+	if(err === undefined) {
+		throw message;
+	}
+	const errDetails = err.toString();
+	throw new Error(`${message}: ${errDetails}`);
 }
 
 export default amb;

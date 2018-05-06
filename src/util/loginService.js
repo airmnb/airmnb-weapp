@@ -21,6 +21,7 @@ class LoginService {
       }, resp);
     }finally{
       amb.config.jwt = jwt;
+      this.saveApiJwtToLocalStorage(jwt);
       console.log('jwt', jwt);
     }
   }
@@ -30,6 +31,10 @@ class LoginService {
     if(!jet) {
       throw new Error('No jwt found in local storage')
     }
+  }
+
+  saveApiJwtToLocalStorage(jwt){
+    wx.setStorageSync('jwt', jwt);
   }
 
 
@@ -45,7 +50,7 @@ class LoginService {
 
     const wxResp = await wepy.login();
     const code = wxResp.code;
-    let response = await sysClient.get('/login/weapp', {code});
+    let response = await sysClient.get('/login/weapp/', {code});
 
     console.log('/sys/login/weapp After', response);
 

@@ -16,18 +16,23 @@ class RestClient {
     return await wepy.request(opt);
   }
 
-  async http(method, path, data) {
-    const url = this.path2Url(path);
+  getRequestHeaders() {
     const header = {
       'Accept-language': amb.config.language,
     }
     if(this.tokenFunc) {
       header['Authorization'] = this.tokenFunc();//`bearer ${amb.config.jwt}`
     }
+    console.log('header', header);
+    return header;
+  }
+
+  async http(method, path, data) {
+    const url = this.path2Url(path);
     const opt = {
       url,
-      method,
-      header: header,
+      method: method,
+      header: this.getRequestHeaders(),
       data
     };
     const res = await this.httpRequest(opt);
@@ -55,12 +60,16 @@ class RestClient {
 }
 
 // https://www.airmnb.com/sys
-const urlBase = amb.config.app_url.replace(/\/*$/, '')
+export const urlBase = amb.config.app_url.replace(/\/*$/, '')
 
 const sysUrl = urlBase + '/sys';
 export const sysClient = new RestClient(sysUrl); 
 
 // https://www.airmnb.com/api/1.0
 const apiUrl = urlBase + '/api/' + amb.config.api_version;
-export const apiClient = new RestClient(apiUrl, () => `bearer ${amb.config.jwt}`); 
+export const apiClient = new RestClient(apiUrl, () => `Bearer ${amb.config.jwt}`); 
+
+// https://www.airmnb.com/public
+const publicUrl = urlBase + '/public/';
+export const publicClient = new RestClient(publicUrl); 
 
