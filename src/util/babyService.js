@@ -9,7 +9,7 @@ class BabyService {
     await apiClient.post('babies', baby);
   }
 
-  async update(baby) {
+  async upsert(baby) {
     await apiClient.put('babies', baby);
   }
 }

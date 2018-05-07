@@ -64,6 +64,7 @@ import wepy from 'wepy';
 import amb from '@/util/amb';
 import UPNG from 'upng-js'
 import imageService from '@/util/imageService'
+import babyService from '@/util/babyService'
 
 export default class AddBaby extends wepy.page {
 	data = {
@@ -95,6 +96,7 @@ export default class AddBaby extends wepy.page {
     async save() {
       wepy.showLoading();
       console.log('baby to save', this.baby);
+      await babyService.upsert(this.baby);
       wepy.hideLoading();
       wepy.navigateBack();
     }

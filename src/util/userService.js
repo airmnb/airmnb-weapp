@@ -1,4 +1,5 @@
 import {apiClient} from "./restClient";
+import amb from '@/util/amb';
 
 class UserService {
   async get(userId){
@@ -6,6 +7,8 @@ class UserService {
   }
 
   async save(user) {
+    amb.cleanSetModel(user);
+    console.log('save user', user)
     await apiClient.put(`/users/${user.userId}`, user);
   }
 }

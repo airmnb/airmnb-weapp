@@ -13,13 +13,13 @@
     </view>
 
     <view class="panel">
-      <navigator url="/pages/controls/input?key=user.nickName&value={{user.nickName}}&label={{i.account_name}}" 
-      hover-class="navigator-hover">{{i.account_name}}<text class="value">{{user.nickName}}</text>
+      <navigator url="/pages/controls/input?key=user.accountName&value={{user.accountName}}&label={{i.account_name}}" 
+      hover-class="navigator-hover">{{i.account_name}}<text class="value">{{user.accountName}}</text>
       </navigator>
     </view>
     <view class="panel">
       <navigator url="/pages/controls/input?key=user.fullName&value={{user.fullName}}&label={{i.fullname}}" 
-      hover-class="navigator-hover">{{i.fullname}}<text class="value">{{user.fullName}}</text>
+      hover-class="navigator-hover">{{i.fullname}}<text class="value">{{user.fullName || ''}}</text>
       </navigator>
       <view class="panel-item">
         <text class="label">{{i.gender}}</text>
@@ -28,15 +28,15 @@
             <radio value="1" checked="{{user.gender==1}}" color="#D81B60"/>{{i.male}}
           </label>
           <label class="radio">
-            <radio value="2" checked="{{user.gender==2}}" color="#D81B60"/>{{i.female}}
+            <radio value="0" checked="{{user.gender==0}}" color="#D81B60"/>{{i.female}}
           </label>
         </radio-group>
       </view>
-      <navigator url="/pages/controls/input?key=user.mobile&value={{user.mobile}}&type=number&label={{i.mobile}}" 
-      hover-class="navigator-hover">{{i.mobile}}<text class="value">{{user.mobile}}</text>
+      <navigator url="/pages/controls/input?key=user.phone&value={{user.phone}}&type=number&label={{i.mobile}}" 
+      hover-class="navigator-hover">{{i.mobile}}<text class="value">{{user.phone || ''}}</text>
       </navigator>
       <navigator url="/pages/controls/input?key=user.email&value={{user.email}}&label={{i.email}}" 
-      hover-class="navigator-hover">{{i.email}}<text class="value">{{user.email}}</text>
+      hover-class="navigator-hover">{{i.email}}<text class="value">{{user.email || ''}}</text>
       </navigator>
     </view>
     <view class="panel">
@@ -67,7 +67,7 @@
       },
       setGender(e) {
         const value = e.detail.value;
-        this.user.gender = value;
+        this.user.gender = parseInt(value);
       }
     }
 
@@ -75,7 +75,8 @@
       wepy.setNavigationBarTitle({
         title: amb.pageI18nData.profile_title
       });
-      this.user = amb.data.user;
+      this.user = this.cleanClone(amb.data.user);
+      this.user.accountName = this.user.accountName || this.user.nickName;
     }
 
     onShow() {

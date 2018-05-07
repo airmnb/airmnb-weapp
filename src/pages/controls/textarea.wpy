@@ -39,8 +39,8 @@
     }
 
     onLoad(options) {
-      this.key = options.key;
-      this.value = options.value;
+      this.key = options.key || '';
+      this.value = options.value || '';
 
       wepy.setNavigationBarTitle({title: options.label || amb.pageI18nData.label_input});
     }

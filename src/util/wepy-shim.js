@@ -52,3 +52,12 @@ wepy.page.prototype.$init = function() {
 wepy.page.prototype.updateData = function(obj) {
 	updateDataFunc(this, obj);
 }
+
+wepy.page.prototype.cleanClone = function(obj) {
+	const ret = {};
+	Object.keys(obj).forEach(x => {
+		const value = obj[x];
+		ret[x] = value === undefined || value === null ? '' : value;
+	});
+	return ret;
+}
