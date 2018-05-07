@@ -32,6 +32,12 @@
           </label>
         </radio-group>
       </view>
+      <picker class="top-line" mode="date" value="{{user.dob}}" start="2002-01-01" end="2018-12-31" bindchange="dobChange">  
+        <view class="panel-item">
+          <text class="label">{{i.dob}}</text>
+          <text class="value">{{user.dob}}</text>
+        </view>
+      </picker>
       <navigator url="/pages/controls/input?key=user.phone&value={{user.phone}}&type=number&label={{i.mobile}}" 
       hover-class="navigator-hover">{{i.mobile}}<text class="value">{{user.phone || ''}}</text>
       </navigator>
@@ -66,8 +72,14 @@
         wepy.navigateBack();
       },
       setGender(e) {
-        const value = e.detail.value;
-        this.user.gender = parseInt(value);
+        this.updateData({
+          'user.gender':  parseInt(e.detail.value)
+        });
+      },
+      dobChange(e) {
+        this.updateData({
+          'user.dob': e.detail.value
+        });
       }
     }
 
