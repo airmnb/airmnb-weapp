@@ -13,14 +13,19 @@
 <script>
   import wepy from 'wepy'
   import amb from '@/util/amb'
+  import babyService from '@/util/babyService'
+
   export default class Babies extends wepy.page {
     data = {
-      i: amb.pageI18nData
+      i: amb.pageI18nData,
+      babies: []
     }
-    onLoad() {
+    async onLoad() {
       wepy.setNavigationBarTitle({
         title: amb.pageI18nData.babies_title
       });
+
+      this.babies = await babyService.getMine();
     }
   }
 </script>

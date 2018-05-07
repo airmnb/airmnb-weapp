@@ -12,6 +12,11 @@ class BabyService {
     await apiClient.post('babies', baby);
   }
 
+  async getMine() {
+    const creatorId = amb.data.user.userId;
+    return await apiClient.get('babies', {creatorId});
+  }
+
   async update(baby) {
     baby = amb.cleanSetModel(baby);
     await apiClient.put('babies', baby);
