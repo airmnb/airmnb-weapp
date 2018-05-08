@@ -14,7 +14,11 @@ class BabyService {
 
   async getMine() {
     const creatorId = amb.data.user.userId;
-    return await apiClient.get('babies', {creatorId});
+    const resp = await apiClient.get('babies', {creatorId});
+    if(!resp.errorCode) {
+      return resp.babies;
+    }
+    throw new Error(resp.errorMessage);
   }
 
   async update(baby) {
