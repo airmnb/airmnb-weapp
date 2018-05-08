@@ -9,10 +9,6 @@
   justify-content: flex-start;
 }
 .baby-avatar {
-  // width: 200rpx;
-  // height: 200rpx;
-
-  flex-grow: 1;
   width: 33%;
   position: relative;
   top: 0;
