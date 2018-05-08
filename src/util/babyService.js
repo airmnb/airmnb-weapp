@@ -9,7 +9,12 @@ class BabyService {
     }
     return resp.baby;
   }
-
+  async delete(id){
+    const resp = await apiClient.delete(`babies/${id}`);
+    if(resp.errorMessage) {
+      throw new Error(resp.errorMessage);
+    }
+  }
   async add(baby) {
     baby = amb.cleanSetModel(baby);
     baby.creatorId = amb.data.user.userId;

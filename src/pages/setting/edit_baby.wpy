@@ -57,6 +57,11 @@ canvas {
         <button @tap="save">{{i.button_save}}</button>
       </view>
     </view>
+    <view class="panel">
+      <view class="panel-item warning">
+        <button @tap="delete">{{i.button_delete}}</button>
+      </view>
+    </view>
   </view>
 </template>
 <script>
@@ -81,12 +86,14 @@ export default class AddBaby extends wepy.page {
   };
   methods = {
     async chooseImage() {
+      wepy.showLoading();
       const imageId = await imageService.chooseImage();
       const srcUrl = imageService.getSrcUrl(imageId);
       this.updateData({
         'avatarSrcUrl': srcUrl,
         'baby.avatarImageId': imageId
       });
+      wepy.hideLoading();
     },
     setGender(e) {
       this.updateData({
@@ -102,6 +109,37 @@ export default class AddBaby extends wepy.page {
       wepy.showLoading();
       console.log('baby to save', this.baby);
       await babyService.update(this.baby);
+
+      // Refresh parent page
+      const pages = getCurrentPages();
+      const parentPage = pages[pages.length-2];
+      parentPage.refresh();
+  
+      wepy.hideLoading();
+      wepy.navigateBack();
+    },
+    async delete(){
+
+      // wx.showModal({
+      // title: amb.pageI18nData.baby_delete_confirm,
+      // content: '',
+      // success: function (sm) {
+      //   if (sm.confirm) {
+      //       // 用户点击了确定 可以调用删除方法了
+      //     } else if (sm.cancel) {
+      //       console.log('用户点击取消')
+      //     }
+      //   }
+      // })
+
+      const result = await wepy.showModal({
+        title: amb.pageI18nData.baby_delete_confirm,
+        content: '',
+      })
+      if(result.cancel) return;
+      wepy.showLoading();
+      console.log('baby to delete', this.baby);
+      await babyService.delete(this.baby.babyId);
 
       // Refresh parent page
       const pages = getCurrentPages();

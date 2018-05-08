@@ -1,7 +1,7 @@
 /* colors */
-@primery-light: rgb(238, 177, 199);
-@primery: #D81B60;
-@primery-dark: #880E4F;
+@primary-light: rgb(238, 177, 199);
+@primary: #D81B60;
+@primary-dark: #880E4F;
 @secondary-light: rgb(169, 208, 241);
 @secondary: #1E88E5;
 @secondary-dark: #0D47A1;
@@ -171,6 +171,15 @@ page {
   }
   button:active {
     background-color: @white;
+  }
+}
+
+.panel-item.warning {
+  background-color: @primary;
+
+  button {
+    background-color: @primary;
+    color: @white;
   }
 }
 
