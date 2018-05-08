@@ -42,6 +42,12 @@
         <button @tap="save">{{i.button_save}}</button>
       </view>
     </view>
+
+    <view class="panel" wx:if="{{!addMode}}">
+      <view class="panel-item warning">
+        <button @tap="delete">{{i.button_delete}}</button>
+      </view>
+    </view>
   </view>
 </template>
 <script>
@@ -77,6 +83,12 @@ export default class AddVenue extends wepy.page {
         }else {
           await venueService.update(this.venue)
         }
+
+        // Refresh parent page
+        const pages = getCurrentPages();
+        const parentPage = pages[pages.length-2];
+        parentPage.refresh();
+
         wepy.hideLoading();
         wepy.navigateBack();
       }catch(e){
@@ -86,6 +98,24 @@ export default class AddVenue extends wepy.page {
           title: e.message
         });
       }
+    },
+    async delete(){
+      const result = await wepy.showModal({
+        title: amb.pageI18nData.baby_delete_confirm,
+        content: '',
+      })
+      if(result.cancel) return;
+      wepy.showLoading();
+      console.log('venue to delete', this.baby);
+      await venueService.delete(this.venue.venueId);
+
+      // Refresh parent page
+      const pages = getCurrentPages();
+      const parentPage = pages[pages.length-2];
+      parentPage.refresh();
+  
+      wepy.hideLoading();
+      wepy.navigateBack();
     }
   }
   async loadVenue(venueId) {
