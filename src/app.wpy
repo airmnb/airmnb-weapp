@@ -44,7 +44,7 @@ export default class extends wepy.app {
 			'pages/controls/input',
     ],
 		window: {
-			backgroundTextStyle: 'light',
+			backgroundTextStyle: 'dark',
 			navigationBarBackgroundColor: '#D81B60',
 			// navigationBarTitleText: '爱彼儿',
 			navigationBarTextStyle: 'white',

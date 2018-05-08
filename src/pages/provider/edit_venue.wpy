@@ -60,17 +60,7 @@ export default class AddVenue extends wepy.page {
 	data = {
     addMode: false,
     i: amb.pageI18nData,
-    venue: {
-      name: '',
-      addr1: '',
-      addr2: '',
-      addr3: '',
-      city: '',
-      state: '',
-      country: '',
-      postcode: '',
-      info: '',
-    },
+    venue: null,
   }
   methods = {
     async save() {
@@ -137,6 +127,18 @@ export default class AddVenue extends wepy.page {
     });
     if(!this.addMode) {
       this.loadVenue(venueId);
+    }else{
+      this.venue = {
+        name: '',
+        addr1: '',
+        addr2: '',
+        addr3: '',
+        city: '',
+        state: '',
+        country: '',
+        postcode: '',
+        info: '',
+      }
     }
   }
 }

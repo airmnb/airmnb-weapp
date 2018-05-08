@@ -57,13 +57,7 @@ export default class AddBaby extends wepy.page {
 	data = {
     addMode: false,
     i: amb.pageI18nData,
-    baby: {
-      nickName: '',
-      gender: '',
-      dob: '',
-      info: '',
-      avatarImageId: null
-    },
+    baby: null,
     avatarSrcUrl: null
   };
   methods = {
@@ -130,6 +124,13 @@ export default class AddBaby extends wepy.page {
 			title: this.addMode ? 'addbaby_title'.i18n : 'editbaby_title'.i18n
     });
     if(this.addMode) {
+      this.baby = {
+        nickName: '',
+        gender: '',
+        dob: '',
+        info: '',
+        avatarImageId: null
+      };
     }else{
       this.loadBaby(babyId);
     }
