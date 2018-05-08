@@ -5,7 +5,6 @@
   <view>
     <view class="panel" bindtap="chooseImage">
       <text class="sub-title">{{i.baby_avatar}}</text>
-      <!-- <canvas style="width: 200px; height: 200px; opacity: 80" canvas-id="avatar"></canvas> -->
       <image class="avatar" src="{{avatarSrcUrl}}"></image>
     </view>
     <view class="panel">
@@ -41,7 +40,7 @@
         <button @tap="save">{{i.button_save}}</button>
       </view>
     </view>
-    <view class="panel">
+    <view class="panel" wx:if="{{!addMode}}">
       <view class="panel-item warning">
         <button @tap="delete">{{i.button_delete}}</button>
       </view>
@@ -57,8 +56,8 @@ import babyService from '@/util/babyService'
 
 export default class AddBaby extends wepy.page {
 	data = {
+    addMode: false,
     i: amb.pageI18nData,
-    babyId: '',
     baby: {
       nickName: '',
       gender: '',
@@ -92,7 +91,11 @@ export default class AddBaby extends wepy.page {
     async save() {
       wepy.showLoading();
       console.log('baby to save', this.baby);
-      await babyService.update(this.baby);
+      if(this.addMode) {
+        await babyService.add(this.baby);
+      }else{
+        await babyService.update(this.baby);
+      }
 
       // Refresh parent page
       const pages = getCurrentPages();
@@ -103,19 +106,6 @@ export default class AddBaby extends wepy.page {
       wepy.navigateBack();
     },
     async delete(){
-
-      // wx.showModal({
-      // title: amb.pageI18nData.baby_delete_confirm,
-      // content: '',
-      // success: function (sm) {
-      //   if (sm.confirm) {
-      //       // 用户点击了确定 可以调用删除方法了
-      //     } else if (sm.cancel) {
-      //       console.log('用户点击取消')
-      //     }
-      //   }
-      // })
-
       const result = await wepy.showModal({
         title: amb.pageI18nData.baby_delete_confirm,
         content: '',
@@ -135,19 +125,19 @@ export default class AddBaby extends wepy.page {
     }
   }
 	onLoad(options) {
-		wepy.setNavigationBarTitle({
-			title: amb.pageI18nData.editbaby_title
+    const babyId = options.babyId;
+    this.addMode = !babyId;
+    wepy.setNavigationBarTitle({
+			title: this.addMode ? 'addbaby_title'.i18n : 'editbaby_title'.i18n
     });
-    this.babyId = options.babyId;
-    if(!this.babyId) {
-      throw new Error('babyId must be specified as a query parameter');
+    if(this.addMode) {
+    }else{
+      this.loadBaby(babyId);
     }
-    console.log('Edit baby', this.babyId);
-    this.refresh();
   }
-  async refresh(){
+  async loadBaby(babyId){
     wepy.showLoading();
-    const baby = await babyService.get(this.babyId);
+    const baby = await babyService.get(babyId);
     this.updateData({
       baby: baby,
       avatarSrcUrl: imageService.getSrcUrl(baby.avatarImageId)
