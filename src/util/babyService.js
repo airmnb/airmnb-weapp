@@ -3,7 +3,11 @@ import amb from "@/util/amb";
 
 class BabyService {
   async get(id){
-    return await apiClient.get(`babies/${id}`);
+    const resp = await apiClient.get(`babies/${id}`);
+    if(resp.errorMessage) {
+      throw new Error(resp.errorMessage);
+    }
+    return resp.baby;
   }
 
   async add(baby) {
@@ -23,7 +27,7 @@ class BabyService {
 
   async update(baby) {
     baby = amb.cleanSetModel(baby);
-    await apiClient.put('babies', baby);
+    await apiClient.put(`babies/${baby.babyId}`, baby);
   }
 }
 

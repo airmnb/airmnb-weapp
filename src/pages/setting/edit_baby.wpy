@@ -69,6 +69,7 @@ import babyService from '@/util/babyService'
 export default class AddBaby extends wepy.page {
 	data = {
     i: amb.pageI18nData,
+    babyId: '',
     baby: {
       nickName: '',
       gender: '',
@@ -100,15 +101,37 @@ export default class AddBaby extends wepy.page {
     async save() {
       wepy.showLoading();
       console.log('baby to save', this.baby);
-      await babyService.add(this.baby);
+      await babyService.update(this.baby);
+
+      // Refresh parent page
+      const pages = getCurrentPages();
+      const parentPage = pages[pages.length-2];
+      parentPage.refresh();
+  
       wepy.hideLoading();
       wepy.navigateBack();
     }
   }
-	onLoad() {
+	onLoad(options) {
 		wepy.setNavigationBarTitle({
-			title: amb.pageI18nData.addbaby_title
-		});
+			title: amb.pageI18nData.editbaby_title
+    });
+    this.babyId = options.babyId;
+    if(!this.babyId) {
+      throw new Error('babyId must be specified as a query parameter');
+    }
+    console.log('Edit baby', this.babyId);
+    this.refresh();
+  }
+  async refresh(){
+    wepy.showLoading();
+    const baby = await babyService.get(this.babyId);
+    this.updateData({
+      baby: baby,
+      avatarSrcUrl: imageService.getSrcUrl(baby.avatarImageId)
+    })
+    wepy.stopPullDownRefresh();
+    wepy.hideLoading();
   }
 }
 </script>
