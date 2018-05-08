@@ -1,35 +1,37 @@
 <style lang="less">
 @gray: #D5D5D5;
 @secondary-dark: #0D47A1;
-.venue-panel {
+@gray-dark: #888888;
+.panel {
+  navigator::after {
+    content: '';
+  }
+}
+.venue-card {
   width: 100%;
+  padding: 10rpx 0 10rpx 0;
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: flex-start;
 
-  .venue-card {
+  .venue-name {
     width: 100%;
-    height: 200rpx;
-    display: flex;
-    flex-direction: row;
+    color: @secondary-dark;
+  }
 
-    .venue-name {
-      height: 200rpx;
-      width: 200rpx;
-      color: @secondary-dark;
-      outline: 2rpx dashed @gray;
-      outline-offset: -2rpx;
-    }
-
-    .venue-info {
-      width: 100%;
-      justify-content: left;
-      background-color: yellow;
-    }
-  } 
+  .venue-address {
+    font-size: 0.6rem;
+    color: @gray-dark;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 700rpx; 
+    white-space: nowrap;
+  }
+  .venue-info {
+    justify-content: left;
+    white-space: normal;
+  }
 }
-
-
 </style>
 
 <template>
@@ -39,10 +41,13 @@
         hover-class="navigator-hover">{{i.venue_add}}</navigator>
     </view>
     <text class="sub-title">{{i.venues_mine}}</text>
-    <view class="venue-panel">
-      <navigator url="/pages/provider/edit_venue?venueId={{venue.venueId}}" class="venue-card" wx:for="{{venues}}" wx:key="index" wx:for-item="venue">
-        <view class="venue-name">{{venue.name}}</view>
-        <view class="venue-info">{{venue.info}}</view>
+    <view class="panel">
+      <navigator url="/pages/provider/edit_venue?venueId={{venue.venueId}}"  wx:for="{{venues}}" wx:key="index" wx:for-item="venue">
+        <view class="venue-card">
+          <view class="venue-name">{{venue.name}}</view>
+          <view class="venue-address">{{venue.addr1}}{{venue.addr2}}{{venue.addr3}} {{venue.city}} {{venue.state}} {{venue.country}} {{venue.postcode}}</view>
+          <view class="venue-info">{{venue.info}}</view>
+        </view>
       </navigator>
     </view>
   </view>
