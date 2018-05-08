@@ -1,6 +1,6 @@
 <style lang="less">
 @gray: #D5D5D5;
-.baby-panel {
+.venue-panel {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -8,19 +8,19 @@
   flex-wrap: wrap;
   justify-content: flex-start;
 }
-.baby-avatar {
+.venue-avatar {
   width: 33%;
   position: relative;
   top: 0;
   left: 0;
 
-  .baby-card {
+  .venue-card {
     margin: 20rpx;
     width: 200rpx;
     height: 200rpx;
     border-radius: 10rpx;
 
-    &.baby-placeholder {
+    &.venue-placeholder {
 
       outline: 2rpx dashed @gray;
       outline-offset: -2rpx;
@@ -30,7 +30,7 @@
       color: @gray;
     }
 
-    &.baby-image {
+    &.venue-image {
       position: absolute;
       top: 0;
       left: 0;
@@ -46,14 +46,14 @@
 <template>
   <view>
     <view class="panel">
-      <navigator url="/pages/setting/add_baby" class="last-navigator" 
-        hover-class="navigator-hover">{{i.babies_add}}</navigator>
+      <navigator url="/pages/provider/add_venue" class="last-navigator" 
+        hover-class="navigator-hover">{{i.venues_add}}</navigator>
     </view>
-    <text class="sub-title">{{i.babies_mine}}</text>
-    <view class="baby-panel">
-      <navigator url="/pages/setting/edit_baby?babyId={{baby.babyId}}" class="baby-avatar" wx:for="{{babies}}" wx:key="index" wx:for-item="baby">
-        <view class="baby-card baby-placeholder">{{baby.nickName}}</view>        
-        <image class="baby-card baby-image" src="{{baby.avatarSrcUrl}}" />
+    <text class="sub-title">{{i.venues_mine}}</text>
+    <view class="venue-panel">
+      <navigator url="/pages/provider/edit_venue?venueId={{venue.venueId}}" class="venue-avatar" wx:for="{{venues}}" wx:key="index" wx:for-item="venue">
+        <view class="venue-card venue-placeholder">{{venue.name}}</view>        
+        <image class="venue-card venue-image" src="{{venue.avatarSrcUrl}}" />
       </navigator>
     </view>
   </view>
@@ -61,20 +61,20 @@
 <script>
   import wepy from 'wepy'
   import amb from '@/util/amb'
-  import babyService from '@/util/babyService'
+  import venueService from '@/util/venueService'
   import imageService from '@/util/imageService'
 
-  export default class Babies extends wepy.page {
+  export default class Venues extends wepy.page {
     config = {
       enablePullDownRefresh: true,
     }
     data = {
       i: amb.pageI18nData,
-      babies: [],
+      venues: [],
     }
     onLoad() {
       wepy.setNavigationBarTitle({
-        title: amb.pageI18nData.babies_title
+        title: amb.pageI18nData.venues_title
       });
 
       this.refresh();
@@ -84,12 +84,12 @@
     }
     async refresh(){
       wepy.showLoading();
-      const babies = await babyService.getMine();
-      babies.forEach(x => {
+      const venues = await venueService.getMine();
+      venues.forEach(x => {
         x.avatarSrcUrl = imageService.getSrcUrl(x.avatarImageId);
       })
       this.updateData({
-        babies: babies
+        venues: venues
       })
       wepy.stopPullDownRefresh();
       wepy.hideLoading();

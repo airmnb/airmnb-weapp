@@ -4,8 +4,8 @@ import amb from '@/util/amb';
 class UserService {
   async get(userId){
     const resp = await apiClient.get(`users/${userId}`);
-    if(resp.errorMessage) {
-      throw new Error(resp.errorMessage);
+    if(resp.error) {
+      throw new Error(resp.error);
     }
     return resp.user;
   }

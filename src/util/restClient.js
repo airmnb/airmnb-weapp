@@ -39,7 +39,7 @@ class RestClient {
     if(res.statusCode == 200) {
       return res.data;
     }
-    throw new Error(res); 
+    throw new Error(res.data.error); 
   }
 
   async get(path, data) {

@@ -1,0 +1,129 @@
+<style lang="less">
+.text-elipsis { 
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 80rpx; 
+  white-space: nowrap;
+}
+
+canvas {
+  margin: 20rpx;
+}
+
+.avatar {
+  margin: 20rpx;
+  width: 200px;
+  height: 200px;
+}
+</style>
+
+<template>
+  <view>
+    <view class="panel">
+      <navigator url="/pages/controls/input?key=venue.name&value={{venue.name}}&label={{i.venue_name}}" 
+      hover-class="navigator-hover">{{i.venue_name}}<text class="value">{{venue.name}}</text>
+      </navigator>
+    </view>
+    <view class="panel">
+      <navigator url="/pages/controls/input?key=venue.addr1&value={{venue.addr1}}&label={{i.venue_addr1}}" 
+        hover-class="navigator-hover">{{i.venue_addr1}}<text class="value">{{venue.addr1}}</text>
+      </navigator>
+      <navigator url="/pages/controls/input?key=venue.addr2&value={{venue.addr2}}&label={{i.venue_addr2}}" 
+        hover-class="navigator-hover">{{i.venue_addr2}}<text class="value">{{venue.addr2}}</text>
+      </navigator>
+      <navigator url="/pages/controls/input?key=venue.addr3&value={{venue.addr3}}&label={{i.venue_addr3}}" 
+        hover-class="navigator-hover">{{i.venue_addr3}}<text class="value">{{venue.addr3}}</text>
+      </navigator>
+      <navigator url="/pages/controls/input?key=venue.city&value={{venue.city}}&label={{i.venue_city}}" 
+        hover-class="navigator-hover">{{i.venue_city}}<text class="value">{{venue.city}}</text>
+      </navigator>
+      <navigator url="/pages/controls/input?key=venue.state&value={{venue.state}}&label={{i.venue_state}}" 
+        hover-class="navigator-hover">{{i.venue_state}}<text class="value">{{venue.state}}</text>
+      </navigator>
+      <navigator url="/pages/controls/input?key=venue.country&value={{venue.country}}&label={{i.venue_country}}" 
+        hover-class="navigator-hover">{{i.venue_country}}<text class="value">{{venue.country}}</text>
+      </navigator>
+      <navigator url="/pages/controls/input?key=venue.postcode&value={{venue.postcode}}&label={{i.venue_postcode}}" 
+        hover-class="navigator-hover">{{i.venue_postcode}}<text class="value">{{venue.postcode}}</text>
+      </navigator>
+      <navigator url="/pages/controls/textarea?key=venue.info&value={{venue.info}}&label={{i.venue_info}}" 
+        hover-class="navigator-hover">{{i.venue_info}}
+        <text class="value text-elipsis">{{venue.info}}</text>
+      </navigator>
+    </view>
+    <view class="panel">
+      <view class="panel-item">
+        <button @tap="save">{{i.button_save}}</button>
+      </view>
+    </view>
+        <button @tap="changeLanguage">Change lang</button>
+    
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import amb from '@/util/amb';
+import UPNG from 'upng-js'
+import imageService from '@/util/imageService'
+import venueService from '@/util/venueService'
+
+export default class AddVenue extends wepy.page {
+	data = {
+    i: amb.pageI18nData,
+    venue: {
+      name: '',
+      addr1: '',
+      addr2: '',
+      addr3: '',
+      city: '',
+      state: '',
+      country: '',
+      postcode: '',
+      info: '',
+    },
+  };
+  methods = {
+    translate(k){
+      return k.i18n;
+    },
+    changeLanguage(){
+      if(amb.config.language==='en') {
+        amb.config.language = 'zh_CN'
+      }else{
+        amb.config.language = 'en';
+      }
+      console.log('change lang test', amb.pageI18nData.aboutus_title);
+      // this.updateData({
+      //   'i.button_save': 'button_save'.i18n
+      // });
+      this.updateLangData();
+      this.onLoad();
+    },
+    async save() {
+      wepy.showLoading();
+      console.log('venue to save', this.venue);
+      try{
+        await venueService.add(this.venue);
+        wepy.hideLoading();
+        wepy.navigateBack();
+      }catch(e){
+        wepy.hideLoading();
+        console.log('error', e);
+        await wepy.showModal({
+          title: e.message
+        });
+      }
+      
+    }
+  }
+	onLoad() {
+    console.log('amb.pageI18nData', amb.pageI18nData);
+    console.log('this.data', this.i);
+    
+    console.log("'venues_add'.i18n()", 'venues_add'.i18n);
+		wepy.setNavigationBarTitle({
+			title: 'venues_add'.i18n
+		});
+  }
+}
+</script>

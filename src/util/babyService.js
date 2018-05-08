@@ -4,15 +4,15 @@ import amb from "@/util/amb";
 class BabyService {
   async get(id){
     const resp = await apiClient.get(`babies/${id}`);
-    if(resp.errorMessage) {
-      throw new Error(resp.errorMessage);
+    if(resp.error) {
+      throw new Error(resp.error);
     }
     return resp.baby;
   }
   async delete(id){
     const resp = await apiClient.delete(`babies/${id}`);
-    if(resp.errorMessage) {
-      throw new Error(resp.errorMessage);
+    if(resp.error) {
+      throw new Error(resp.error);
     }
   }
   async add(baby) {
@@ -24,10 +24,10 @@ class BabyService {
   async getMine() {
     const creatorId = amb.data.user.userId;
     const resp = await apiClient.get('babies', {creatorId});
-    if(!resp.errorCode) {
+    if(!resp.error) {
       return resp.babies;
     }
-    throw new Error(resp.errorMessage);
+    throw new Error(resp.error);
   }
 
   async update(baby) {

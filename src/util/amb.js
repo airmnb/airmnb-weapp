@@ -12,6 +12,10 @@ amb.config = {
 	jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOiI0MmUwMDFhZS00NjQ5LTQ2MGItYjIzYy0zNjczNzRhY2YyMDUiLCJ1c2VySWQiOiJmZGFiYzk2Yi03MDQ0LTQyZWUtOTMwMC0zMjJiZjQ1ZDk0MzEiLCJleHRyYSI6eyJkYXRhIjoid2hhdGV2ZXIifX0.djCKSEpqWMTDP-CxN_Tam86I7X4R9fq6zRlToawiMn4'
 };
 
+amb.chooseLanguage = function (lang) {
+	amb.config.language = lang || 'en';
+}
+
 console.log('amb.config', amb.config);
 
 // Only supports three languages en, zh_CN, zh_TW
@@ -30,14 +34,6 @@ amb.getTime = function(offsetMins) {
 	let now = new Date();
 	now = new Date(now.getTime() + (offsetMins || 0)*60000);
 	return now.toLocaleTimeString().substring(0,5);
-}
-
-// Loading dialog
-amb.loading = (seconds)=>{
-	wepy.showLoading({
-			mask: true
-		});
-	setTimeout(() => wepy.hideLoading(), 1000 * (seconds || 3));
 }
 
 function getCurrentPageUrl(){
@@ -66,7 +62,8 @@ amb.cleanSetModel = (obj) => {
 function translate(str) {
 	const langKey = amb.config.language;
 	const dic = amb.i18nDic[langKey];
-	return dic[str] || dic['en'] || '$[' + str + ']';
+	const ret = dic[str] || amb.i18nDic['en'][str] || '$[' + str + ']';
+	return ret;
 }
 
 Object.defineProperty(String.prototype, 'i', {
@@ -85,6 +82,13 @@ Object.keys(i18n.en).forEach(k => {
 	// 		return translate(k);
 	// 	},
 	// });
+});
+
+
+Object.defineProperty(String.prototype, 'i18n', {
+  get: function(){
+		return translate(this);
+	}
 });
 
 const isObject = function(x){

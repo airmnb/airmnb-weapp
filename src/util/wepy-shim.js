@@ -22,8 +22,12 @@ function setData(wepypage, key, value) {
 				// Leaf property
 				prop[k] = value;
 			}else{
-				prop = prop[k]
+				prop = prop[k];
 			}
+		}
+
+		if(prop === undefined) {
+			prop = {};
 		}
 	});
 }
@@ -60,4 +64,15 @@ wepy.page.prototype.cleanClone = function(obj) {
 		ret[x] = value === undefined || value === null ? '' : value;
 	});
 	return ret;
+}
+
+wepy.page.prototype.updateLangData = function() {
+	const wepyPage = this;
+	const i = wepyPage.data.i;
+	const data = {};
+	Object.keys(i).forEach(k => {
+		const key = `i.${k}`;
+		data[key] = k.i18n;
+	});
+	wepyPage.updateData(data);
 }

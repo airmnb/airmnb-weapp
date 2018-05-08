@@ -23,7 +23,7 @@ console.log('amb.pageI18nData', amb.pageI18nData.setting_language);
 
 export default class Index extends wepy.page {
   data = {
-    i: amb.pageI18nData
+    i: amb.pageI18nData,
   }
 
   onLoad() {

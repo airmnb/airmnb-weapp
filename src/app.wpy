@@ -31,6 +31,8 @@ export default class extends wepy.app {
       'pages/search/map', 
       'pages/search/searchConfig', 
       'pages/provider/provider', 
+      'pages/provider/venues', 
+      'pages/provider/add_venue', 
       'pages/mine/mine', 
       'pages/setting/setting',
       'pages/setting/profile',
@@ -94,7 +96,7 @@ export default class extends wepy.app {
 
 	async onLaunch() {
 		console.log('SDK version', wx.getSystemInfoSync())
-		wepy.showLoading({mast: true});
+		wepy.showLoading({mask: true});
 
 		try {
 			// Wechat login and get Airmnb user
