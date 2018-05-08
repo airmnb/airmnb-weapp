@@ -32,7 +32,7 @@ export default class extends wepy.app {
       'pages/search/searchConfig', 
       'pages/provider/provider', 
       'pages/provider/venues', 
-      'pages/provider/add_venue', 
+      'pages/provider/edit_venue', 
       'pages/mine/mine', 
       'pages/setting/setting',
       'pages/setting/profile',

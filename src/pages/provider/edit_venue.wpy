@@ -1,20 +1,6 @@
 <style lang="less">
-.text-elipsis { 
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 80rpx; 
-  white-space: nowrap;
-}
 
-canvas {
-  margin: 20rpx;
-}
 
-.avatar {
-  margin: 20rpx;
-  width: 200px;
-  height: 200px;
-}
 </style>
 
 <template>
@@ -56,8 +42,6 @@ canvas {
         <button @tap="save">{{i.button_save}}</button>
       </view>
     </view>
-        <button @tap="changeLanguage">Change lang</button>
-    
   </view>
 </template>
 <script>
@@ -69,6 +53,7 @@ import venueService from '@/util/venueService'
 
 export default class AddVenue extends wepy.page {
 	data = {
+    addMode: false,
     i: amb.pageI18nData,
     venue: {
       name: '',
@@ -81,29 +66,17 @@ export default class AddVenue extends wepy.page {
       postcode: '',
       info: '',
     },
-  };
+  }
   methods = {
-    translate(k){
-      return k.i18n;
-    },
-    changeLanguage(){
-      if(amb.config.language==='en') {
-        amb.config.language = 'zh_CN'
-      }else{
-        amb.config.language = 'en';
-      }
-      console.log('change lang test', amb.pageI18nData.aboutus_title);
-      // this.updateData({
-      //   'i.button_save': 'button_save'.i18n
-      // });
-      this.updateLangData();
-      this.onLoad();
-    },
     async save() {
       wepy.showLoading();
-      console.log('venue to save', this.venue);
+      console.log('venue to save', this.venue)
       try{
-        await venueService.add(this.venue);
+        if(this.addMode){
+          await venueService.add(this.venue)
+        }else {
+          await venueService.update(this.venue)
+        }
         wepy.hideLoading();
         wepy.navigateBack();
       }catch(e){
@@ -113,17 +86,29 @@ export default class AddVenue extends wepy.page {
           title: e.message
         });
       }
-      
     }
   }
-	onLoad() {
-    console.log('amb.pageI18nData', amb.pageI18nData);
-    console.log('this.data', this.i);
-    
-    console.log("'venues_add'.i18n()", 'venues_add'.i18n);
+  async loadVenue(venueId) {
+    wepy.showLoading();
+    try {
+      const venue = await venueService.get(venueId);
+      this.updateData({
+        venue: venue
+      })
+    } finally {
+      wepy.hideLoading()
+    }
+  }
+	onLoad(options) {
+    const venueId = options.venueId
+    this.addMode = !venueId;
+    console.log('edit venue addMode?', this.addMode)
 		wepy.setNavigationBarTitle({
-			title: 'venues_add'.i18n
-		});
+			title: this.addMode ? 'venue_add'.i18n : 'venue_edit'.i18n
+    });
+    if(!this.addMode) {
+      this.loadVenue(venueId);
+    }
   }
 }
 </script>

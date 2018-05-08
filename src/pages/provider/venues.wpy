@@ -35,8 +35,8 @@
 <template>
   <view>
     <view class="panel">
-      <navigator url="/pages/provider/add_venue" class="last-navigator" 
-        hover-class="navigator-hover">{{i.venues_add}}</navigator>
+      <navigator url="/pages/provider/edit_venue" class="last-navigator" 
+        hover-class="navigator-hover">{{i.venue_add}}</navigator>
     </view>
     <text class="sub-title">{{i.venues_mine}}</text>
     <view class="venue-panel">

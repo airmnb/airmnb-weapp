@@ -1,20 +1,4 @@
 <style lang="less">
-.text-elipsis { 
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 80rpx; 
-  white-space: nowrap;
-}
-
-canvas {
-  margin: 20rpx;
-}
-
-.avatar {
-  margin: 20rpx;
-  width: 200px;
-  height: 200px;
-}
 </style>
 
 <template>
