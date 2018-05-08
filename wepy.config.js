@@ -54,12 +54,19 @@ if (prod) {
 
   // 压缩sass
   // module.exports.compilers['sass'] = {outputStyle: 'compressed'}
+  module.exports['less'] = {"compress": true};
 
   // 压缩js
   module.exports.plugins = {
+    filemin: {
+      filter: /\.(json|wxml|xml)$/
+    },
     uglifyjs: {
       filter: /\.js$/,
       config: {
+        compress: {
+          warning: false
+        }
       }
     },
     imagemin: {

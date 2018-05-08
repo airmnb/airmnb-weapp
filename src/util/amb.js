@@ -1,6 +1,5 @@
 import wepy from 'wepy';
 import i18n from '@/util/i18n'
-import UPNG from 'upng-js'
 
 const amb = amb || {};
 
