@@ -3,7 +3,11 @@ import amb from '@/util/amb';
 
 class UserService {
   async get(userId){
-    return await apiClient.get(`users/${userId}`);
+    const resp = await apiClient.get(`users/${userId}`);
+    if(resp.errorMessage) {
+      throw new Error(resp.errorMessage);
+    }
+    return resp.user;
   }
 
   async save(user) {

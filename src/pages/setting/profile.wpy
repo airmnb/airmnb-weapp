@@ -57,7 +57,9 @@
   import amb from '@/util/amb'
   import userService from '@/util/userService';
   export default class Profile extends wepy.page {
-
+    config = {
+      enablePullDownRefresh: true,
+    }
     data = {
       user: {},
       i: amb.pageI18nData,
@@ -87,11 +89,37 @@
       wepy.setNavigationBarTitle({
         title: amb.pageI18nData.profile_title
       });
-      this.user = this.cleanClone(amb.data.user);
-      this.user.accountName = this.user.accountName || this.user.nickName;
+      // this.user = this.cleanClone(amb.data.user);
+      // this.user.accountName = this.user.accountName || this.user.nickName;
+      if(!amb.data.user) {
+        throw new Error('Impossible condition. amb.data.user must have been set when app launches');
+      }
+      this.setUser(amb.data.user);
     }
 
     onShow() {
+    }
+
+    onPullDownRefresh() {
+      this.refresh();
+    }
+
+    async refresh(){
+      console.log('amb.data.user', amb.data.user);
+      wepy.showLoading()
+      const userId = amb.data.user.userId;
+      const user = await userService.get(userId);
+      this.setUser(user);
+      wepy.stopPullDownRefresh();
+      wepy.hideLoading();
+    }
+
+    setUser(user){
+      amb.data.user = user;
+      this.updateData({
+        user: this.cleanClone(user),
+        'user.accountName': user.accountName || user.nickName
+      });
     }
   }
 </script>

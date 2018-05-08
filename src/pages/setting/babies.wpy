@@ -6,7 +6,7 @@
   flex-direction: row;
   align-items: left;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
 }
 .baby-avatar {
   // width: 200rpx;
@@ -25,6 +25,7 @@
     border-radius: 10rpx;
 
     &.baby-placeholder {
+
       outline: 2rpx dashed @gray;
       outline-offset: -2rpx;
       display: flex;
@@ -76,29 +77,29 @@
       babies: [],
       parentTitle: 'p-title'
     }
-    async onLoad() {
-      console.log('babies onLoad');
+    onLoad() {
       wepy.setNavigationBarTitle({
         title: amb.pageI18nData.babies_title
       });
 
-      await this.refreshBabies();
+      this.refresh();
     }
     onShow(){
       console.log('babies onShow');
     }
-    async onPullDownRefresh() {
-      await this.refreshBabies();
+    onPullDownRefresh() {
+      this.refresh();
     }
-    attachImageUrlProps(){
-      this.babies.forEach(x => {
+    async refresh(){
+      wepy.showLoading();
+      const babies = await babyService.getMine();
+      babies.forEach(x => {
         x.avatarSrcUrl = imageService.getSrcUrl(x.avatarImageId);
       })
-    }
-    async refreshBabies(){
-      wepy.showLoading();
-      this.babies = await babyService.getMine();
-      this.attachImageUrlProps();
+      this.updateData({
+        babies: babies
+      })
+      wepy.stopPullDownRefresh();
       wepy.hideLoading();
     }
   }
