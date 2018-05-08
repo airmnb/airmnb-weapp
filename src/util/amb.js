@@ -9,7 +9,8 @@ amb.config = {
 	app_url: 'http://localhost:5000',
 	api_version: '1.0',
 	language: 'en',
-	jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uSWQiOiI0MmUwMDFhZS00NjQ5LTQ2MGItYjIzYy0zNjczNzRhY2YyMDUiLCJ1c2VySWQiOiJmZGFiYzk2Yi03MDQ0LTQyZWUtOTMwMC0zMjJiZjQ1ZDk0MzEiLCJleHRyYSI6eyJkYXRhIjoid2hhdGV2ZXIifX0.djCKSEpqWMTDP-CxN_Tam86I7X4R9fq6zRlToawiMn4'
+	jwt: null,
+	user: null,
 };
 
 amb.chooseLanguage = function (lang) {
@@ -21,8 +22,6 @@ console.log('amb.config', amb.config);
 // Only supports three languages en, zh_CN, zh_TW
 // https://developers.weixin.qq.com/miniprogram/dev/api/open.html
 amb.i18nDic = i18n;
-
-amb.data = {};
 
 amb.getDate = function(offsetDays) {
 	let today = new Date()

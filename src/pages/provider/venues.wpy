@@ -1,41 +1,30 @@
 <style lang="less">
 @gray: #D5D5D5;
+@secondary-dark: #0D47A1;
 .venue-panel {
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: left;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-.venue-avatar {
-  width: 33%;
-  position: relative;
-  top: 0;
-  left: 0;
 
   .venue-card {
-    margin: 20rpx;
-    width: 200rpx;
+    width: 100%;
     height: 200rpx;
-    border-radius: 10rpx;
+    display: flex;
+    flex-direction: row;
 
-    &.venue-placeholder {
-
+    .venue-name {
+      height: 200rpx;
+      width: 200rpx;
+      color: @secondary-dark;
       outline: 2rpx dashed @gray;
       outline-offset: -2rpx;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: @gray;
     }
 
-    &.venue-image {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 200rpx;
-      height: 200rpx;
+    .venue-info {
+      width: 100%;
+      justify-content: left;
+      background-color: yellow;
     }
   } 
 }
@@ -51,9 +40,9 @@
     </view>
     <text class="sub-title">{{i.venues_mine}}</text>
     <view class="venue-panel">
-      <navigator url="/pages/provider/edit_venue?venueId={{venue.venueId}}" class="venue-avatar" wx:for="{{venues}}" wx:key="index" wx:for-item="venue">
-        <view class="venue-card venue-placeholder">{{venue.name}}</view>        
-        <image class="venue-card venue-image" src="{{venue.avatarSrcUrl}}" />
+      <navigator url="/pages/provider/edit_venue?venueId={{venue.venueId}}" class="venue-card" wx:for="{{venues}}" wx:key="index" wx:for-item="venue">
+        <view class="venue-name">{{venue.name}}</view>
+        <view class="venue-info">{{venue.info}}</view>
       </navigator>
     </view>
   </view>
@@ -85,9 +74,9 @@
     async refresh(){
       wepy.showLoading();
       const venues = await venueService.getMine();
-      venues.forEach(x => {
-        x.avatarSrcUrl = imageService.getSrcUrl(x.avatarImageId);
-      })
+      // venues.forEach(x => {
+      //   x.avatarSrcUrl = imageService.getSrcUrl(x.avatarImageId);
+      // })
       this.updateData({
         venues: venues
       })

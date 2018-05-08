@@ -85,7 +85,7 @@ export default class extends wepy.app {
 	};
 
 	globalData = {
-		// user amb.data instead
+		// user amb.config instead
 	};
 
 	constructor() {
@@ -97,16 +97,9 @@ export default class extends wepy.app {
 	async onLaunch() {
 		console.log('SDK version', wx.getSystemInfoSync())
 		wepy.showLoading({mask: true});
-
-		try {
-			// Wechat login and get Airmnb user
-			const user = await loginService.login();
-			console.log('user', user);
-			// Get Wechat user info
-			amb.data.user = user;
-		}finally{
-			wepy.hideLoading();
-		}
+		// Wechat login and get Airmnb user
+		await loginService.login();
+		wepy.hideLoading();
 	}
 }
 </script>

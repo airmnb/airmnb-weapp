@@ -68,7 +68,7 @@
     methods = {
       async save() {
         wepy.showLoading();
-        Object.assign(amb.data.user, this.user);
+        Object.assign(amb.config.user, this.user);
         await userService.save(this.user);
         wepy.hideLoading();
         wepy.navigateBack();
@@ -89,12 +89,12 @@
       wepy.setNavigationBarTitle({
         title: amb.pageI18nData.profile_title
       });
-      // this.user = this.cleanClone(amb.data.user);
+      // this.user = this.cleanClone(amb.config.user);
       // this.user.accountName = this.user.accountName || this.user.nickName;
-      if(!amb.data.user) {
-        throw new Error('Impossible condition. amb.data.user must have been set when app launches');
+      if(!amb.config.user) {
+        throw new Error('Impossible condition. amb.config.user must have been set when app launches');
       }
-      this.setUser(amb.data.user);
+      this.setUser(amb.config.user);
     }
 
     onShow() {
@@ -105,9 +105,9 @@
     }
 
     async refresh(){
-      console.log('amb.data.user', amb.data.user);
+      console.log('amb.config.user', amb.config.user);
       wepy.showLoading()
-      const userId = amb.data.user.userId;
+      const userId = amb.config.user.userId;
       const user = await userService.get(userId);
       this.setUser(user);
       wepy.stopPullDownRefresh();
@@ -115,7 +115,7 @@
     }
 
     setUser(user){
-      amb.data.user = user;
+      amb.config.user = user;
       this.updateData({
         user: this.cleanClone(user),
         'user.accountName': user.accountName || user.nickName

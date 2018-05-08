@@ -4,9 +4,6 @@ import amb from "@/util/amb";
 class VenusService {
   async get(id){
     const resp = await apiClient.get(`venues/${id}`);
-    if(resp.error) {
-      throw new Error(resp.error);
-    }
     return resp.venue;
   }
   async delete(id){
@@ -17,18 +14,14 @@ class VenusService {
   }
   async add(venue) {
     venue = amb.cleanSetModel(venue);
-    venue.providerId = amb.data.user.userId;
+    venue.providerId = amb.config.user.userId;
     await apiClient.post('venues', venue);
   }
 
   async getMine() {
-    console.log('amb.data.user', amb.data.user);
-    const providerId = amb.data.user.userId;
+    const providerId = amb.config.user.userId;
     const resp = await apiClient.get('venues', {providerId});
-    if(!resp.error) {
-      return resp.venues;
-    }
-    throw new Error(resp.error);
+    return resp.venues;
   }
 
   async update(venue) {

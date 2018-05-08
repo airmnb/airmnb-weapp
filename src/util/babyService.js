@@ -17,12 +17,12 @@ class BabyService {
   }
   async add(baby) {
     baby = amb.cleanSetModel(baby);
-    baby.creatorId = amb.data.user.userId;
+    baby.creatorId = amb.config.user.userId;
     await apiClient.post('babies', baby);
   }
 
   async getMine() {
-    const creatorId = amb.data.user.userId;
+    const creatorId = amb.config.user.userId;
     const resp = await apiClient.get('babies', {creatorId});
     if(!resp.error) {
       return resp.babies;

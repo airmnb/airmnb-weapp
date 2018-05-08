@@ -63,7 +63,7 @@ class RestClient {
 export const urlBase = amb.config.app_url.replace(/\/*$/, '')
 
 const sysUrl = urlBase + '/sys';
-export const sysClient = new RestClient(sysUrl); 
+export const sysClient = new RestClient(sysUrl, () => `Bearer ${amb.config.jwt}`); 
 
 // https://www.airmnb.com/api/1.0
 const apiUrl = urlBase + '/api/' + amb.config.api_version;
