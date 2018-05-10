@@ -5,6 +5,11 @@
 
 <template>
   <view>
+    <view style="overflow:hidden">
+		<map id="venueFinder" class='map' longitude="{{map.lng}}" latitude="{{map.lat}}" scale="14" 
+      bindcontroltap="controltap" show-location controls="{{map.controls}}">
+		</map>
+	</view>
     <view class="panel">
       <navigator url="/pages/controls/input?key=venue.name&value={{venue.name}}&label={{i.venue_name}}" 
       hover-class="navigator-hover">{{i.venue_name}}<text class="value">{{venue.name}}</text>
@@ -60,9 +65,32 @@ export default class AddVenue extends wepy.page {
 	data = {
     addMode: false,
     i: amb.pageI18nData,
+    map: {
+      lng:0,
+      lat: 0,
+      controls: [{
+				id: 1,
+				iconPath: '/images/fa-circle-whereami.png',
+				position: {
+					left: 20,
+					top: 10,
+					width: 40,
+					height: 40
+				},
+				clickable: true
+			}]
+    },
     venue: null,
   }
   methods = {
+    controltap(e) {
+      if(e.controlId === 1) {
+        // Current location
+        this.centerByCurrentLocation();
+      }else if(e.controlId === 2) {
+        // Pick up the center as the location.
+      }
+    },
     async save() {
       wepy.showLoading();
       console.log('venue to save', this.venue)

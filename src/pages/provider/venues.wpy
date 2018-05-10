@@ -17,6 +17,7 @@
   .venue-name {
     width: 100%;
     color: @secondary-dark;
+    font-weight: bold;
   }
 
   .venue-address {

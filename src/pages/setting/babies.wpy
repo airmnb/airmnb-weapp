@@ -72,15 +72,16 @@
       i: amb.pageI18nData,
       babies: [],
     }
-    onLoad() {
+    async onLoad() {
       wepy.setNavigationBarTitle({
         title: amb.pageI18nData.babies_title
       });
-
-      this.refresh();
+      console.log('babies onload');
+      await this.refresh();
     }
-    onPullDownRefresh() {
-      this.refresh();
+    async onPullDownRefresh() {
+      await this.refresh();
+      wepy.stopPullDownRefresh();
     }
     async refresh(){
       wepy.showLoading();
@@ -88,10 +89,11 @@
       babies.forEach(x => {
         x.avatarSrcUrl = imageService.getSrcUrl(x.avatarImageId);
       })
+      console.log('babies', babies);
       this.updateData({
         babies: babies
       })
-      wepy.stopPullDownRefresh();
+      this.$apply();
       wepy.hideLoading();
     }
   }
