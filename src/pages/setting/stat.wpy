@@ -36,17 +36,15 @@
         <text class="value">{{totalTransactions}}</text>
       </view>
     </view>
-    <view class="panel">  
-      <view class="panel-item">
-        <button @tap="refresh">{{i.stat_refresh}}</button>
-      </view>
-    </view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
   import amb from '@/util/amb'
   export default class Stat extends wepy.page {
+    config = {
+      enablePullDownRefresh: true,
+    }
     data = {
       totalUsers: '...',
       totalBabies: '...',
@@ -67,10 +65,11 @@
       wepy.setNavigationBarTitle({
         title: amb.pageI18nData.stat_title
       });
-      this.refreshStat();
+      this.onPullDownRefresh();
     }
 
-    async refreshStat() {
+    onPullDownRefresh() {
+      wepy.showLoading();
       const self = this;
       this.totalUsers = Math.floor((Math.random() * 1000) + 1);
       this.totalBabies = Math.floor((Math.random() * 1000) + 1);
@@ -78,7 +77,9 @@
       this.totalActivities = Math.floor((Math.random() * 1000) + 1);
       this.totalBookings = Math.floor((Math.random() * 1000) + 1);
       this.totalTransactions = Math.floor((Math.random() * 1000) + 1);
-      self.$apply()
+      // self.$apply()
+      wepy.hideLoading();
+      wepy.stopPullDownRefresh();      
     }
   }
 </script>
