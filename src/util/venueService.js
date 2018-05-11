@@ -28,6 +28,19 @@ class VenusService {
     venue = amb.cleanSetModel(venue);
     await apiClient.put(`venues/${venue.venueId}`, venue);
   }
+
+  getAddress(venue) {
+    const props = [
+      venue.addr1,
+      venue.addr2,
+      venue.addr3,
+      venue.city,
+      venue.state,
+      venue.country,
+      venue.postcode
+    ];
+    return props.filter(x => x).join(' ');
+  }
 }
 
 const venueService = new VenusService();

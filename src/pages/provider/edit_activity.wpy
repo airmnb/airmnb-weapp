@@ -9,12 +9,15 @@
       </navigator>
       <navigator url="/pages/controls/textarea?key=activity.info&value={{activity.info}}&label={{i.activity_info}}" 
         hover-class="navigator-hover">{{i.activity_info}}
-        <text class="value text-elipsis">{{activity.info}}</text>
+        <text class="value text-elipsis text-small">{{activity.info}}</text>
       </navigator>
-      <navigator url="/pages/controls/textarea?key=activity.info&value={{activity.info}}&label={{i.activity_info}}" 
-        hover-class="navigator-hover">{{i.activity_venue}}
-        <text class="value text-elipsis">{{activity.venueName}}</text>
-      </navigator>
+      <picker mode="selector" class="top-line" value="{{activity.startTime}}" bindchange="venueChange"
+        range="{{venueRange}}"> 
+        <view class="panel-item">
+          <text class="label">{{i.activity_venue}}</text>
+          <text class="value text-elipsis text-small">{{venueName}}</text>
+        </view>
+      </picker>
       <navigator url="/pages/controls/imagesPicker?key=activity.imageIds&value={{activity.imageIds}}&label={{i.activity_images}}" 
         hover-class="navigator-hover">{{i.activity_images}}
       </navigator>
@@ -46,7 +49,7 @@
       </picker>
       <navigator url="/pages/controls/dayOfWeekSelector?key=activity.dayOfWeek&value={{activity.dayOfWeek}}" 
         hover-class="navigator-hover">{{i.activity_dayofweek}}
-        <text class="value text-elipsis">{{activity.dayOfWeek}}</text>
+        <text class="value text-elipsis">{{activity.dayOfWeek ? '...' : ''}}</text>
       </navigator>
       <view class="panel-item">
         <text class="label">{{i.gender}}</text>
@@ -68,7 +71,7 @@
       </picker>
     </view>
     <view class="panel">
-      <navigator url="/pages/controls/input?key=activity.price&value={{activity.price}}&type=number&label={{i.activity_price}}" 
+      <navigator class="no-arrow" url="/pages/controls/input?key=activity.price&value={{activity.price}}&type=number&label={{i.activity_price}}" 
       hover-class="navigator-hover">{{i.activity_price}}<text class="value">{{activity.price}}</text>
       </navigator>
       <picker mode="selector" class="top-line" value="{{activity.currency}}" bindchange="currencyChange"
@@ -96,6 +99,7 @@ import wepy from 'wepy';
 import amb from '@/util/amb';
 import imageService from '@/util/imageService'
 import activityService from '@/util/activityService'
+import venueService from '@/util/venueService'
 
 export default class EditActivity extends wepy.page {
 	data = {
@@ -103,8 +107,10 @@ export default class EditActivity extends wepy.page {
     i: amb.pageI18nData,
     activity: null,
     avatarSrcUrl: null,
+    venueName: '',
     capRange: [],
     currencyRange: [],
+    venueRange: [],
   };
   methods = {
     async chooseImage() {
@@ -152,6 +158,11 @@ export default class EditActivity extends wepy.page {
         'activity.currency': this.currencyRange[e.detail.value],
       });
     },
+    venueChange(e) {
+      this.updateData({
+        'venueName': this.venueRange[e.detail.value]
+      });
+    },
     async save() {
       wepy.showLoading();
       console.log('activity to save', this.activity);
@@ -188,29 +199,40 @@ export default class EditActivity extends wepy.page {
       wepy.navigateBack();
     }
   }
-	onLoad(options) {
+	async onLoad(options) {
     const activityId = options.activityId;
     this.addMode = !activityId;
     wepy.setNavigationBarTitle({
 			title: this.addMode ? 'addactivity_title'.i18n : 'editactivity_title'.i18n
     });
-    this.initModel();
-    if(this.addMode) {
-      this.activity = {
-        nickName: '',
-        gender: '',
-        dob: '',
-        info: '',
-        avatarImageId: null
-      };
-      this.avatarSrcUrl = null;
-    }else{
-      this.loadActivity(activityId);
+    wepy.showLoading({mask: true});
+    try{
+      await this.initModel();
+      if(this.addMode) {
+        this.activity = {
+          nickName: '',
+          gender: '',
+          dob: '',
+          info: '',
+          avatarImageId: null
+        };
+        this.avatarSrcUrl = null;
+      }else{
+        this.loadActivity(activityId);
+      }
+    }finally{
+      wepy.hideLoading();
     }
   }
-  initModel(){
+  async initModel(){
     this.capRange = [1,2,3,4,5,6,7,8,9,10,12,15,18,20,25,30,40,50,60,80,100];
-    this.currencyRange = ["AUD", "人民币"];
+    this.currencyRange = ["人民币", "AUD", "USD", "CAD", "JPY"];
+    const myVenues = await venueService.getMine()
+    const venueRange = myVenues.map(v => v.name + ' - ' + venueService.getAddress(v));
+    console.log('this.venueRange ', this.venueRange );
+    this.updateData({
+      venueRange: venueRange
+    });
   }
   async loadActivity(activityId){
     wepy.showLoading();
