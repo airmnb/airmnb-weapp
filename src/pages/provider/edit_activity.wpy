@@ -9,13 +9,13 @@
       </navigator>
       <navigator url="/pages/controls/textarea?key=activity.info&value={{activity.info}}&label={{i.activity_info}}" 
         hover-class="navigator-hover">{{i.activity_info}}
-        <text class="value text-elipsis text-small">{{activity.info}}</text>
+        <text class="value text-elipsis">{{activity.info}}</text>
       </navigator>
       <picker mode="selector" class="top-line" value="{{activity.startTime}}" bindchange="venueChange"
         range="{{venueRange}}"> 
         <view class="panel-item">
           <text class="label">{{i.activity_venue}}</text>
-          <text class="value text-elipsis text-small">{{venueName}}</text>
+          <text class="value text-elipsis">{{venueName}}</text>
         </view>
       </picker>
       <navigator url="/pages/controls/imagesPicker?key=activity.imageIds&value={{activity.imageIds}}&label={{i.activity_images}}" 
