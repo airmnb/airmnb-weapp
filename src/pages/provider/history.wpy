@@ -1,0 +1,145 @@
+<style lang="less">
+
+
+</style>
+
+<template>
+  <view>
+    <view class="panel">
+      <navigator url="/pages/controls/input?key=activity.name&value={{activity.name}}&label={{i.activity_name}}" 
+      hover-class="navigator-hover">{{i.activity_name}}<text class="value">{{activity.name}}</text>
+      </navigator>
+    </view>
+    <view class="panel">
+      <navigator url="/pages/controls/input?key=activity.addr1&value={{activity.addr1}}&label={{i.activity_addr1}}" 
+        hover-class="navigator-hover">{{i.activity_addr1}}<text class="value">{{activity.addr1}}</text>
+      </navigator>
+      <navigator url="/pages/controls/input?key=activity.addr2&value={{activity.addr2}}&label={{i.activity_addr2}}" 
+        hover-class="navigator-hover">{{i.activity_addr2}}<text class="value">{{activity.addr2}}</text>
+      </navigator>
+      <navigator url="/pages/controls/input?key=activity.addr3&value={{activity.addr3}}&label={{i.activity_addr3}}" 
+        hover-class="navigator-hover">{{i.activity_addr3}}<text class="value">{{activity.addr3}}</text>
+      </navigator>
+      <navigator url="/pages/controls/input?key=activity.city&value={{activity.city}}&label={{i.activity_city}}" 
+        hover-class="navigator-hover">{{i.activity_city}}<text class="value">{{activity.city}}</text>
+      </navigator>
+      <navigator url="/pages/controls/input?key=activity.state&value={{activity.state}}&label={{i.activity_state}}" 
+        hover-class="navigator-hover">{{i.activity_state}}<text class="value">{{activity.state}}</text>
+      </navigator>
+      <navigator url="/pages/controls/input?key=activity.country&value={{activity.country}}&label={{i.activity_country}}" 
+        hover-class="navigator-hover">{{i.activity_country}}<text class="value">{{activity.country}}</text>
+      </navigator>
+      <navigator url="/pages/controls/input?key=activity.postcode&value={{activity.postcode}}&label={{i.activity_postcode}}" 
+        hover-class="navigator-hover">{{i.activity_postcode}}<text class="value">{{activity.postcode}}</text>
+      </navigator>
+      <navigator url="/pages/controls/textarea?key=activity.info&value={{activity.info}}&label={{i.activity_info}}" 
+        hover-class="navigator-hover">{{i.activity_info}}
+        <text class="value text-elipsis">{{activity.info}}</text>
+      </navigator>
+    </view>
+    <view class="panel">
+      <view class="panel-item">
+        <button @tap="save">{{i.button_save}}</button>
+      </view>
+    </view>
+
+    <view class="panel" wx:if="{{!addMode}}">
+      <view class="panel-item warning">
+        <button @tap="delete">{{i.button_delete}}</button>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import amb from '@/util/amb';
+import imageService from '@/util/imageService'
+import activityService from '@/util/activityService'
+
+export default class ProviderHistory extends wepy.page {
+	data = {
+    addMode: false,
+    i: amb.pageI18nData,
+    activity: null,
+  }
+  methods = {
+    async save() {
+      wepy.showLoading();
+      console.log('activity to save', this.activity)
+      try{
+        if(this.addMode){
+          await activityService.add(this.activity)
+        }else {
+          await activityService.update(this.activity)
+        }
+
+        // Refresh parent page
+        const pages = getCurrentPages();
+        const parentPage = pages[pages.length-2];
+        parentPage.refresh();
+
+        wepy.hideLoading();
+        wepy.navigateBack();
+      }catch(e){
+        wepy.hideLoading();
+        console.log('error', e);
+        await wepy.showModal({
+          title: e.message
+        });
+      }
+    },
+    async delete(){
+      const result = await wepy.showModal({
+        title: amb.pageI18nData.baby_delete_confirm,
+        content: '',
+      })
+      if(result.cancel) return;
+      wepy.showLoading();
+      console.log('activity to delete', this.baby);
+      await activityService.delete(this.activity.activityId);
+
+      // Refresh parent page
+      const pages = getCurrentPages();
+      const parentPage = pages[pages.length-2];
+      parentPage.refresh();
+  
+      wepy.hideLoading();
+      wepy.navigateBack();
+    }
+  }
+  async loadActivity(activityId) {
+    wepy.showLoading();
+    try {
+      const activity = await activityService.get(activityId);
+      this.updateData({
+        activity: activity
+      })
+    } finally {
+      wepy.hideLoading()
+    }
+  }
+	onLoad(options) {
+    const activityId = options.activityId
+    this.addMode = !activityId;
+    console.log('edit activity addMode?', this.addMode)
+		wepy.setNavigationBarTitle({
+			title: this.addMode ? 'activity_add'.i18n : 'activity_edit'.i18n
+    });
+    if(!this.addMode) {
+      this.loadActivity(activityId);
+    }else{
+      this.activity = {
+        name: '',
+        addr1: '',
+        addr2: '',
+        addr3: '',
+        city: '',
+        state: '',
+        country: '',
+        postcode: '',
+        info: '',
+      }
+    }
+  }
+}
+</script>

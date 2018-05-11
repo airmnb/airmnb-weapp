@@ -1,0 +1,226 @@
+<style lang="less">
+</style>
+
+<template>
+  <view>
+    <view class="panel">
+      <navigator url="/pages/controls/input?key=activity.name&value={{activity.name}}&label={{i.activity_name}}" 
+      hover-class="navigator-hover">{{i.activity_name}}<text class="value">{{activity.name}}</text>
+      </navigator>
+      <navigator url="/pages/controls/textarea?key=activity.info&value={{activity.info}}&label={{i.activity_info}}" 
+        hover-class="navigator-hover">{{i.activity_info}}
+        <text class="value text-elipsis">{{activity.info}}</text>
+      </navigator>
+      <navigator url="/pages/controls/textarea?key=activity.info&value={{activity.info}}&label={{i.activity_info}}" 
+        hover-class="navigator-hover">{{i.activity_venue}}
+        <text class="value text-elipsis">{{activity.venueName}}</text>
+      </navigator>
+      <navigator url="/pages/controls/imagesPicker?key=activity.imageIds&value={{activity.imageIds}}&label={{i.activity_images}}" 
+        hover-class="navigator-hover">{{i.activity_images}}
+      </navigator>
+    </view>
+    <view class="panel">
+      <picker mode="date" value="{{activity.startDate}}" start="2018-01-01" end="2028-12-31" bindchange="startDateChange">  
+        <view class="panel-item">
+          <text class="label">{{i.activity_start_date}}</text>
+          <text class="value">{{activity.startDate}}</text>
+        </view>
+      </picker>
+      <picker mode="time" class="top-line" value="{{activity.startTime}}" start="06:00" end="20:00" bindchange="startTimeChange">  
+        <view class="panel-item">
+          <text class="label">{{i.activity_start_time}}</text>
+          <text class="value">{{activity.startTime}}</text>
+        </view>
+      </picker>
+      <picker mode="date" class="top-line" value="{{activity.endDate}}" start="2018-01-01" end="2028-12-31" bindchange="endDateChange">  
+        <view class="panel-item">
+          <text class="label">{{i.activity_end_date}}</text>
+          <text class="value">{{activity.endDate}}</text>
+        </view>
+      </picker>
+      <picker mode="time" class="top-line" value="{{activity.endTime}}" start="06:00" end="20:00" bindchange="endTimeChange">  
+        <view class="panel-item">
+          <text class="label">{{i.activity_end_time}}</text>
+          <text class="value">{{activity.endTime}}</text>
+        </view>
+      </picker>
+      <navigator url="/pages/controls/dayOfWeekSelector?key=activity.dayOfWeek&value={{activity.dayOfWeek}}" 
+        hover-class="navigator-hover">{{i.activity_dayofweek}}
+        <text class="value text-elipsis">{{activity.dayOfWeek}}</text>
+      </navigator>
+      <view class="panel-item">
+        <text class="label">{{i.gender}}</text>
+        <view>
+          <label class="radio">
+            <checkbox value="1" checked="{{activity.gender + '' ==='1'}}" color="#D81B60"/>{{i.male}}
+          </label>
+          <label class="radio">
+            <checkbox value="0" checked="{{activity.gender + '' ==='0'}}" color="#D81B60"/>{{i.female}}
+          </label>
+        </view>
+      </view>
+      <picker mode="selector" class="top-line" value="{{activity.cap}}" bindchange="capChange"
+        range="{{capRange}}">
+        <view class="panel-item">
+          <text class="label">{{i.activity_cap}}</text>
+          <text class="value">{{activity.cap}}</text>
+        </view>
+      </picker>
+    </view>
+    <view class="panel">
+      <navigator url="/pages/controls/input?key=activity.price&value={{activity.price}}&type=number&label={{i.activity_price}}" 
+      hover-class="navigator-hover">{{i.activity_price}}<text class="value">{{activity.price}}</text>
+      </navigator>
+      <picker mode="selector" class="top-line" value="{{activity.currency}}" bindchange="currencyChange"
+        range="{{currencyRange}}">
+        <view class="panel-item">
+          <text class="label">{{i.activity_currency}}</text>
+          <text class="value">{{activity.currency}}</text>
+        </view>
+      </picker>
+    </view>
+    <view class="panel">
+      <view class="panel-item">
+        <button @tap="save">{{i.button_save}}</button>
+      </view>
+    </view>
+    <view class="panel" wx:if="{{!addMode}}">
+      <view class="panel-item warning">
+        <button @tap="delete">{{i.button_delete}}</button>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import amb from '@/util/amb';
+import imageService from '@/util/imageService'
+import activityService from '@/util/activityService'
+
+export default class EditActivity extends wepy.page {
+	data = {
+    addMode: false,
+    i: amb.pageI18nData,
+    activity: null,
+    avatarSrcUrl: null,
+    capRange: [],
+    currencyRange: [],
+  };
+  methods = {
+    async chooseImage() {
+      wepy.showLoading();
+      const imageId = await imageService.chooseImage();
+      const srcUrl = imageService.getSrcUrl(imageId);
+      this.updateData({
+        'avatarSrcUrl': srcUrl,
+        'activity.avatarImageId': imageId
+      });
+      wepy.hideLoading();
+    },
+    setGender(e) {
+      this.updateData({
+        'activity.gender': parseInt(e.detail.value),
+      });
+    },
+    startDateChange(e) {
+      this.updateData({
+        'activity.startDate': e.detail.value
+      });
+    },
+    startTimeChange(e) {
+      this.updateData({
+        'activity.startTime': e.detail.value
+      });
+    },
+    endDateChange(e) {
+      this.updateData({
+        'activity.endDate': e.detail.value
+      });
+    },
+    endTimeChange(e) {
+      this.updateData({
+        'activity.endTime': e.detail.value
+      });
+    },
+    capChange(e) {
+      this.updateData({
+        'activity.cap': this.capRange[e.detail.value]
+      });
+    },
+    currencyChange(e) {
+      this.updateData({
+        'activity.currency': this.currencyRange[e.detail.value],
+      });
+    },
+    async save() {
+      wepy.showLoading();
+      console.log('activity to save', this.activity);
+      if(this.addMode) {
+        await activityService.add(this.activity);
+      }else{
+        await activityService.update(this.activity);
+      }
+
+      // Refresh parent page
+      const pages = getCurrentPages();
+      const parentPage = pages[pages.length-2];
+      parentPage.refresh();
+  
+      wepy.hideLoading();
+      wepy.navigateBack();
+    },
+    async delete(){
+      const result = await wepy.showModal({
+        title: amb.pageI18nData.activity_delete_confirm,
+        content: '',
+      })
+      if(result.cancel) return;
+      wepy.showLoading();
+      console.log('activity to delete', this.activity);
+      await activityService.delete(this.activity.activityId);
+
+      // Refresh parent page
+      const pages = getCurrentPages();
+      const parentPage = pages[pages.length-2];
+      parentPage.refresh();
+  
+      wepy.hideLoading();
+      wepy.navigateBack();
+    }
+  }
+	onLoad(options) {
+    const activityId = options.activityId;
+    this.addMode = !activityId;
+    wepy.setNavigationBarTitle({
+			title: this.addMode ? 'addactivity_title'.i18n : 'editactivity_title'.i18n
+    });
+    this.initModel();
+    if(this.addMode) {
+      this.activity = {
+        nickName: '',
+        gender: '',
+        dob: '',
+        info: '',
+        avatarImageId: null
+      };
+      this.avatarSrcUrl = null;
+    }else{
+      this.loadActivity(activityId);
+    }
+  }
+  initModel(){
+    this.capRange = [1,2,3,4,5,6,7,8,9,10,12,15,18,20,25,30,40,50,60,80,100];
+    this.currencyRange = ["AUD", "人民币"];
+  }
+  async loadActivity(activityId){
+    wepy.showLoading();
+    const activity = await activityService.get(activityId);
+    this.updateData({
+      activity: activity,
+      avatarSrcUrl: imageService.getSrcUrl(activity.avatarImageId)
+    })
+    wepy.stopPullDownRefresh();
+    wepy.hideLoading();
+  }
+}
+</script>

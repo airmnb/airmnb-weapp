@@ -32,6 +32,8 @@ export default class extends wepy.app {
       'pages/search/searchConfig', 
       'pages/provider/provider', 
       'pages/provider/venues', 
+      'pages/provider/edit_activity', 
+      'pages/provider/history', 
       'pages/provider/edit_venue', 
       'pages/mine/mine', 
       'pages/setting/setting',
@@ -42,6 +44,7 @@ export default class extends wepy.app {
 			'pages/setting/stat',
 			'pages/controls/textarea',
 			'pages/controls/input',
+			'pages/controls/dayOfWeekSelector',
     ],
 		window: {
 			backgroundTextStyle: 'dark',
