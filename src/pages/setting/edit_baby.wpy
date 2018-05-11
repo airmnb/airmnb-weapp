@@ -131,6 +131,7 @@ export default class AddBaby extends wepy.page {
         info: '',
         avatarImageId: null
       };
+      this.avatarSrcUrl = null;
     }else{
       this.loadBaby(babyId);
     }

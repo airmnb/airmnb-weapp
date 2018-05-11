@@ -4,11 +4,11 @@
 
 <template>
   <view>
-    <form bindsubmit="ondone">
+    <form bindsubmit="onsave">
       <view class="panel">
         <view class="panel-item">
           <textarea value="{{value}}" bindconfirm="ondone"
-            focus="true" name="input" type="{{type}}"/>
+            focus="true" name="input"/>
         </view>
       </view>
 
@@ -34,7 +34,12 @@
 
     methods = {
       ondone(e) {
-        this.updateParentData(e.detail.value.input);
+        console.log('ondone', e);
+        this.updateParentData(e.detail.value)
+      },
+      onsave(e){
+        this.updateParentData(e.detail.value.input)
+        wepy.navigateBack();
       }
     }
 
@@ -48,11 +53,10 @@
     updateParentData(value) {
       const pages = getCurrentPages();
       const prePage = pages[pages.length - 2];
-      const key = this.key;
+      console.log('textarea value', value);
       prePage.updateData({
-        [key]: value
+        [this.key]: value
       });
-      wepy.navigateBack();
     }
   }
 </script>
