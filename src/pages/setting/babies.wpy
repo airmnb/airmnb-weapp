@@ -52,8 +52,8 @@
     <text class="sub-title">{{i.babies_mine}}</text>
     <view class="baby-panel">
       <navigator url="/pages/setting/edit_baby?babyId={{baby.babyId}}" class="baby-avatar" wx:for="{{babies}}" wx:key="index" wx:for-item="baby">
-        <view class="baby-card baby-placeholder">{{baby.nickName}}</view>        
-        <image class="baby-card baby-image" src="{{baby.avatarSrcUrl}}" />
+        <view class="baby-card baby-placeholder">{{baby.nickName}}</view>
+        <image class="baby-card baby-image" src="{{baby.avatarSrcUrl}}" mode="aspectFill" />
       </navigator>
     </view>
   </view>

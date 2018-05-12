@@ -5,7 +5,7 @@
   <view>
     <view class="panel" bindtap="chooseImage">
       <text class="sub-title">{{i.baby_avatar}}</text>
-      <image class="avatar-upload" src="{{avatarSrcUrl}}"></image>
+      <image class="avatar-upload" src="{{avatarSrcUrl}}" mode="aspectFill"></image>
     </view>
     <view class="panel">
       <navigator url="/pages/controls/input?key=baby.nickName&value={{baby.nickName}}&label={{i.baby_nickname}}" 
