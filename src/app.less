@@ -200,3 +200,44 @@ page {
   height: 360rpx;
   margin: 10rpx;
 }
+
+@gray: #D5D5D5;
+.image-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.image-avatar {
+  width: 33%;
+  position: relative;
+  top: 0;
+  left: 0;
+
+  .image-card {
+    margin: 20rpx;
+    width: 200rpx;
+    height: 200rpx;
+    border-radius: 10rpx;
+
+    &.image-placeholder {
+
+      outline: 2rpx dashed @gray;
+      outline-offset: -2rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: @gray;
+    }
+
+    &.image-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200rpx;
+      height: 200rpx;
+    }
+  } 
+}

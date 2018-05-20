@@ -1,46 +1,4 @@
 <style lang="less">
-@gray: #D5D5D5;
-.baby-panel {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: left;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-.baby-avatar {
-  width: 33%;
-  position: relative;
-  top: 0;
-  left: 0;
-
-  .baby-card {
-    margin: 20rpx;
-    width: 200rpx;
-    height: 200rpx;
-    border-radius: 10rpx;
-
-    &.baby-placeholder {
-
-      outline: 2rpx dashed @gray;
-      outline-offset: -2rpx;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: @gray;
-    }
-
-    &.baby-image {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 200rpx;
-      height: 200rpx;
-    }
-  } 
-}
-
-
 </style>
 
 <template>
@@ -50,10 +8,10 @@
         hover-class="navigator-hover">{{i.babies_add}}</navigator>
     </view>
     <text class="sub-title">{{i.babies_mine}}</text>
-    <view class="baby-panel">
-      <navigator url="/pages/setting/edit_baby?babyId={{baby.babyId}}" class="baby-avatar" wx:for="{{babies}}" wx:key="index" wx:for-item="baby">
-        <view class="baby-card baby-placeholder">{{baby.nickName}}</view>
-        <image class="baby-card baby-image" src="{{baby.avatarSrcUrl}}" mode="aspectFill" />
+    <view class="image-panel">
+      <navigator url="/pages/setting/edit_baby?babyId={{baby.babyId}}" class="image-avatar" wx:for="{{babies}}" wx:key="index" wx:for-item="baby">
+        <view class="image-card image-placeholder">{{baby.nickName}}</view>
+        <image class="image-card image-image" src="{{baby.avatarSrcUrl}}" mode="aspectFill" />
       </navigator>
     </view>
   </view>
