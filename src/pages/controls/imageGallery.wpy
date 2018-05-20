@@ -7,11 +7,11 @@
     <form bindsubmit="onsave">
       <text class="sub-title">{{i.babies_mine}}</text>
       <view class="image-panel">
-        <view class="image-avatar">
-          <view class="image-card image-placeholder">+</view>
+        <view class="image-avatar" wx:for="{{imageUrls}}" wx:key="index" wx:for-item="imageUrl">
+          <image class="image-card image-image" src="{{imageUrl}}" mode="aspectFill" />
         </view>
-        <view class="image-avatar" wx:for="{{images}}" wx:key="index" wx:for-item="image">
-          <image class="image-card image-image" src="{{image.url}}" mode="aspectFill" />
+        <view class="image-avatar">
+          <view class="image-card image-placeholder" bindtap="addImage">+</view>
         </view>
       </view>
       <view class="panel">
@@ -25,6 +25,7 @@
 <script>
   import wepy from 'wepy'
   import amb from '@/util/amb'
+  import imageService from '@/util/imageService'
   
   export default class ImageGallery extends wepy.page {
     config = {
@@ -35,22 +36,35 @@
       value: '',
       label: amb.pageI18nData.label_input,
       i: amb.pageI18nData,
-      images: [],
+      value: [],
+      imageUrls: [],
     }
 
     methods = {
-      ondone(e) {
-        this.updateParentData(e.detail.value);
+      async addImage() {
+        const imageId = await imageService.chooseImage();
+        if(!imageId) return;
+        this.value.push(imageId);
+        const newValue = this.value;
+        this.updateData({
+          'value': newValue,
+          'imageUrls': this.getImageUrls(),
+        });
       },
       onsave(e){
-        this.updateParentData(e.detail.value.input);
+        this.updateParentData(this.value);
       }
+    }
+
+    getImageUrls() {
+      return this.value.map(x => imageService.getSrcUrl(x));
     }
 
     onLoad(options) {
       this.key = options.key || '';
-      this.value = options.value || '';
-
+      console.log('options', options);
+      this.value = options.value ? options.value.split(',') : [];
+      this.imageUrls = this.getImageUrls();
       wepy.setNavigationBarTitle({title: options.label || amb.pageI18nData.label_input});
     }
 
