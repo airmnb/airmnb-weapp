@@ -4,12 +4,6 @@
 </style>
 
 <template>
-  <view>
-    <view style="overflow:hidden">
-		<map id="venueFinder" class='map' longitude="{{map.lng}}" latitude="{{map.lat}}" scale="14" 
-      bindcontroltap="controltap" show-location controls="{{map.controls}}">
-		</map>
-	</view>
     <view class="panel">
       <navigator url="/pages/controls/input?key=venue.name&value={{venue.name}}&label={{i.venue_name}}" 
       hover-class="navigator-hover" class="required">{{i.venue_name}}<text class="value">{{venue.name}}</text>
@@ -38,7 +32,7 @@
         hover-class="navigator-hover">{{i.venue_postcode}}<text class="value">{{venue.postcode}}</text>
       </navigator>
       <navigator url="/pages/controls/textarea?key=venue.info&value={{venue.info}}&label={{i.venue_info}}" 
-        hover-class="navigator-hover" class="required">{{i.venue_info}}
+        hover-class="navigator-hover">{{i.venue_info}}
         <text class="value text-elipsis">{{venue.info}}</text>
       </navigator>
     </view>

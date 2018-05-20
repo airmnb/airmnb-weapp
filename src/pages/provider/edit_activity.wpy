@@ -29,16 +29,16 @@
           <text class="value">{{activity.startDate}}</text>
         </view>
       </picker>
-      <picker mode="time" class="top-line" value="{{activity.startTime}}" start="06:00" end="20:00" bindchange="startTimeChange">  
-        <view class="panel-item required">
-          <text class="label">{{i.activity_start_time}}</text>
-          <text class="value">{{activity.startTime}}</text>
-        </view>
-      </picker>
       <picker mode="date" class="top-line" value="{{activity.endDate}}" start="2018-01-01" end="2028-12-31" bindchange="endDateChange">  
         <view class="panel-item required">
           <text class="label">{{i.activity_end_date}}</text>
           <text class="value">{{activity.endDate}}</text>
+        </view>
+      </picker>
+      <picker mode="time" class="top-line" value="{{activity.startTime}}" start="06:00" end="20:00" bindchange="startTimeChange">  
+        <view class="panel-item required">
+          <text class="label">{{i.activity_start_time}}</text>
+          <text class="value">{{activity.startTime}}</text>
         </view>
       </picker>
       <picker mode="time" class="top-line" value="{{activity.endTime}}" start="06:00" end="20:00" bindchange="endTimeChange">  
@@ -71,7 +71,7 @@
       </picker>
     </view>
     <view class="panel">
-      <navigator class="no-arrow" url="/pages/controls/input?key=activity.price&value={{activity.price}}&type=number&label={{i.activity_price}}" 
+      <navigator class="no-arrow" url="/pages/controls/input?key=activity.price&value={{activity.price}}&type=digit&label={{i.activity_price}}" 
       hover-class="navigator-hover">{{i.activity_price}}<text class="value">{{activity.price}}</text>
       </navigator>
       <picker mode="selector" class="top-line" value="{{activity.currency}}" bindchange="currencyChange"
