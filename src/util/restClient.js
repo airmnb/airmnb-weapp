@@ -23,7 +23,6 @@ class RestClient {
     if(this.tokenFunc) {
       header['Authorization'] = this.tokenFunc();//`bearer ${amb.config.jwt}`
     }
-    console.log('header', header);
     return header;
   }
 

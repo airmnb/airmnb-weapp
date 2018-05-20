@@ -106,7 +106,6 @@ export default class EditActivity extends wepy.page {
     addMode: false,
     i: amb.pageI18nData,
     activity: null,
-    avatarSrcUrl: null,
     venueName: '',
     capRange: [],
     currencyRange: [],
@@ -209,13 +208,11 @@ export default class EditActivity extends wepy.page {
       await this.initModel();
       if(this.addMode) {
         this.activity = {
-          nickName: '',
+          name: '',
           gender: '',
           dob: '',
           info: '',
-          avatarImageId: null
         };
-        this.avatarSrcUrl = null;
       }else{
         this.loadActivity(activityId);
       }
@@ -246,7 +243,6 @@ export default class EditActivity extends wepy.page {
     const activity = await activityService.get(activityId);
     this.updateData({
       activity: activity,
-      avatarSrcUrl: imageService.getSrcUrl(activity.avatarImageId)
     })
     wepy.stopPullDownRefresh();
     wepy.hideLoading();

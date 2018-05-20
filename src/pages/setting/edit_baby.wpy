@@ -8,15 +8,15 @@
       <image class="avatar-upload" src="{{avatarSrcUrl}}" mode="aspectFill"></image>
     </view>
     <view class="panel">
-      <navigator url="/pages/controls/input?key=baby.nickName&value={{baby.nickName}}&label={{i.baby_nickname}}" 
-      hover-class="navigator-hover" class="required">{{i.baby_nickname}}<text class="value">{{baby.nickName}}</text>
+      <navigator url="/pages/controls/input?key=baby.nickName&value={{baby.nickName || ''}}&label={{i.baby_nickname}}" 
+      hover-class="navigator-hover" class="required">{{i.baby_nickname || ''}}<text class="value">{{baby.nickName}}</text>
       </navigator>
     </view>
     <view class="panel">
       <picker mode="date" value="{{baby.dob}}" start="2002-01-01" end="2018-12-31" bindchange="dobChange">  
         <view class="panel-item">
           <text class="label">{{i.dob}}</text>
-          <text class="value">{{baby.dob}}</text>
+          <text class="value">{{baby.dob || ''}}</text>
         </view>
       </picker>
       <view class="panel-item">
@@ -30,9 +30,9 @@
           </label>
         </radio-group>
       </view>
-      <navigator url="/pages/controls/textarea?key=baby.info&value={{baby.info}}&label={{i.baby_desc}}" 
+      <navigator url="/pages/controls/textarea?key=baby.info&value={{baby.info || ''}}&label={{i.baby_desc}}" 
         hover-class="navigator-hover">{{i.baby_desc}}
-        <text class="value text-elipsis">{{baby.info}}</text>
+        <text class="value text-elipsis">{{baby.info || ''}}</text>
       </navigator>
     </view>
     <view class="panel">
