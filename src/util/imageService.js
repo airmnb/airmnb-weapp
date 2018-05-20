@@ -14,12 +14,14 @@ class ImageService {
       sizeType: ['compressed'],
     });
     const localPath = res.tempFilePaths[0]
+    wepy.showLoading({mask: true});
     const apiResp = await wepy.uploadFile({
       url: apiClient.path2Url('/images'),
       header: apiClient.getRequestHeaders(),
       filePath: localPath,
       name: 'dataFile'}
     )
+    wepy.hideLoading();
     if(apiResp.statusCode === 200) {
       const json = JSON.parse(apiResp.data);
       return json.image.imageId;
