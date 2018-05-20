@@ -156,10 +156,14 @@ export default class EditActivity extends wepy.page {
     async save() {
       wepy.showLoading();
       console.log('activity to save', this.activity);
-      if(this.addMode) {
-        await activityService.add(this.activity);
-      }else{
-        await activityService.update(this.activity);
+      try{
+        if(this.addMode) {
+          await activityService.add(this.activity);
+        }else{
+          await activityService.update(this.activity);
+        }
+      }finally{
+        wepy.hideLoading();
       }
 
       // Refresh parent page
@@ -167,7 +171,6 @@ export default class EditActivity extends wepy.page {
       const parentPage = pages[pages.length-2];
       parentPage.refresh();
   
-      wepy.hideLoading();
       wepy.navigateBack();
     },
     async delete(){
