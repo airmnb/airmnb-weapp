@@ -6,7 +6,7 @@ page {
 
 <template>
   <view>
-    <!-- <form bindsubmit="onsave"> -->
+    <form bindsubmit="save">
       <view class="image-panel">
         <view class="image-avatar" wx:for="{{imageUrls}}" wx:key="index" wx:for-item="imageUrl">
           <view class="image-card image-placeholder"></view>
@@ -23,7 +23,7 @@ page {
           <button formType="submit">{{i.button_ok}}</button>
         </view>
       </view>
-    <!-- </form> -->
+    </form>
   </view>
 </template>
 <script>
@@ -68,7 +68,7 @@ page {
           'imageUrls': this.getImageUrls(),
         });
       },
-      onsave(e){
+      save(e){
         this.updateParentData(this.value);
       }
     }
