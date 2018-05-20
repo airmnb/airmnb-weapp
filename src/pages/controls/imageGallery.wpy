@@ -6,9 +6,10 @@ page {
 
 <template>
   <view>
-    <form bindsubmit="onsave">
+    <!-- <form bindsubmit="onsave"> -->
       <view class="image-panel">
         <view class="image-avatar" wx:for="{{imageUrls}}" wx:key="index" wx:for-item="imageUrl">
+          <view class="image-card image-placeholder"></view>
           <image class="image-card image-image" src="{{imageUrl}}" mode="aspectFill" data-index="{{index}}" bindtap="preview"/>
           <!-- <i class="image-card image-delete" bindtap="delete"></i> -->
           <icon class="image-delete" type="clear" size="30" color="red" data-index="{{index}}" bindtap="delete"/>
@@ -22,7 +23,7 @@ page {
           <button formType="submit">{{i.button_ok}}</button>
         </view>
       </view>
-    </form>
+    <!-- </form> -->
   </view>
 </template>
 <script>
