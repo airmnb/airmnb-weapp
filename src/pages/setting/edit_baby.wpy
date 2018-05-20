@@ -62,7 +62,8 @@ export default class AddBaby extends wepy.page {
   };
   methods = {
     async chooseImage() {
-      const imageId = await imageService.chooseImage();
+      const imageIds = await imageService.chooseImage(1);
+      const imageId = imageIds[0];
       const srcUrl = imageService.getSrcUrl(imageId);
       this.updateData({
         'avatarSrcUrl': srcUrl,

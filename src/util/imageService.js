@@ -8,25 +8,36 @@ class ImageService {
     return publicClient.path2Url('/images') + `/${imageId}`;
   }
 
-  async chooseImage() {
+  async chooseImage(count) {
     const res = await wepy.chooseImage({
-      count: 1,
+      count: count || 1,
       sizeType: ['compressed'],
     });
-    const localPath = res.tempFilePaths[0]
     wepy.showLoading({mask: true});
-    const apiResp = await wepy.uploadFile({
+    const tasks = res.tempFilePaths.map(f => this.uploadSingleFilePromise(f));
+    const resps = await Promise.all(tasks);
+    console.log(resps);
+    wepy.hideLoading();
+    const ids = resps.map(r => {
+      if(r.statusCode === 200) {
+        const json = JSON.parse(r.data);
+        return json.image.imageId;
+      }
+      return null;
+    })
+    if(ids.filter(id => !id).length){
+      throw new Error('Unable to upload image: ' + JSON.stringify(apiResp));
+    }
+    return ids;
+  }
+
+  uploadSingleFilePromise(localPath) {
+    return wepy.uploadFile({
       url: apiClient.path2Url('/images'),
       header: apiClient.getRequestHeaders(),
       filePath: localPath,
       name: 'dataFile'}
     )
-    wepy.hideLoading();
-    if(apiResp.statusCode === 200) {
-      const json = JSON.parse(apiResp.data);
-      return json.image.imageId;
-    }
-    throw new Error('Unable to upload image: ' + JSON.stringify(apiResp));
   }
 }
 const imageService = new ImageService();

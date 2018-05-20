@@ -1,14 +1,17 @@
 <style lang="less">
-
+page {
+  padding-top: 20rpx;
+}
 </style>
 
 <template>
   <view>
     <form bindsubmit="onsave">
-      <text class="sub-title">{{i.babies_mine}}</text>
       <view class="image-panel">
         <view class="image-avatar" wx:for="{{imageUrls}}" wx:key="index" wx:for-item="imageUrl">
-          <image class="image-card image-image" src="{{imageUrl}}" mode="aspectFill" />
+          <image class="image-card image-image" src="{{imageUrl}}" mode="aspectFill" data-index="{{index}}" bindtap="preview"/>
+          <!-- <i class="image-card image-delete" bindtap="delete"></i> -->
+          <icon class="image-delete" type="clear" size="30" color="red" data-index="{{index}}" bindtap="delete"/>
         </view>
         <view class="image-avatar">
           <view class="image-card image-placeholder" bindtap="addImage">+</view>
@@ -42,12 +45,25 @@
 
     methods = {
       async addImage() {
-        const imageId = await imageService.chooseImage();
-        if(!imageId) return;
-        this.value.push(imageId);
-        const newValue = this.value;
+        const imageIds = await imageService.chooseImage(9);
+        this.value = this.value.concat(imageIds);
         this.updateData({
-          'value': newValue,
+          'value': this.value,
+          'imageUrls': this.getImageUrls(),
+        });
+      },
+      preview(e) {
+        const i = e.currentTarget.dataset.index;
+        wepy.previewImage({
+          current: this.imageUrls[i],
+          urls: this.imageUrls
+        })
+      },
+      delete(e) {
+        const i = e.currentTarget.dataset.index;
+        this.value.splice(i, 1);
+        this.updateData({
+          'value': this.value,
           'imageUrls': this.getImageUrls(),
         });
       },
@@ -65,7 +81,7 @@
       console.log('options', options);
       this.value = options.value ? options.value.split(',') : [];
       this.imageUrls = this.getImageUrls();
-      wepy.setNavigationBarTitle({title: options.label || amb.pageI18nData.label_input});
+      wepy.setNavigationBarTitle({title: options.label || amb.pageI18nData.activity_images});
     }
 
     updateParentData(value) {

@@ -156,7 +156,7 @@ const i18n = {
     "activity_price": "价格",
     "activity_currency": "货币",
     "activity_discount": "折扣优惠",
-    "activity_images": "图片",
+    "activity_images": "活动图片",
     "button_save": "保  存",
     "button_delete": "删  除",
     "button_ok": "确  定",

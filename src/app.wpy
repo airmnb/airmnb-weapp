@@ -69,13 +69,13 @@ export default class extends wepy.app {
 					pagePath: 'pages/mine/mine',
 					// iconPath: 'images/fa-bookmark-off.png',
 					// selectedIconPath: 'images/fa-bookmark.png',
-					text: 'As Consumer'
+					text: 'Me'
 				},
 				{
 					pagePath: 'pages/provider/provider',
 					// iconPath: 'images/fa-bookmark-off.png',
 					// selectedIconPath: 'images/fa-bookmark.png',
-					text: 'As Provider'
+					text: 'I Provide'
 				},
 				{
 					pagePath: 'pages/setting/setting',

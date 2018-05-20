@@ -113,16 +113,6 @@ export default class EditActivity extends wepy.page {
     venueRange: [],
   };
   methods = {
-    async chooseImage() {
-      wepy.showLoading();
-      const imageId = await imageService.chooseImage();
-      const srcUrl = imageService.getSrcUrl(imageId);
-      this.updateData({
-        'avatarSrcUrl': srcUrl,
-        'activity.avatarImageId': imageId
-      });
-      wepy.hideLoading();
-    },
     setGender(e) {
       this.updateData({
         'activity.gender': parseInt(e.detail.value),
