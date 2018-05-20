@@ -13,6 +13,7 @@ class ActivityService {
     }
   }
   async add(activity) {
+    console.log('activity to save', activity);
     activity = amb.cleanSetModel(activity);
     activity.providerId = amb.config.user.userId;
     await apiClient.post('activities', activity);

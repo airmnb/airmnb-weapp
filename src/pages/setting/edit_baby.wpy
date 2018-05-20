@@ -9,7 +9,7 @@
     </view>
     <view class="panel">
       <navigator url="/pages/controls/input?key=baby.nickName&value={{baby.nickName}}&label={{i.baby_nickname}}" 
-      hover-class="navigator-hover">{{i.baby_nickname}}<text class="value">{{baby.nickName}}</text>
+      hover-class="navigator-hover" class="required">{{i.baby_nickname}}<text class="value">{{baby.nickName}}</text>
       </navigator>
     </view>
     <view class="panel">

@@ -5,15 +5,15 @@
   <view>
     <view class="panel">
       <navigator url="/pages/controls/input?key=activity.name&value={{activity.name}}&label={{i.activity_name}}" 
-      hover-class="navigator-hover">{{i.activity_name}}<text class="value">{{activity.name}}</text>
+      hover-class="navigator-hover" class="required">{{i.activity_name}}<text class="value">{{activity.name}}</text>
       </navigator>
       <navigator url="/pages/controls/textarea?key=activity.info&value={{activity.info}}&label={{i.activity_info}}" 
-        hover-class="navigator-hover">{{i.activity_info}}
+        hover-class="navigator-hover" class="required">{{i.activity_info}}
         <text class="value text-elipsis">{{activity.info}}</text>
       </navigator>
       <picker mode="selector" class="top-line" value="{{activity.startTime}}" bindchange="venueChange"
         range="{{venueRange}}"> 
-        <view class="panel-item">
+        <view class="panel-item required">
           <text class="label">{{i.activity_venue}}</text>
           <text class="value text-elipsis">{{venueName}}</text>
         </view>
@@ -24,25 +24,25 @@
     </view>
     <view class="panel">
       <picker mode="date" value="{{activity.startDate}}" start="2018-01-01" end="2028-12-31" bindchange="startDateChange">  
-        <view class="panel-item">
+        <view class="panel-item required">
           <text class="label">{{i.activity_start_date}}</text>
           <text class="value">{{activity.startDate}}</text>
         </view>
       </picker>
       <picker mode="time" class="top-line" value="{{activity.startTime}}" start="06:00" end="20:00" bindchange="startTimeChange">  
-        <view class="panel-item">
+        <view class="panel-item required">
           <text class="label">{{i.activity_start_time}}</text>
           <text class="value">{{activity.startTime}}</text>
         </view>
       </picker>
       <picker mode="date" class="top-line" value="{{activity.endDate}}" start="2018-01-01" end="2028-12-31" bindchange="endDateChange">  
-        <view class="panel-item">
+        <view class="panel-item required">
           <text class="label">{{i.activity_end_date}}</text>
           <text class="value">{{activity.endDate}}</text>
         </view>
       </picker>
       <picker mode="time" class="top-line" value="{{activity.endTime}}" start="06:00" end="20:00" bindchange="endTimeChange">  
-        <view class="panel-item">
+        <view class="panel-item required">
           <text class="label">{{i.activity_end_time}}</text>
           <text class="value">{{activity.endTime}}</text>
         </view>
