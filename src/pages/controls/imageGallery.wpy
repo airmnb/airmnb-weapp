@@ -1,0 +1,67 @@
+<style lang="less">
+
+</style>
+
+<template>
+  <view>
+    <form bindsubmit="onsave">
+      <text class="sub-title">{{i.babies_mine}}</text>
+      <view class="image-panel">
+        <view class="image-avatar">
+          <view class="image-card image-placeholder">+</view>
+        </view>
+        <view class="image-avatar" wx:for="{{images}}" wx:key="index" wx:for-item="image">
+          <image class="image-card image-image" src="{{image.url}}" mode="aspectFill" />
+        </view>
+      </view>
+      <view class="panel">
+        <view class="panel-item">
+          <button formType="submit">{{i.button_ok}}</button>
+        </view>
+      </view>
+    </form>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import amb from '@/util/amb'
+  
+  export default class ImageGallery extends wepy.page {
+    config = {
+    }
+
+    data = {
+      key: undefined,
+      value: '',
+      label: amb.pageI18nData.label_input,
+      i: amb.pageI18nData,
+      images: [],
+    }
+
+    methods = {
+      ondone(e) {
+        this.updateParentData(e.detail.value);
+      },
+      onsave(e){
+        this.updateParentData(e.detail.value.input);
+      }
+    }
+
+    onLoad(options) {
+      this.key = options.key || '';
+      this.value = options.value || '';
+
+      wepy.setNavigationBarTitle({title: options.label || amb.pageI18nData.label_input});
+    }
+
+    updateParentData(value) {
+      const pages = getCurrentPages();
+      const prePage = pages[pages.length - 2];
+      const key = this.key;
+      prePage.updateData({
+        [key]: value
+      });
+      wepy.navigateBack();
+    }
+  }
+</script>
