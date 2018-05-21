@@ -1,5 +1,6 @@
 import {apiClient} from "./restClient";
 import amb from "@/util/amb";
+import mapService from "@/util/MapService";
 
 class VenusService {
   async get(id){
@@ -15,6 +16,9 @@ class VenusService {
   async add(venue) {
     venue = amb.cleanSetModel(venue);
     venue.providerId = amb.config.user.userId;
+    console.log('venue before', venue);
+    await this.attachGeoCoordinate(venue);
+    console.log('venue after', venue);
     await apiClient.post('venues', venue);
   }
 
@@ -27,6 +31,17 @@ class VenusService {
   async update(venue) {
     venue = amb.cleanSetModel(venue);
     await apiClient.put(`venues/${venue.venueId}`, venue);
+  }
+
+  async attachGeoCoordinate(venue) {
+    const address = this.getAddressForQqMap(venue);
+    const mapResult = await mapService.sanitize(venue);
+    venue.lat = mapResult.location.lat;
+    venue.lng = mapResult.location.lng;
+  }
+
+  getAddressForQqMap(venue) {
+    return [venue.state, '省', venue.city, '市', venue.addr3, venue.addr2, venue.addr1].filter(x => !!x).join('');
   }
 
   getAddress(venue) {
