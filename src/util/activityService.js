@@ -19,19 +19,14 @@ class ActivityService {
     await apiClient.post('activities', activity);
   }
 
-  async queryMyActivities(query) {
-    const providerId = amb.config.user.userId;
-    const params = Object.assign({providerId}, query);
-    const resp = await apiClient.get('activities', params);
+  async getOngoing() {
+    const resp = await apiClient.get('activities/ongoing');
     return resp.activities;
   }
 
-  async getOngoing() {
-    return await this.queryMyActivities({});
-  }
-
   async getHistory() {
-    return await this.queryMyActivities({});
+    const resp = await apiClient.get('activities/closed');
+    return resp.activities;
   }
 
   async update(activity) {
