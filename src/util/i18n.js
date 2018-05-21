@@ -35,7 +35,7 @@ const i18n = {
     "provider_venues": "Venues",
     "provider_history": "Closed Activities",
     "provider_ongoing": "Ongoing Activities",
-    "venues_title": "Venues Management",
+    "venues_title": "Venues",
     "venue_add": "Add New Venue",
     "venue_edit": "Edit Venue",
     "venues_mine": "My Venues",
