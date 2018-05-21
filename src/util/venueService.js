@@ -1,6 +1,6 @@
 import {apiClient} from "./restClient";
 import amb from "@/util/amb";
-import mapService from "@/util/MapService";
+import mapService from "@/util/mapService";
 
 class VenusService {
   async get(id){
@@ -35,9 +35,10 @@ class VenusService {
 
   async attachGeoCoordinate(venue) {
     const address = this.getAddressForQqMap(venue);
-    const mapResult = await mapService.sanitize(venue);
-    venue.lat = mapResult.location.lat;
-    venue.lng = mapResult.location.lng;
+    const mapResult = await mapService.sanitize(address);
+    venue.latitude = mapResult.location.lat;
+    venue.longitude = mapResult.location.lng;
+    venue.mapService = 'tencent';
   }
 
   getAddressForQqMap(venue) {
