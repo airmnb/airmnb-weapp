@@ -51,7 +51,6 @@ module.exports = {
 }
 
 if (prod) {
-
   // 压缩sass
   // module.exports.compilers['sass'] = {outputStyle: 'compressed'}
   module.exports['less'] = {"compress": true};
@@ -64,9 +63,9 @@ if (prod) {
     uglifyjs: {
       filter: /\.js$/,
       config: {
-        compress: {
-          warning: false
-        }
+        // compress: {
+        //   warning: false
+        // }
       }
     },
     imagemin: {
