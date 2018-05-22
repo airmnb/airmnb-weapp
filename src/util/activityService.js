@@ -31,7 +31,7 @@ class ActivityService {
 
   async update(activity) {
     activity = amb.cleanSetModel(activity);
-    await apiClient.put(`activities/${activity.venueId}`, activity);
+    await apiClient.put(`activities/${activity.activityId}`, activity);
   }
 }
 

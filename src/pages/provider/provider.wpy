@@ -31,12 +31,13 @@
 <template>
   <view>
     <view class="panel">
+      <navigator url="/pages/provider/venues" hover-class="navigator-hover">{{i.provider_venues}}</navigator>
+    </view>
+    <view class="panel">
       <navigator url="/pages/provider/edit_activity" hover-class="navigator-hover">{{i.provider_newactivity}}</navigator>
       <navigator url="/pages/provider/history" class="last-navigator" hover-class="navigator-hover">{{i.provider_history}}</navigator>
     </view>
-    <view class="panel">
-      <navigator url="/pages/provider/venues" hover-class="navigator-hover">{{i.provider_venues}}</navigator>
-    </view>
+
     <text class="sub-title">{{i.provider_ongoing}}</text>
     <view class="activity-panel"> 
       <navigator url="/pages/provider/edit_activity?activityId={{a.activityId}}" 

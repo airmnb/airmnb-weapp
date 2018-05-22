@@ -89,7 +89,7 @@
     </view>
     <view class="panel" wx:if="{{!addMode}}">
       <view class="panel-item warning">
-        <button @tap="delete">{{i.button_delete}}</button>
+        <button @tap="deleteOne">{{i.button_delete}}</button>
       </view>
     </view>
   </view>
@@ -179,7 +179,7 @@ export default class EditActivity extends wepy.page {
   
       wepy.navigateBack();
     },
-    async delete(){
+    async deleteOne(){
       const result = await wepy.showModal({
         title: amb.pageI18nData.activity_delete_confirm,
         content: '',
