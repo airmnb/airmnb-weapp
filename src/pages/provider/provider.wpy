@@ -3,20 +3,26 @@
 .activity-panel {
   width: 100%;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  background-color: white;
 
   .activity-card {
-    margin: 20rpx;
-    width: 320rpx;
-    height: 500rpx;
-    border-radius: 10rpx;
+    margin: 20rpx 0 20rpx 0;
+    flex: 100%;
+    display: flex;
+    align-items: flex-start;
 
     .activity-avatar{
-      width: 300rpx;
-      height: 300rpx;
+      height: 240rpx;
+      // border-radius: 10rpx;
+      flex: 0 0 240rpx;
+    }
+
+    .activity-content {
+      // flex: 100%;
+      margin-left: 10rpx;
+      display: flex;
+      flex-direction: column;
     }
   }
 }
@@ -33,10 +39,17 @@
     </view>
     <text class="sub-title">{{i.provider_ongoing}}</text>
     <view class="activity-panel"> 
-      <navigator url="/pages/setting/edit_baby?babyId={{baby.babyId}}" class="activity-card" wx:for="{{activities}}" wx:key="index" wx:for-item="a">
+      <navigator url="/pages/provider/edit_activity?activityId={{a.activityId}}" 
+      wx:for="{{activities}}" wx:key="index" wx:for-item="a">
+      <view class="activity-card" >
         <image class="activity-avatar" src="{{a.avatarImageUrl}}" mode="aspectFill" />
-        <text>{{a.name}}<text>
-        <text>{{a.info}}<text>
+        <view class="activity-content">
+          <text class="secondary-text">{{a.name}}</text>
+          <text class="info-text">{{a.info}}</text>
+          <text class="info-text">{{a.start}} - {{a.end}}</text>
+          <text class="info-text">{{a.start}} - {{a.end}}</text>
+        </view>
+        </view>
       </navigator>
     </view>
   </view>
@@ -47,6 +60,9 @@
   import activityService from '@/util/activityService'
   import imageService from '@/util/imageService'
   export default class Index extends wepy.page {
+    config = {
+      enablePullDownRefresh: true,
+    }
     data = {
       i: amb.pageI18nData,
       activities: null,
@@ -56,19 +72,27 @@
         title: amb.pageI18nData.provider_title
       });
 
+      this.refresh()
+    }
+    onPullDownRefresh() {
+      this.refresh();
+    }
+    async refresh(){
+      wepy.showLoading();
       const activities = await activityService.getOngoing();
       this.attachAvatarImageUrl(activities);
       this.updateData({
         'activities': activities
       });
+      wepy.stopPullDownRefresh();
+      wepy.hideLoading();
     }
-
     attachAvatarImageUrl(activities) {
       activities.forEach(x => {
         if(x.imageIds && x.imageIds.length) {
           x.avatarImageUrl = imageService.getSrcUrl(x.imageIds[0]);
         }
-        x.avatarImageUrl = imageService.getSrcUrl('a5716b43-cb1e-4986-90ac-3d12890de990');
+        x.avatarImageUrl = imageService.getSrcUrl('d38da205-a2bc-4510-a3e0-3734b6c4f116');
         
       });
     }
