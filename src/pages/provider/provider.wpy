@@ -93,8 +93,6 @@
         if(x.imageIds && x.imageIds.length) {
           x.avatarImageUrl = imageService.getSrcUrl(x.imageIds[0]);
         }
-        x.avatarImageUrl = imageService.getSrcUrl('d38da205-a2bc-4510-a3e0-3734b6c4f116');
-        
       });
     }
   }
