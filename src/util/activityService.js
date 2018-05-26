@@ -29,6 +29,11 @@ class ActivityService {
     return resp.activities;
   }
 
+  async getRecommendations(){
+    const resp = await apiClient.get('activities/recommended');
+    return resp.activities;    
+  }
+
   async update(activity) {
     activity = amb.cleanSetModel(activity);
     await apiClient.put(`activities/${activity.activityId}`, activity);

@@ -1,21 +1,87 @@
 <style lang="less">
 
 
-page {
-	height: 100%;
-}
+// page {
+// 	height: 100%;
+// }
 
-page > view {
-	height: 100%;
-}
+// page > view {
+// 	height: 100%;
+// }
 
 
 .map {
 	width: 100%; 
 	// height: ~"calc(100% - 110rpx)";;
-	height: 750rpx;
+	height: 640rpx;
 }
 
+.activity-panel {
+  display: flex;
+  flex-direction: row;
+	background-color: white;
+	justify-content: flex-start;
+	
+  .activity-card {
+		padding: 5rpx;
+		border: 1rpx solid red;
+		width: 360rpx;
+		height: 420rpx;
+		display: inline-block;
+		word-wrap: break-word;
+		// flex: 1 1;
+    // display: flex;
+  	// flex-direction: column;
+    // align-items: flex-start;
+
+    .activity-avatar{
+			height: 240rpx;
+			width: 240rpx;
+			flex: 1 1 240rpx;
+      // border-radius: 10rpx;
+      // flex: 0 0 240rpx;
+    }
+
+    .activity-content {
+      // flex: 100%;
+      margin-left: 10rpx;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+  .cards {
+    display: flex;
+    align-items: stretch;
+  }
+  .card {
+    flex: 0 0 200rpx;
+    margin: 20rpx;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+  } 
+  .card image {
+		// max-width: 100%;
+		height: 240rpx;
+		width: 360rpx;
+  }
+  .card text {
+		// padding: 0 20rpx 20rpx;
+		width: 360rpx;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+		display: block;
+  }
+  .card .text > button {
+    background: gray;
+    border: 0;
+    color: white;
+    padding: 10px;
+    width: 100%;
+		}
+		
 </style>
 
 <template>
@@ -26,11 +92,43 @@ page > view {
 		<map id="map" class='map' longitude="{{lng}}" latitude="{{lat}}" scale="14" bindcontroltap="controltap" bindregionchange="regionchange"
 			show-location controls="{{controls}}">
 		</map>
+		<!-- <scroll-view scroll-x="true" style="width: 100%; height: 300rpx">
+			<navigator url="/pages/search/book?activityId={{a.activityId}}" 
+			wx:for="{{recommended}}" wx:key="index" wx:for-item="a" class="activity-card">
+				<image class="activity-avatar" src="{{a.avatarImageUrl}}" mode="aspectFill" />
+				<view class="activity-content">
+					<text class="secondary-text">{{a.name}}</text>
+					<text class="info-text">{{a.info}}</text>
+					<text class="info-text">{{a.start}} - {{a.end}}</text>
+					<text class="info-text">{{a.start}} - {{a.end}}</text>
+				</view>
+			</navigator>
+		</scroll-view> -->
+
+		<scroll-view scroll-x style="white-space: nowrap;">
+			<view class="cards">
+				<navigator url="/pages/search/book?activityId={{a.activityId}}" 
+				wx:for="{{recommended}}" wx:key="index" wx:for-item="a" class="card">
+					<image src="{{a.avatarImageUrl}}" mode="aspectFill" />
+					<view class="text">
+						<text class="secondary-text">{{a.name}}</text>
+						<text class="info-text">{{a.info}}</text>
+						<text class="info-text">{{a.start}} - {{a.end}}</text>
+						<text class="info-text">{{a.start}} - {{a.end}}</text>
+					</view>
+				</navigator>
+			</view>
+		</scroll-view>
 	</view>
+	
 </template>
 <script>
 	import wepy from 'wepy'
 	import amb from '@/util/amb'
+  import activityService from '@/util/activityService'
+  import imageService from '@/util/imageService'
+	import loginService from '@/util/loginService';
+	
 	export default class Map extends wepy.page {
 		data = {
 			i: amb.pageI18nData,
@@ -59,6 +157,7 @@ page > view {
 				clickable: true
 			}],
 			keywords: '',
+			recommended: []
 		}
 
 		methods = {
@@ -75,13 +174,34 @@ page > view {
 			},
 		}
 
-		onLoad (options) {
+		async onLoad (options) {
 			wepy.setNavigationBarTitle({
 				title: amb.pageI18nData.map_title
 			});
+			wepy.showLoading({mask: true});
+			// Wechat login and get Airmnb user
+			await loginService.login();
+			wepy.hideLoading();
 			this.centerByCurrentLocation();
+			const activities = await activityService.getOngoing();
+      this.attachAvatarImageUrl(activities);
+      this.updateData({
+        'recommended': activities
+      });
 		}
 
+		pollTillLoggedIn() {
+			const user = amb.config.user;
+			setInterval()
+		}
+
+    attachAvatarImageUrl(activities) {
+      activities.forEach(x => {
+        if(x.imageIds && x.imageIds.length) {
+          x.avatarImageUrl = imageService.getSrcUrl(x.imageIds[0]);
+        }
+      });
+    }
 		async onShow () {
 			// const result = await searchService.search();
 		}
