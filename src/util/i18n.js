@@ -149,7 +149,7 @@ const i18n = {
     "activity_venue": "地点",
     "activity_start_date": "开始日期",
     "activity_start_time": "开始时间",
-    "activity_end_date": "结束日子",
+    "activity_end_date": "结束日期",
     "activity_end_time": "结束时间",
     "activity_dayofweek": "星期几",
     "activity_gender": "宝宝性别",
