@@ -17,7 +17,10 @@ class VenusService {
     venue = amb.cleanSetModel(venue);
     venue.providerId = amb.config.user.userId;
     // console.log('venue before', venue);
-    // await this.attachGeoCoordinate(venue);
+    if(!venue.latitude || !venue.longitude) {
+      console.log('No coordinate info, attaching it');
+      await this.attachGeoCoordinate(venue);
+    }
     // console.log('venue after', venue);
     await apiClient.post('venues', venue);
   }
@@ -30,6 +33,10 @@ class VenusService {
 
   async update(venue) {
     venue = amb.cleanSetModel(venue);
+    if(!venue.latitude || !venue.longitude) {
+      console.log('No coordinate info, attaching it');
+      await this.attachGeoCoordinate(venue);
+    }
     await apiClient.put(`venues/${venue.venueId}`, venue);
   }
 

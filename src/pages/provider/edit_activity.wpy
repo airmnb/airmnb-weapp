@@ -23,25 +23,25 @@
       </navigator>
     </view>
     <view class="panel">
-      <picker mode="date" value="{{activity.startDate}}" start="2018-01-01" end="2028-12-31" bindchange="startDateChange">  
+      <picker mode="date" disabled="{{!addMode}}" value="{{activity.startDate}}" start="2018-01-01" end="2028-12-31" bindchange="startDateChange">  
         <view class="panel-item required">
           <text class="label">{{i.activity_start_date}}</text>
           <text class="value">{{activity.startDate}}</text>
         </view>
       </picker>
-      <picker mode="date" class="top-line" value="{{activity.endDate}}" start="2018-01-01" end="2028-12-31" bindchange="endDateChange">  
+      <picker mode="date" disabled="{{!addMode}}" class="top-line" value="{{activity.endDate}}" start="2018-01-01" end="2028-12-31" bindchange="endDateChange">  
         <view class="panel-item required">
           <text class="label">{{i.activity_end_date}}</text>
           <text class="value">{{activity.endDate}}</text>
         </view>
       </picker>
-      <picker mode="time" class="top-line" value="{{activity.startTime}}" start="06:00" end="20:00" bindchange="startTimeChange">  
+      <picker mode="time" disabled="{{!addMode}}" class="top-line" value="{{activity.startTime}}" start="06:00" end="20:00" bindchange="startTimeChange">  
         <view class="panel-item required">
           <text class="label">{{i.activity_start_time}}</text>
           <text class="value">{{activity.startTime}}</text>
         </view>
       </picker>
-      <picker mode="time" class="top-line" value="{{activity.endTime}}" start="06:00" end="20:00" bindchange="endTimeChange">  
+      <picker mode="time" disabled="{{!addMode}}" class="top-line" value="{{activity.endTime}}" start="06:00" end="20:00" bindchange="endTimeChange">  
         <view class="panel-item required">
           <text class="label">{{i.activity_end_time}}</text>
           <text class="value">{{activity.endTime}}</text>
@@ -53,14 +53,14 @@
       </navigator>
       <view class="panel-item">
         <text class="label">{{i.gender}}</text>
-        <view>
+        <checkbox-group bindchange="changeGender">
           <label class="radio">
-            <checkbox value="1" checked="{{activity.gender + '' ==='1'}}" color="#D81B60"/>{{i.male}}
+            <checkbox value="1" disabled="{{!addMode}}" checked="{{activity.gender & 1}}" color="#D81B60"/>{{i.male}}
           </label>
           <label class="radio">
-            <checkbox value="0" checked="{{activity.gender + '' ==='0'}}" color="#D81B60"/>{{i.female}}
+            <checkbox value="2" disabled="{{!addMode}}" checked="{{activity.gender & 2}}" color="#D81B60"/>{{i.female}}
           </label>
-        </view>
+        </checkbox-group>
       </view>
       <picker mode="selector" class="top-line" value="{{activity.capacity}}" bindchange="capChange"
         range="{{capRange}}">
@@ -113,9 +113,11 @@ export default class EditActivity extends wepy.page {
     venueRange: [],
   };
   methods = {
-    setGender(e) {
+    changeGender(e) {
+      const value = e.detail.value.map(x => parseInt(x)).reduce((a, c) => a | c, 0);
+      console.log('gender', value);
       this.updateData({
-        'activity.gender': parseInt(e.detail.value),
+        'activity.gender': value,
       });
     },
     startDateChange(e) {

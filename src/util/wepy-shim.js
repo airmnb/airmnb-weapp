@@ -3,9 +3,9 @@ import wepy from 'wepy';
 function setData(wepypage, key, value) {
 	const keys = key.split('.');
 	let prop = wepypage;
-	console.log('setData', key, value, keys);
+	// console.log('setData', key, value, keys);
 	keys.forEach((k, i) => {
-		console.log('iteration', k);
+		// console.log('iteration', k);
 		const m = /^(.+)\[([0-9]+)\]$/.exec(key);
 		const isLast = (i === keys.length - 1);
 		if(m) {

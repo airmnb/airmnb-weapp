@@ -36,11 +36,21 @@
 
     methods = {
       ondone(e) {
-        this.updateParentData(e.detail.value);
+        const value = this.sanitizeValue(e.detail.value);
+        this.updateParentData(value);
       },
       onsave(e){
-        this.updateParentData(e.detail.value.input);
+        const value = this.sanitizeValue(e.detail.value.input);
+        this.updateParentData(value);
       }
+    }
+
+    sanitizeValue(value){
+      if(this.type === 'number')
+        return parseInt(value);
+      if(this.type === 'digit')
+        return parseFloat(value);
+      return value;
     }
 
     onLoad(options) {
