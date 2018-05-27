@@ -53,11 +53,12 @@
 
   .cards {
     display: flex;
-    align-items: stretch;
+		align-items: stretch;
+		padding: 10rpx;
   }
   .card {
     flex: 0 0 200rpx;
-    margin: 20rpx;
+    margin: 10rpx;
     border: 1px solid #ccc;
     box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
   } 

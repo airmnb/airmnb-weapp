@@ -24,7 +24,7 @@ class ActivityService {
     return resp.activities;
   }
 
-  async getHistory() {
+  async getClosed() {
     const resp = await apiClient.get('activities/closed');
     return resp.activities;
   }

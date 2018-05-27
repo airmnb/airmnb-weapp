@@ -24,13 +24,13 @@
     </view>
     <view class="panel">
       <picker mode="date" value="{{activity.startDate}}" start="2018-01-01" end="2028-12-31" bindchange="startDateChange">  
-        <view class="panel-item required">
+        <view class="panel-item">
           <text class="label">{{i.activity_start_date}}</text>
           <text class="value">{{activity.startDate}}</text>
         </view>
       </picker>
       <picker mode="date" class="top-line" value="{{activity.endDate}}" start="2018-01-01" end="2028-12-31" bindchange="endDateChange">  
-        <view class="panel-item required">
+        <view class="panel-item">
           <text class="label">{{i.activity_end_date}}</text>
           <text class="value">{{activity.endDate}}</text>
         </view>
