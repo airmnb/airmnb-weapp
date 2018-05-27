@@ -16,9 +16,9 @@ class VenusService {
   async add(venue) {
     venue = amb.cleanSetModel(venue);
     venue.providerId = amb.config.user.userId;
-    console.log('venue before', venue);
-    await this.attachGeoCoordinate(venue);
-    console.log('venue after', venue);
+    // console.log('venue before', venue);
+    // await this.attachGeoCoordinate(venue);
+    // console.log('venue after', venue);
     await apiClient.post('venues', venue);
   }
 

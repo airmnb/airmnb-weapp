@@ -6,28 +6,33 @@
 <template>
   <view>
     <view class="panel">
+      <view class="panel-item secondary">
+        <button @tap="chooseLocation">{{i.button_choose_location}}</button>
+      </view>
+    </view>
+    <view class="panel">
       <navigator url="/pages/controls/input?key=venue.name&value={{venue.name || ''}}&label={{i.venue_name}}" 
-      hover-class="navigator-hover" class="required">{{i.venue_name}}<text class="value">{{venue.name || ''}}</text>
+      hover-class="navigator-hover">{{i.venue_name}}<text class="value">{{venue.name || ''}}</text>
       </navigator>
     </view>
     <view class="panel">
       <navigator url="/pages/controls/input?key=venue.addr1&value={{venue.addr1 || ''}}&label={{i.venue_addr1}}" 
         hover-class="navigator-hover" class="required">{{i.venue_addr1}}<text class="value">{{venue.addr1 || ''}}</text>
       </navigator>
-      <navigator url="/pages/controls/input?key=venue.addr2&value={{venue.addr2 || ''}}&label={{i.venue_addr2}}" 
+      <!-- <navigator url="/pages/controls/input?key=venue.addr2&value={{venue.addr2 || ''}}&label={{i.venue_addr2}}" 
         hover-class="navigator-hover">{{i.venue_addr2}}<text class="value">{{venue.addr2 || ''}}</text>
       </navigator>
       <navigator url="/pages/controls/input?key=venue.addr3&value={{venue.addr3 || ''}}&label={{i.venue_addr3}}" 
         hover-class="navigator-hover">{{i.venue_addr3}}<text class="value">{{venue.addr3 || ''}}</text>
-      </navigator>
+      </navigator> -->
       <navigator url="/pages/controls/input?key=venue.city&value={{venue.city || ''}}&label={{i.venue_city}}" 
-        hover-class="navigator-hover" class="required">{{i.venue_city}}<text class="value">{{venue.city || ''}}</text>
+        hover-class="navigator-hover">{{i.venue_city}}<text class="value">{{venue.city || ''}}</text>
       </navigator>
       <navigator url="/pages/controls/input?key=venue.state&value={{venue.state || ''}}&label={{i.venue_state}}" 
-        hover-class="navigator-hover" class="required">{{i.venue_state}}<text class="value">{{venue.state || ''}}</text>
+        hover-class="navigator-hover">{{i.venue_state}}<text class="value">{{venue.state || ''}}</text>
       </navigator>
       <navigator url="/pages/controls/input?key=venue.country&value={{venue.country || ''}}&label={{i.venue_country}}" 
-        hover-class="navigator-hover" class="required">{{i.venue_country}}<text class="value">{{venue.country || ''}}</text>
+        hover-class="navigator-hover">{{i.venue_country}}<text class="value">{{venue.country || ''}}</text>
       </navigator>
       <navigator url="/pages/controls/input?key=venue.postcode&value={{venue.postcode || ''}}&label={{i.venue_postcode}}" 
         hover-class="navigator-hover">{{i.venue_postcode}}<text class="value">{{venue.postcode || ''}}</text>
@@ -54,6 +59,7 @@ import wepy from 'wepy';
 import amb from '@/util/amb';
 import imageService from '@/util/imageService'
 import venueService from '@/util/venueService'
+import mapService from '@/util/mapService'
 
 export default class AddVenue extends wepy.page {
 	data = {
@@ -84,6 +90,15 @@ export default class AddVenue extends wepy.page {
       }else if(e.controlId === 2) {
         // Pick up the center as the location.
       }
+    },
+    async chooseLocation(){
+      const geo = await mapService.chooseLocation();
+      this.updateData({
+        'venue.name': geo.name || '',
+        'venue.addr1': geo.address || '',
+        'venue.latitude': geo.latitude,
+        'venue.longitude': geo.longitude,
+      });
     },
     async save() {
       wepy.showLoading();

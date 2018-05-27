@@ -26,6 +26,27 @@ class MapService {
       });
     });
   }
+
+  async getCurrentCoordinate() {
+    const resp = await wepy.getLocation({
+      type: 'gcj02',
+      altitude: false
+    });
+    return {
+      latitude: resp.latitude,
+      longitude: resp.longitude
+    }
+  }
+
+  async chooseLocation() {
+    const resp = await wepy.chooseLocation();
+    return {
+      name: resp.name,
+      address: resp.address,
+      latitude: resp.latitude,
+      longitude: resp.longitude
+    }
+  }
 }
 const mapService = new MapService();
 export default mapService;

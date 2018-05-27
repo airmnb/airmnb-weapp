@@ -45,8 +45,8 @@
     <view class="panel">
       <navigator url="/pages/provider/edit_venue?venueId={{venue.venueId}}"  wx:for="{{venues}}" wx:key="index" wx:for-item="venue">
         <view class="venue-card">
-          <view class="venue-name">{{venue.name}}</view>
-          <view class="venue-address">{{venue.addr1}}{{venue.addr2 || ''}}{{venue.addr3 || ''}} {{venue.city}} {{venue.state}} {{venue.country}} {{venue.postcode || ''}}</view>
+          <view class="venue-name" wx:if="{{venue.name}}">{{venue.name}}</view>
+          <view class="venue-address">{{venue.addr1}}{{venue.addr2 || ''}}{{venue.addr3 || ''}} {{venue.city || ''}} {{venue.state || ''}} {{venue.country || ''}} {{venue.postcode || ''}}</view>
           <view wx:if="{{venue.info}}" class="venue-info">{{venue.info}}</view>
         </view>
       </navigator>
