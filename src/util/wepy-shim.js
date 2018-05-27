@@ -3,13 +3,18 @@ import wepy from 'wepy';
 function setData(wepypage, key, value) {
 	const keys = key.split('.');
 	let prop = wepypage;
+	console.log('setData', key, value, keys);
 	keys.forEach((k, i) => {
+		console.log('iteration', k);
 		const m = /^(.+)\[([0-9]+)\]$/.exec(key);
 		const isLast = (i === keys.length - 1);
 		if(m) {
 			// the key is an array & index format like 'arr[0]'.
 			key = m[1];
 			index = m[2];
+			if(prop[key] === undefined || prop[key] === null){
+				prop[key] = [];
+			}
 			if(isLast) {
 				// Leaf property
 				prop[key][index] = value;
@@ -22,6 +27,9 @@ function setData(wepypage, key, value) {
 				// Leaf property
 				prop[k] = value;
 			}else{
+				if(prop[k] === undefined || prop[k] === null) {
+					prop[k] = {};
+				}
 				prop = prop[k];
 			}
 		}

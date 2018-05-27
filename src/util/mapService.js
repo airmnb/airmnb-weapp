@@ -32,6 +32,7 @@ class MapService {
       type: 'gcj02',
       altitude: false
     });
+    console.log('getCurrentCoordinate', resp);
     return {
       latitude: resp.latitude,
       longitude: resp.longitude

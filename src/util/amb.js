@@ -49,8 +49,7 @@ amb.setLocale = (lang) => {
 
 amb.cleanSetModel = (obj) => {
 	Object.keys(obj).forEach(x => {
-		const value = obj[x];
-		if(value === '' || value === undefined) {
+		if(obj[x] === '' || obj[x] === undefined) {
 			obj[x] = null;
 		}
 	});

@@ -24,13 +24,13 @@
     </view>
     <view class="panel">
       <picker mode="date" value="{{activity.startDate}}" start="2018-01-01" end="2028-12-31" bindchange="startDateChange">  
-        <view class="panel-item">
+        <view class="panel-item required">
           <text class="label">{{i.activity_start_date}}</text>
           <text class="value">{{activity.startDate}}</text>
         </view>
       </picker>
       <picker mode="date" class="top-line" value="{{activity.endDate}}" start="2018-01-01" end="2028-12-31" bindchange="endDateChange">  
-        <view class="panel-item">
+        <view class="panel-item required">
           <text class="label">{{i.activity_end_date}}</text>
           <text class="value">{{activity.endDate}}</text>
         </view>
@@ -100,13 +100,14 @@ import amb from '@/util/amb';
 import imageService from '@/util/imageService'
 import activityService from '@/util/activityService'
 import venueService from '@/util/venueService'
+import mapService from '@/util/mapService'
 
 export default class EditActivity extends wepy.page {
 	data = {
     addMode: false,
     i: amb.pageI18nData,
-    activity: null,
-    venueName: '',
+    activity: {},
+    venueName: amb.pageI18nData.venue_current,
     capRange: [],
     currencyRange: [],
     venueRange: [],
@@ -147,20 +148,28 @@ export default class EditActivity extends wepy.page {
         'activity.currency': this.currencyRange[e.detail.value],
       });
     },
-    venueChange(e) {
+    async venueChange(e) {
       const index = e.detail.value;
-      if(index == this.venueRange.length - 1) {
+      if(index == 0) {
+        // Use current location
+        await this.setCurrentLocationAsVenue();
+      }else if(index == this.venueRange.length - 1) {
         // Create new venue
         wepy.navigateTo({url: '/pages/provider/edit_venue'});
         return;
       }
+      // Specified venue
       this.updateData({
         'venueName': this.venueRange[index].label,
-        'activity.venueId': this.venueRange[index].id
+        'activity.venueId': this.venueRange[index].id,
+        'activity.location': null,
       });
     },
     async save() {
       wepy.showLoading();
+      if(!this.activity.venueId) {
+        await this.setCurrentLocationAsVenue();
+      }
       console.log('activity to save', this.activity);
       try{
         if(this.addMode) {
@@ -219,6 +228,15 @@ export default class EditActivity extends wepy.page {
       wepy.hideLoading();
     }
   }
+  async setCurrentLocationAsVenue(){
+    const geo = await mapService.getCurrentCoordinate();
+    this.updateData({
+      'venueName': 'venue_current'.i18n,
+      'activity.venueId': null,
+      'activity.location.latitude': geo.latitude,
+      'activity.location.longitude': geo.longitude,
+    });
+  }
   async refresh() {
     try {
       wepy.showLoading({mask: true});
@@ -236,6 +254,10 @@ export default class EditActivity extends wepy.page {
         id: v.venueId,
         label: v.name + ' - ' + venueService.getAddress(v)
       };
+    });
+    venueRange.unshift({
+      id: null,
+      label: 'venue_current'.i18n
     });
     venueRange.push({
       id: null,
