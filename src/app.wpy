@@ -31,6 +31,7 @@ export default class extends wepy.app {
 			'pages/search/map', 
 			'pages/search/searchConfig', 
 			'pages/provider/provider', 
+			'pages/provider/provider_tabs', 
 			'pages/provider/venues', 
 			'pages/provider/edit_activity', 
 			'pages/provider/history', 
@@ -72,7 +73,7 @@ export default class extends wepy.app {
 					text: 'Me'
 				},
 				{
-					pagePath: 'pages/provider/provider',
+					pagePath: 'pages/provider/provider_tabs',
 					// iconPath: 'images/fa-bookmark-off.png',
 					// selectedIconPath: 'images/fa-bookmark.png',
 					text: 'I Provide'
@@ -99,10 +100,10 @@ export default class extends wepy.app {
 
 	async onLaunch() {
 		console.log('SDK version', wx.getSystemInfoSync())
-		wepy.showLoading({mask: true});
-		// Wechat login and get Airmnb user
-		await loginService.login();
-		wepy.hideLoading();
+		// wepy.showLoading({mask: true});
+		// // Wechat login and get Airmnb user
+		// await loginService.login();
+		// wepy.hideLoading();
 	}
 }
 </script>

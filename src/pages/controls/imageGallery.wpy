@@ -54,6 +54,8 @@ page {
         });
       },
       preview(e) {
+      console.log('e', e);
+        
         const i = e.currentTarget.dataset.index;
         wepy.previewImage({
           current: this.imageUrls[i],
