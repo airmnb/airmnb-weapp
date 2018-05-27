@@ -31,7 +31,6 @@ export default class extends wepy.app {
 			'pages/search/map', 
 			'pages/search/searchConfig', 
 			'pages/provider/provider', 
-			'pages/provider/provider_tabs', 
 			'pages/provider/venues', 
 			'pages/provider/edit_activity', 
 			'pages/provider/history', 
@@ -73,7 +72,7 @@ export default class extends wepy.app {
 					text: 'Me'
 				},
 				{
-					pagePath: 'pages/provider/provider_tabs',
+					pagePath: 'pages/provider/provider',
 					// iconPath: 'images/fa-bookmark-off.png',
 					// selectedIconPath: 'images/fa-bookmark.png',
 					text: 'I Provide'

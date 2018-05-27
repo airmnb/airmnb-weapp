@@ -1,30 +1,89 @@
 <style lang="less">
+@primary: #d81b60;
 
 .activity-panel {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: white;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	background-color: white;
 
-  .activity-card {
-    margin: 20rpx 0 20rpx 0;
-    flex: 100%;
-    display: flex;
-    align-items: flex-start;
-
-    .activity-avatar{
-      height: 240rpx;
-      // border-radius: 10rpx;
-      flex: 0 0 240rpx;
-    }
-
-    .activity-content {
-      // flex: 100%;
-      margin-left: 10rpx;
-      display: flex;
-      flex-direction: column;
-    }
+  navigator {
+    padding: 0;
+    border: none;
   }
+  navigator::after {
+    content: '';
+  }
+	.activity-card {
+		margin: 20rpx 0 20rpx 0;
+		flex: 100%;
+		display: flex;
+		align-items: flex-start;
+
+		.activity-avatar {
+			height: 240rpx;
+			// border-radius: 10rpx;
+			flex: 0 0 240rpx;
+		}
+
+		.activity-content {
+			// flex: 100%;
+			margin-left: 10rpx;
+			display: flex;
+			flex-direction: column;
+		}
+	}
+}
+
+.panel {
+  background-color: white;
+}
+
+.tab-h {
+	height: 80rpx;
+	width: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
+	line-height: 80rpx;
+  white-space: nowrap;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: stretch;
+	// position: absolute;
+	// top: 0;
+	// left: 0;
+	// z-index: 99;
+}
+.tab-item {
+	margin: 0;
+  display: inline-block;
+  flex: 1 1 100%;
+}
+.tab-item-label {
+	margin: 0 10rpx 0 10rpx;
+	display: inline-block;
+}
+.tab-item.active {
+	color: @primary;
+	position: relative;
+}
+.tab-item.active:after {
+	content: '';
+	display: block;
+	height: 4rpx;
+	width: 100%;
+	background: @primary;
+	position: absolute;
+	bottom: 0;
+}
+.scoll-h {
+	height: 100%;
+}
+
+swiper {
+  height: 1000rpx;
+  width: 100%;
 }
 </style>
 
@@ -33,67 +92,115 @@
     <view class="panel">
       <navigator url="/pages/provider/venues" hover-class="navigator-hover">{{i.provider_venues}}</navigator>
     </view>
-    <view class="panel">
-      <navigator url="/pages/provider/edit_activity" hover-class="navigator-hover">{{i.provider_newactivity}}</navigator>
-      <navigator url="/pages/provider/history" class="last-navigator" hover-class="navigator-hover">{{i.provider_history}}</navigator>
-    </view>
-
-    <text class="sub-title">{{i.provider_ongoing}}</text>
-    <view class="activity-panel"> 
-      <navigator url="/pages/provider/edit_activity?activityId={{a.activityId}}" 
-      wx:for="{{activities}}" wx:key="index" wx:for-item="a">
-      <view class="activity-card" >
-        <image class="activity-avatar" src="{{a.avatarImageUrl}}" mode="aspectFill" />
-        <view class="activity-content">
-          <text class="secondary-text">{{a.name}}</text>
-          <text class="info-text">{{a.info}}</text>
-          <text class="info-text">{{a.start}} - {{a.end}}</text>
-          <text class="info-text">{{a.start}} - {{a.end}}</text>
+    <view class="panel" style="position:relative;">
+      <scroll-view scroll-x="true" class="tab-h" scroll-left="{{scrollLeft}}">
+        <view class="tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="switchNav">
+          <text data-current="0" class="tab-item-label">{{i.provider_ongoing}}</text>
         </view>
+        <view class="tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="switchNav">
+          <text data-current="1" class="tab-item-label">{{i.provider_history}}</text>
         </view>
-      </navigator>
+      </scroll-view>
+      <swiper current="{{currentTab}}" duration="300" style="height:{{swiperHeight}}rpx;" bindchange="switchTab">
+        <swiper-item wx:for="{{[0,1]}}">
+            <scroll-view scroll-y="true" class="scoll-h activity-panel">
+                <block wx:for="{{activities}}" wx:key="index" wx:for-item="a">
+                  <navigator url="/pages/provider/edit_activity?activityId={{a.activityId}}">
+                  <view class="activity-card" >
+                    <image class="activity-avatar" src="{{a.avatarImageUrl}}" mode="aspectFill" />
+                    <view class="activity-content">
+                      <text class="secondary-text">{{a.name}}</text>
+                      <text class="info-text">{{a.info}}</text>
+                      <text class="info-text">{{a.start}} - {{a.end}}</text>
+                      <text class="info-text">{{a.start}} - {{a.end}}</text>
+                    </view>
+                    </view>
+                  </navigator>
+                </block>
+            </scroll-view>
+        </swiper-item>
+      </swiper>
     </view>
   </view>
 </template>
 <script>
-  import wepy from 'wepy'
-  import amb from '@/util/amb'
-  import activityService from '@/util/activityService'
-  import imageService from '@/util/imageService'
-  export default class Index extends wepy.page {
-    config = {
-      enablePullDownRefresh: true,
-    }
-    data = {
-      i: amb.pageI18nData,
-      activities: null,
-    }
-    async onLoad() {
-      wepy.setNavigationBarTitle({
-        title: amb.pageI18nData.provider_title
-      });
-
-      this.refresh()
-    }
-    onPullDownRefresh() {
-      this.refresh();
-    }
-    async refresh(){
-      wepy.showLoading();
-      const activities = await activityService.getOngoing();
-      this.attachAvatarImageUrl(activities);
-      this.updateData({
-        'activities': activities
-      });
-      wepy.stopPullDownRefresh();
-      wepy.hideLoading();
-    }
-    attachAvatarImageUrl(activities) {
-      activities.forEach(x => {
-        if(x.imageIds && x.imageIds.length) {
-          x.avatarImageUrl = imageService.getSrcUrl(x.imageIds[0]);
-        }
-      });
-    }
+import wepy from 'wepy';
+import amb from '@/util/amb';
+import activityService from '@/util/activityService';
+import imageService from '@/util/imageService';
+export default class Index extends wepy.page {
+	config = {
+		enablePullDownRefresh: true
+	};
+	data = {
+		i: amb.pageI18nData,
+		activities: null,
+		currentTab: 0, //预设当前项的值
+    scrollLeft: 0, //tab标题的滚动条位置
+    swiperHeight: 1000,
+	};
+	methods = {
+		switchTab(e) {
+			this.updateData({
+				currentTab: e.detail.current
+			});
+			this.checkCurrentTab();
+		},
+		// 点击标题切换当前页时改变样式
+		switchNav(e) {
+      console.log('e', e);
+			const cur = e.target.dataset.current;
+			if (this.currentTab != cur) {
+				this.updateData({
+					currentTab: cur
+				});
+			}
+		},
+		//判断当前滚动超过一屏时，设置tab标题滚动条。
+		checkCor() {
+			this.checkCurrentTab();
+		}
+	};
+	checkCurrentTab() {
+		this.updateData({
+			scrollLeft: this.currentTab > 4 ? 300 : 0
+		});
+	}
+	async onLoad() {
+		wepy.setNavigationBarTitle({
+			title: amb.pageI18nData.provider_title
+		});
+		this.refresh();
+	}
+	onPullDownRefresh() {
+		this.refresh();
   }
+  adjectListHeight(){
+		const res = wepy.getSystemInfo();
+		const clientHeight = res.windowHeight;
+		const clientWidth = res.windowWidth;
+		const rpxR = 750 / clientWidth;
+		const calc = clientHeight * rpxR - 180;
+		this.updateData({
+			'swiperHeight': calc
+		});
+  }
+	async refresh() {
+		wepy.showLoading();
+		const activities = await activityService.getOngoing();
+		this.attachAvatarImageUrl(activities);
+		this.updateData({
+			activities: activities
+		});
+		wepy.stopPullDownRefresh();
+		wepy.hideLoading();
+	}
+	attachAvatarImageUrl(activities) {
+		activities.forEach(x => {
+			if (x.imageIds && x.imageIds.length) {
+				x.avatarImageUrl = imageService.getSrcUrl(x.imageIds[0]);
+			}
+		});
+	}
+}
 </script>
