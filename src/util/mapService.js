@@ -56,13 +56,9 @@ class MapService {
     });
   }
 
-  async getCurrentCoordinate() {
-    const resp = await wepy.getLocation({
-      type: 'gcj02',
-      altitude: false
-    });
-    console.log('getCurrentCoordinate', resp);
-    const addr = await this.getAddress(resp.longitude, resp.latitude);
+  async getCurrentAddress() {
+    const coord = await this.getCurrentCoordinate();
+    const addr = await this.getAddress(coord.longitude, coord.latitude);
     return {
       latitude: addr.latitude,
       longitude: addr.longitude,
@@ -70,6 +66,18 @@ class MapService {
       city: addr.city,
       state: addr.state,
       country: addr.country,
+    }
+  }
+
+  async getCurrentCoordinate() {
+    const resp = await wepy.getLocation({
+      type: 'gcj02',
+      altitude: false
+    });
+    console.log('getCurrentCoordinate', resp);
+    return {
+      longitude: resp.longitude,
+      latitude: resp.latitude
     }
   }
 

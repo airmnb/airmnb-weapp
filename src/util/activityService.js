@@ -1,5 +1,6 @@
 import {apiClient} from "./restClient";
 import amb from "@/util/amb";
+import imageService from '@/util/imageService'
 
 class ActivityService {
   async get(id){
@@ -21,22 +22,34 @@ class ActivityService {
 
   async getOngoing() {
     const resp = await apiClient.get('activities/ongoing');
-    return resp.activities;
+    const activities = this.setAvatarImageUrl(resp.activities)
+    return activities;
   }
 
   async getClosed() {
     const resp = await apiClient.get('activities/closed');
-    return resp.activities;
+    const activities = this.setAvatarImageUrl(resp.activities)
+    return activities;
   }
 
-  async getRecommendations(){
+  async getRecommended(){
     const resp = await apiClient.get('activities/recommended');
-    return resp.activities;    
+    const activities = this.setAvatarImageUrl(resp.activities)
+    return activities;  
   }
 
   async update(activity) {
     activity = amb.cleanSetModel(activity);
     await apiClient.put(`activities/${activity.activityId}`, activity);
+  }
+
+  setAvatarImageUrl(activities) {
+    activities.forEach(x => {
+      if(x.imageIds && x.imageIds.length) {
+        x.avatarImageUrl = imageService.getSrcUrl(x.imageIds[0]);
+      }
+    });
+    return activities;
   }
 }
 

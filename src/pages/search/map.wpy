@@ -129,11 +129,16 @@
   import activityService from '@/util/activityService'
   import imageService from '@/util/imageService'
 	import loginService from '@/util/loginService';
+	import mapService from '@/util/mapService';
 	
 	export default class Map extends wepy.page {
+		config = {
+			enablePullDownRefresh: true
+		};
 		data = {
 			i: amb.pageI18nData,
 			showsSearchBar: false,
+			loading: true,
 			lng: 0,
 			lat: 0,
 			controls: [{
@@ -182,13 +187,8 @@
 			wepy.showLoading({mask: true});
 			// Wechat login and get Airmnb user
 			await loginService.login();
-			wepy.hideLoading();
 			this.centerByCurrentLocation();
-			const activities = await activityService.getOngoing();
-      this.attachAvatarImageUrl(activities);
-      this.updateData({
-        'recommended': activities
-      });
+			this.refresh();
 		}
 
 		pollTillLoggedIn() {
@@ -196,13 +196,6 @@
 			setInterval()
 		}
 
-    attachAvatarImageUrl(activities) {
-      activities.forEach(x => {
-        if(x.imageIds && x.imageIds.length) {
-          x.avatarImageUrl = imageService.getSrcUrl(x.imageIds[0]);
-        }
-      });
-    }
 		async onShow () {
 			// const result = await searchService.search();
 		}
@@ -211,8 +204,7 @@
 		 * 页面相关事件处理函数--监听用户下拉动作
 		 */
 		onPullDownRefresh () {
-			this.keywords += '1';
-			console.log('pull down', new Date());
+			this.refresh();
 		}
 
 		/**
@@ -229,24 +221,28 @@
 		
 		}
 
-		centerByCurrentLocation() {
-			const self = this;
-			wx.getLocation({
-				success: function(e) {
-					console.log("current location", e);
-					self.setData({
-						lng: e.longitude,
-						lat: e.latitude
-					});
-				},
-				fail: function(e) {
-					console.log("getLocation failed", e);
-				}
+		async centerByCurrentLocation() {
+			const geo = await mapService.getCurrentCoordinate();
+			console.log('current geo', geo);
+			this.updateData({
+				lng: geo.longitude,
+				lat: geo.latitude
 			});
 		}
 
 		gotoSearchSetting() {
 			wx.navigateTo({url: '/pages/search/searchConfig'});
+		}
+
+		async refresh() {
+			wepy.showLoading({mask: false});
+			// Wechat login and get Airmnb user
+			const activities = await activityService.getRecommended();
+      this.updateData({
+				recommended: activities,
+				loading: false
+			});
+			wepy.hideLoading();
 		}
 
 			

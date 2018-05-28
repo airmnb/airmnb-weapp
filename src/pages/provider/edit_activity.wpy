@@ -233,17 +233,17 @@ export default class EditActivity extends wepy.page {
     }
   }
   async setCurrentLocationAsVenue(){
-    const venue = await mapService.getCurrentCoordinate();
+    const address = await mapService.getCurrentAddress();
     this.updateData({
       'venueName': 'venue_current'.i18n,
       'activity.venueId': null,
-      'activity.location.name': venue.name,
-      'activity.location.latitude': venue.latitude,
-      'activity.location.longitude': venue.longitude,
-      'activity.location.addr1': venue.addr1,
-      'activity.location.city': venue.city,
-      'activity.location.state': venue.state,
-      'activity.location.country': venue.country,
+      'activity.location.name': address.name,
+      'activity.location.latitude': address.latitude,
+      'activity.location.longitude': address.longitude,
+      'activity.location.addr1': address.addr1,
+      'activity.location.city': address.city,
+      'activity.location.state': address.state,
+      'activity.location.country': address.country,
     });
   }
   async refresh() {

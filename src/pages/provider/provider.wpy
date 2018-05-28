@@ -131,7 +131,7 @@ import activityService from '@/util/activityService';
 import imageService from '@/util/imageService';
 export default class Index extends wepy.page {
 	config = {
-		enablePullDownRefresh: true
+		enablePullDownRefresh: false
 	};
 	data = {
 		i: amb.pageI18nData,
@@ -177,7 +177,7 @@ export default class Index extends wepy.page {
 			'swiperHeight': calc
 		});
   }
-	async refresh(tabIndex) {
+	async refresh(tabIndex = 1) {
 		wepy.showLoading();
 		this.updateData({
 			loading: true
@@ -190,20 +190,12 @@ export default class Index extends wepy.page {
 			// Ongoing activities
 			activities = await activityService.getOngoing();
 		}
-		this.attachAvatarImageUrl(activities);
 		this.updateData({
 			activities: activities,
 			loading: false
 		});
 		wepy.stopPullDownRefresh();
 		wepy.hideLoading();
-	}
-	attachAvatarImageUrl(activities) {
-		activities.forEach(x => {
-			if (x.imageIds && x.imageIds.length) {
-				x.avatarImageUrl = imageService.getSrcUrl(x.imageIds[0]);
-			}
-		});
 	}
 }
 </script>
