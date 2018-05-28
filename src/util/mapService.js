@@ -37,13 +37,13 @@ class MapService {
           success: res => {
             if(res.status == 0) {
               const venue = {
+                name: res.result.formatted_addresses.recommend,
                 latitude: lat,
                 longitude: lng,
                 addr1: res.result.address,
                 state: res.result.address_component.province,
                 city: res.result.address_component.city,
                 country: res.result.ad_info.nation,
-                name: res.result.formatted_addresses.recommend,
               };
               ok(venue);
               return;

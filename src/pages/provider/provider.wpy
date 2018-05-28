@@ -103,9 +103,9 @@ swiper {
         </view>
       </scroll-view>
       <swiper current="{{currentTab}}" duration="300" style="height:{{swiperHeight}}rpx;" bindchange="switchTab">
-        <swiper-item wx:for="{{[0,1]}}">
+        <swiper-item wx:for="{{[0,1]}}" wx:key="{{index}}">
             <scroll-view scroll-y="true" class="scoll-h activity-panel">
-                <block wx:for="{{activities}}" wx:key="index" wx:for-item="a">
+                <block wx:if="{{!loading}}" wx:for="{{activities}}" wx:key="index" wx:for-item="a">
                   <navigator url="/pages/provider/edit_activity?activityId={{a.activityId}}">
                   <view class="activity-card" >
                     <image class="activity-avatar" src="{{a.avatarImageUrl}}" mode="aspectFill" />
@@ -138,6 +138,7 @@ export default class Index extends wepy.page {
 		activities: null,
 		currentTab: 0, //预设当前项的值
 		swiperHeight: 1000,
+		loading: false,
 	};
 	methods = {
 		switchTab(e) {
@@ -150,10 +151,11 @@ export default class Index extends wepy.page {
 	};
 	async loadTabData(tabIndex) {
 		if(this.currentTab == tabIndex) return;
-		this.refresh(tabIndex);
 		this.updateData({
 				currentTab: tabIndex,
 		});
+		await this.refresh(tabIndex);
+		this.loading = false;
 	}
 	async onLoad() {
 		wepy.setNavigationBarTitle({
@@ -177,6 +179,9 @@ export default class Index extends wepy.page {
   }
 	async refresh(tabIndex) {
 		wepy.showLoading();
+		this.updateData({
+			loading: true
+		});
 		let activities = null;
 		if(tabIndex == 1) {
 			// Closed activities
@@ -187,7 +192,8 @@ export default class Index extends wepy.page {
 		}
 		this.attachAvatarImageUrl(activities);
 		this.updateData({
-			activities: activities
+			activities: activities,
+			loading: false
 		});
 		wepy.stopPullDownRefresh();
 		wepy.hideLoading();

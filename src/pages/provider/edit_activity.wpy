@@ -261,7 +261,7 @@ export default class EditActivity extends wepy.page {
     const venueRange = myVenues.map(v => {
       return {
         id: v.venueId,
-        label: v.name + ' - ' + venueService.getAddress(v)
+        label: venueService.getAddress(v)
       };
     });
     venueRange.unshift({
