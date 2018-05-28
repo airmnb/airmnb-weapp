@@ -160,6 +160,7 @@ export default class Index extends wepy.page {
 			title: amb.pageI18nData.provider_title
 		});
 		this.refresh();
+		this.adjectListHeight();
 	}
 	onPullDownRefresh() {
 		this.refresh();

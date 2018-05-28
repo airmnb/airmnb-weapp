@@ -20,10 +20,39 @@ class MapService {
           }
           ng(res);
         },
-        fail: res => {
-          ng(res);
-        }
+        fail: ng
       });
+    });
+  }
+
+  async getAddress(lng, lat) {
+    return new Promise((ok, ng)=>{
+      qqMap.reverseGeocoder(
+        {
+          location: {
+            longitude: lng,
+            latitude: lat
+          },
+          coord_type: 5, // Tencent, Google, Gaode
+          success: res => {
+            if(res.status == 0) {
+              const venue = {
+                latitude: lat,
+                longitude: lng,
+                addr1: res.result.address,
+                state: res.result.address_component.province,
+                city: res.result.address_component.city,
+                country: res.result.ad_info.nation,
+                name: res.result.formatted_addresses.recommend,
+              };
+              ok(venue);
+              return;
+            }
+            ng(res);
+          },
+          fail: ng
+        }
+      );
     });
   }
 
@@ -33,9 +62,14 @@ class MapService {
       altitude: false
     });
     console.log('getCurrentCoordinate', resp);
+    const addr = await this.getAddress(resp.longitude, resp.latitude);
     return {
-      latitude: resp.latitude,
-      longitude: resp.longitude
+      latitude: addr.latitude,
+      longitude: addr.longitude,
+      addr1: addr.addr1,
+      city: addr.city,
+      state: addr.state,
+      country: addr.country,
     }
   }
 

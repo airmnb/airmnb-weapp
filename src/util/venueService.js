@@ -17,10 +17,7 @@ class VenusService {
     venue = amb.cleanSetModel(venue);
     venue.providerId = amb.config.user.userId;
     // console.log('venue before', venue);
-    if(!venue.latitude || !venue.longitude) {
-      console.log('No coordinate info, attaching it');
-      await this.attachGeoCoordinate(venue);
-    }
+    await this.tryAttachGeoCoordinate(venue);
     // console.log('venue after', venue);
     await apiClient.post('venues', venue);
   }
@@ -33,18 +30,19 @@ class VenusService {
 
   async update(venue) {
     venue = amb.cleanSetModel(venue);
-    if(!venue.latitude || !venue.longitude) {
-      console.log('No coordinate info, attaching it');
-      await this.attachGeoCoordinate(venue);
-    }
+    await this.tryAttachGeoCoordinate(venue);
     await apiClient.put(`venues/${venue.venueId}`, venue);
   }
 
-  async attachGeoCoordinate(venue) {
+  async tryAttachGeoCoordinate(venue) {
+    if(venue.latitude !== null && venue.longitude !== null) return;
+    console.log('No coordinate info, attaching it');
     const address = this.getAddressForQqMap(venue);
     const mapResult = await mapService.sanitize(address);
     venue.latitude = mapResult.location.lat;
     venue.longitude = mapResult.location.lng;
+    venue.state = mapResult.address_components.province;
+    venue.city = mapResult.address_components.city;
     venue.mapService = 'tencent';
   }
 

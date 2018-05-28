@@ -55,7 +55,7 @@
       const prePage = pages[pages.length - 2];
       console.log('textarea value', value);
       prePage.updateData({
-        [this.key]: value
+        [this.key]: value || ''
       });
     }
   }

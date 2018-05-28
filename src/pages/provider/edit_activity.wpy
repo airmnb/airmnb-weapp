@@ -71,7 +71,7 @@
       </picker>
     </view>
     <view class="panel">
-      <navigator class="no-arrow" url="/pages/controls/input?key=activity.price&value={{activity.price}}&type=digit&label={{i.activity_price}}" 
+      <navigator url="/pages/controls/input?key=activity.price&value={{activity.price}}&type=digit&label={{i.activity_price}}" 
       hover-class="navigator-hover">{{i.activity_price}}<text class="value">{{activity.price}}</text>
       </navigator>
       <picker mode="selector" class="top-line" value="{{activity.currency}}" bindchange="currencyChange"
@@ -222,6 +222,8 @@ export default class EditActivity extends wepy.page {
         this.activity = {
           name: '',
           info: '',
+          price: 0,
+          capacity: 3,
         };
       }else{
         this.loadActivity(activityId);
@@ -231,12 +233,17 @@ export default class EditActivity extends wepy.page {
     }
   }
   async setCurrentLocationAsVenue(){
-    const geo = await mapService.getCurrentCoordinate();
+    const venue = await mapService.getCurrentCoordinate();
     this.updateData({
       'venueName': 'venue_current'.i18n,
       'activity.venueId': null,
-      'activity.location.latitude': geo.latitude,
-      'activity.location.longitude': geo.longitude,
+      'activity.location.name': venue.name,
+      'activity.location.latitude': venue.latitude,
+      'activity.location.longitude': venue.longitude,
+      'activity.location.addr1': venue.addr1,
+      'activity.location.city': venue.city,
+      'activity.location.state': venue.state,
+      'activity.location.country': venue.country,
     });
   }
   async refresh() {
@@ -272,6 +279,7 @@ export default class EditActivity extends wepy.page {
   async loadActivity(activityId){
     wepy.showLoading();
     const activity = await activityService.get(activityId);
+    activity.venueId = activity.venue.venueId;
     this.updateData({
       activity: activity,
     })
