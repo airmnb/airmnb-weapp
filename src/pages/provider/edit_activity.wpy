@@ -11,6 +11,12 @@
         hover-class="navigator-hover" class="required">{{i.activity_info}}
         <text class="value text-elipsis">{{activity.info}}</text>
       </navigator>
+    </view>
+    <view class="panel">
+      <navigator url="/pages/controls/categorySelector?key=activity.category&value={{activity.category}}" 
+        hover-class="navigator-hover">{{i.cat_title}}
+        <text class="value text-elipsis">{{activity.category ? '...' : ''}}</text>
+      </navigator>
       <!-- Add mode: choose venue -->
       <picker mode="selector" wx:if="{{addMode}}" class="top-line" value="{{activity.venueId}}" bindchange="venueChange"
         range="{{venueRange}}" range-key="{{'label'}}"> 

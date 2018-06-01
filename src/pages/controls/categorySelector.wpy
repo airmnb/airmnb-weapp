@@ -1,0 +1,96 @@
+<style lang="less">
+</style>
+
+<template>
+  <view>
+    <form bindsubmit="onsave">
+      <view class="panel">
+        <view class="panel-item" wx:for={{items}} wx:key="index" wx:for-item="item">
+          {{item.label}}<switch checked="{{value & item.value}}" bindchange="toggle({{item.value}})" color="#D81B60"/>
+        </view>
+      </view>
+      <view class="panel">
+        <view class="panel-item">
+          <button formType="submit">{{i.button_ok}}</button>
+        </view>
+      </view>
+    </form>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import amb from '@/util/amb'
+
+  export default class CategorySelector extends wepy.page {
+    config = {
+    }
+
+    data = {
+      key: undefined,
+      // value: 0,
+      i: amb.pageI18nData,
+      items: [{
+        label: "cat_edu".i18n,
+          value: 2
+        }, {
+          label: "cat_public".i18n,
+          value: 4
+        }, {
+          label: "cat_care".i18n,
+          value: 8
+        },{
+          label: "cat_playgroup".i18n,
+          value: 16
+        },{
+          label: "cat_coach".i18n,
+          value: 32
+        },{
+          label: "cat_entertainment".i18n,
+          value: 64
+        },{
+          label: "cat_health".i18n,
+          value: 128
+        },{
+          label: "cat_new".i18n,
+          value: 256
+        },{
+          label: "cat_stuff".i18n,
+          value: 512
+        },{
+          label: "cat_other".i18n,
+          value: 1
+        }, 
+      ]
+    }
+
+    methods = {
+      toggle(v) {
+        this.value ^= v; // toggle bit
+        console.log(v, this.value, this.value.toString(2));
+      },
+      onsave(e){
+        this.updateParentData(this.value);
+      }
+    }
+
+    onLoad(options) {
+      wepy.setNavigationBarTitle({title: amb.pageI18nData.cat_title}); 
+      this.key = options.key || '';
+      const value = parseInt(options.value || 0);
+
+      this.updateData({
+        value: value
+      });
+    }
+
+    updateParentData(value) {
+      const pages = getCurrentPages();
+      const prePage = pages[pages.length - 2];
+      const key = this.key;
+      prePage.updateData({
+        [key]: value
+      });
+      wepy.navigateBack();
+    }
+  }
+</script>

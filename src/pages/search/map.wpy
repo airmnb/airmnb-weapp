@@ -250,11 +250,11 @@
 			wepy.showLoading({mask: false});
 			const activities = await activityService.getWithinRadius(lat, lng, 2000);
 			const markers = mapService.activitiesToMarkers(activities);
-			markers.unshift({
-				id: 0,
-				latitude: lat,
-				longitude: lng,
-			});
+			// markers.unshift({
+			// 	id: 0,
+			// 	latitude: lat,
+			// 	longitude: lng,
+			// });
 			this.updateData({
 				recommended: activities,
 				markers: markers,
