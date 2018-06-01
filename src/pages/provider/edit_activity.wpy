@@ -11,13 +11,19 @@
         hover-class="navigator-hover" class="required">{{i.activity_info}}
         <text class="value text-elipsis">{{activity.info}}</text>
       </navigator>
-      <picker mode="selector" class="top-line" value="{{activity.venueId}}" bindchange="venueChange"
+      <!-- Add mode: choose venue -->
+      <picker mode="selector" wx:if="{{addMode}}" class="top-line" value="{{activity.venueId}}" bindchange="venueChange"
         range="{{venueRange}}" range-key="{{'label'}}"> 
         <view class="panel-item required">
           <text class="label">{{i.activity_venue}}</text>
           <text class="value text-elipsis">{{venueName}}</text>
         </view>
       </picker>
+      <!-- Edit mode: see venue name only -->
+      <view class="panel-item" wx:if="{{!addMode}}">
+        <text class="label">{{i.activity_venue}}</text>
+        <text class="value text-elipsis">{{venueName}}</text>
+      </view>
       <navigator url="/pages/controls/imageGallery?key=activity.imageIds&value={{activity.imageIds}}&label={{i.activity_images}}" 
         hover-class="navigator-hover">{{i.activity_images}}
       </navigator>
@@ -226,7 +232,7 @@ export default class EditActivity extends wepy.page {
           capacity: 3,
         };
       }else{
-        this.loadActivity(activityId);
+        await this.loadActivity(activityId);
       }
     }finally{
       wepy.hideLoading();
@@ -282,6 +288,7 @@ export default class EditActivity extends wepy.page {
     activity.venueId = activity.venue.venueId;
     this.updateData({
       activity: activity,
+      venueName: venueService.getAddress(activity.venue)
     })
     wepy.stopPullDownRefresh();
     wepy.hideLoading();

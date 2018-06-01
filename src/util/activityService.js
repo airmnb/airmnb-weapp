@@ -20,6 +20,16 @@ class ActivityService {
     await apiClient.post('activities', activity);
   }
 
+  async getWithinRadius(clat, clng, radius) {
+    const resp = await apiClient.get('activities/map', {
+      clat,
+      clng,
+      radius,
+    });
+    const activities = this.setAvatarImageUrl(resp.activities)
+    return activities;
+  }
+
   async getOngoing() {
     const resp = await apiClient.get('activities/ongoing');
     const activities = this.setAvatarImageUrl(resp.activities)

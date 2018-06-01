@@ -90,6 +90,43 @@ class MapService {
       longitude: resp.longitude
     }
   }
+
+  activitiesToMarkers(activities) {
+    return activities.map((x, i) => {
+      return {
+        id: i + 1,
+        // iconPath: '/images/fa-circle-whereami.png',
+        latitude: x.venue.latitude,
+        longitude: x.venue.longitude,
+        iconPath: '../../images/map_pin.png',
+				width: 30,
+				height: 30,
+        callout: {
+          content: x.name,
+          display: 'BYCLICK',
+          bgColor: '#FFFF00',
+        },
+        label: {
+          content: x.info,
+          bgColor: '#FFFFFF',
+          borderColor: '#000000',
+          borderWidth: 1,
+          borderRadius: 5,
+          padding: 2,
+          y: -60,
+        },
+        // callout: {
+        //   content:'我是这个气泡',
+        //   fontSize:14,
+        //   color:'#FF0000',
+        //   bgColor:'#000000',
+        //   padding:8,
+        //   borderRadius:4,
+        //   boxShadow:'4px 8px 16px 0 rgba(0)'
+        //   }
+      };
+    });
+  }
 }
 const mapService = new MapService();
 export default mapService;

@@ -90,7 +90,8 @@
 		<!-- <view class="search-bar">
 			<button @tap="gotoSearchConfig">{{keywords ? keywords : i.map_search_bar}}</button>
 		</view> -->
-		<map id="map" class='map' longitude="{{lng}}" latitude="{{lat}}" scale="14" bindcontroltap="controltap" bindregionchange="regionchange"
+		<map id="map" class='map' longitude="{{lng}}" latitude="{{lat}}" markers="{{markers}}" 
+			scale="16" bindcontroltap="controltap" bindregionchange="regionChange"
 			show-location controls="{{controls}}">
 		</map>
 		<!-- <scroll-view scroll-x="true" style="width: 100%; height: 300rpx">
@@ -162,6 +163,7 @@
 				},
 				clickable: true
 			}],
+			markers: [],
 			keywords: '',
 			recommended: []
 		}
@@ -178,6 +180,12 @@
 			gotoSearchConfig() {
 				wepy.navigateTo({url: '/pages/search/searchConfig'});
 			},
+			regionChange(e) {
+			// 地图发生变化的时候，获取中间点，也就是用户选择的位置
+				if(e.type === 'end'){
+						this.refreshMap()
+				}
+  		}
 		}
 
 		async onLoad (options) {
@@ -187,7 +195,7 @@
 			wepy.showLoading({mask: true});
 			// Wechat login and get Airmnb user
 			await loginService.login();
-			this.centerByCurrentLocation();
+			await this.centerByCurrentLocation();
 			this.refresh();
 		}
 
@@ -235,16 +243,34 @@
 		}
 
 		async refresh() {
+			await this.getMapMarkers(this.lat, this.lng);
+		}
+
+		async getMapMarkers(lat, lng) {
 			wepy.showLoading({mask: false});
-			// Wechat login and get Airmnb user
-			const activities = await activityService.getRecommended();
-      this.updateData({
+			const activities = await activityService.getWithinRadius(lat, lng, 2000);
+			const markers = mapService.activitiesToMarkers(activities);
+			markers.unshift({
+				id: 0,
+				latitude: lat,
+				longitude: lng,
+			});
+			this.updateData({
 				recommended: activities,
+				markers: markers,
 				loading: false
 			});
 			wepy.hideLoading();
 		}
 
-			
+		refreshMap() {
+			const mapObj = wx.createMapContext("map");
+			mapObj.getCenterLocation({
+				success: async (res) => {
+			console.log('refresh OK?', res)
+					await this.getMapMarkers(res.latitude, res.longitude);
+				}
+			});
+		}
 	}
 </script>

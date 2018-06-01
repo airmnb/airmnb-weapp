@@ -177,7 +177,7 @@ export default class Index extends wepy.page {
 			'swiperHeight': calc
 		});
   }
-	async refresh(tabIndex = 1) {
+	async refresh(tabIndex = 0) {
 		wepy.showLoading();
 		this.updateData({
 			loading: true
