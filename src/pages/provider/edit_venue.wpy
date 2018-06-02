@@ -159,9 +159,8 @@ export default class AddVenue extends wepy.page {
     const venueId = options.venueId
     this.addMode = !venueId;
     console.log('edit venue addMode?', this.addMode)
-		wepy.setNavigationBarTitle({
-			title: this.addMode ? 'venue_add'.i18n : 'venue_edit'.i18n
-    });
+		this.setPageUx(this.addMode ? 'venue_add' : 'venue_edit');
+    
     if(!this.addMode) {
       this.loadVenue(venueId);
     }else{

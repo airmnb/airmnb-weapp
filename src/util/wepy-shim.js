@@ -1,4 +1,5 @@
 import wepy from 'wepy';
+import amb from "@/util/amb";
 
 function setData(wepypage, key, value) {
 	const keys = key.split('.');
@@ -83,4 +84,14 @@ wepy.page.prototype.updateLangData = function() {
 		data[key] = k.i18n;
 	});
 	wepyPage.updateData(data);
+}
+
+wepy.page.prototype.setPageUx = function(titleKey) {
+	const wepyPage = this;
+	wepy.setNavigationBarTitle({
+		title: titleKey.i18n
+	});
+	wepyPage.updateData({
+		i: amb.pageI18nData
+	});
 }

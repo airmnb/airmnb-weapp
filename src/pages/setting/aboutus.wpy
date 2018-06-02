@@ -17,9 +17,7 @@
   import wepy from 'wepy'
   export default class AboutUs extends wepy.page {
     onLoad() {
-      wepy.setNavigationBarTitle({
-        title: 'aboutus_title'.i18n
-      });
+  		this.setPageUx('aboutus_title');
     }
   }
 </script>

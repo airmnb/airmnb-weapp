@@ -193,12 +193,8 @@
 			wepy.showLoading({mask: true});
 			// Wechat login and get Airmnb user
 			await loginService.login();
-			wepy.setNavigationBarTitle({
-				title: 'map_title'.i18n
-			});
-			this.updateData({
-				i: amb.pageI18nData
-			})
+  		this.setPageUx('map_title');
+			
 			await this.centerByCurrentLocation();
 			this.refresh();
 		}
@@ -209,9 +205,7 @@
 		}
 
 		onShow () {
-			wepy.setNavigationBarTitle({
-				title: 'map_title'.i18n
-			});
+  		this.setPageUx('map_title');
 		}
 
 		onPullDownRefresh () {

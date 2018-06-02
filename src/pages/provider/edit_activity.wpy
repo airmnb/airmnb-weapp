@@ -131,7 +131,6 @@ import mapService from '@/util/mapService'
 export default class EditActivity extends wepy.page {
 	data = {
     addMode: false,
-    i: amb.pageI18nData,
     activity: {},
     venueName: amb.pageI18nData.venue_current,
     capRange: [],
@@ -248,9 +247,7 @@ export default class EditActivity extends wepy.page {
 	async onLoad(options) {
     const activityId = options.activityId;
     this.addMode = !activityId;
-    wepy.setNavigationBarTitle({
-			title: this.addMode ? 'addactivity_title'.i18n : 'editactivity_title'.i18n
-    });
+    this.setPageUx(this.addMode ? 'addactivity_title' : 'editactivity_title');
     wepy.showLoading({mask: true});
     try{
       await this.initModel();

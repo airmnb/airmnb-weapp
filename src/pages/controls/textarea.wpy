@@ -47,7 +47,10 @@
       this.key = options.key || '';
       this.value = options.value || '';
 
-      wepy.setNavigationBarTitle({title: options.label || 'label_input'.i18n});
+      this.setPageUx('label_input'); 
+      if(options.label) {
+        wepy.setNavigationBarTitle({title: options.label});
+      }
     }
 
     updateParentData(value) {

@@ -68,10 +68,7 @@
       venues: [],
     }
     onLoad() {
-      wepy.setNavigationBarTitle({
-        title: 'venues_title'.i18n
-      });
-
+  		this.setPageUx('venues_title');
       this.refresh();
     }
     onPullDownRefresh() {

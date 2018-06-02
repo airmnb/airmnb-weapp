@@ -62,9 +62,8 @@
     }
 
     onLoad() {
-      wepy.setNavigationBarTitle({
-        title: 'stat_title'.i18n
-      });
+  		this.setPageUx('stat_title');
+      
       this.onPullDownRefresh();
     }
 

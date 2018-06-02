@@ -31,10 +31,7 @@
       babies: [],
     }
     async onLoad() {
-      wepy.setNavigationBarTitle({
-        title: 'babies_title'.i18n
-      });
-      console.log('babies onload');
+  		this.setPageUx('babies_title');
       await this.refresh();
     }
     async onPullDownRefresh() {

@@ -59,9 +59,7 @@
     }
 
     onLoad() {
-      wepy.setNavigationBarTitle({
-        title: 'searchconfig_title'.i18n
-      });
+  		this.setPageUx('searchconfig_title');
     }
   }
 </script>

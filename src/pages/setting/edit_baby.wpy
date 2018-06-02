@@ -119,9 +119,7 @@ export default class AddBaby extends wepy.page {
 	onLoad(options) {
     const babyId = options.babyId;
     this.addMode = !babyId;
-    wepy.setNavigationBarTitle({
-			title: this.addMode ? 'addbaby_title'.i18n : 'editbaby_title'.i18n
-    });
+		this.setPageUx(this.addMode ? 'addbaby_title' : 'editbaby_title');
     if(this.addMode) {
       this.baby = {
         nickName: '',

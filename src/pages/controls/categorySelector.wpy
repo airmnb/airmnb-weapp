@@ -28,36 +28,36 @@
     data = {
       key: undefined,
       // value: 0,
-      i: amb.pageI18nData,
+      // i: amb.pageI18nData,
       items: [{
-        label: "cat_edu".i18n,
+          label: "cat_edu",
           value: 2
         }, {
-          label: "cat_public".i18n,
+          label: "cat_public",
           value: 4
         }, {
-          label: "cat_care".i18n,
+          label: "cat_care",
           value: 8
         },{
-          label: "cat_playgroup".i18n,
+          label: "cat_playgroup",
           value: 16
         },{
-          label: "cat_coach".i18n,
+          label: "cat_coach",
           value: 32
         },{
-          label: "cat_entertainment".i18n,
+          label: "cat_entertainment",
           value: 64
         },{
-          label: "cat_health".i18n,
+          label: "cat_health",
           value: 128
         },{
-          label: "cat_new".i18n,
+          label: "cat_new",
           value: 256
         },{
-          label: "cat_stuff".i18n,
+          label: "cat_stuff",
           value: 512
         },{
-          label: "cat_other".i18n,
+          label: "cat_other",
           value: 1
         }, 
       ]
@@ -74,13 +74,22 @@
     }
 
     onLoad(options) {
-      wepy.setNavigationBarTitle({title: 'cat_title'.i18n}); 
+      this.setPageUx('cat_title'); 
+      this.labelI18n();
+      console.log('i', this.i);
       this.key = options.key || '';
       const value = parseInt(options.value || 0);
 
       this.updateData({
         value: value
       });
+    }
+
+    labelI18n(){
+      this.items.forEach(x => x.label = x.label.i18n);
+      this.updateData({
+        items: this.items
+      })
     }
 
     updateParentData(value) {

@@ -18,12 +18,9 @@
   
   export default class Index extends wepy.page {
     data = {
-      i: amb.pageI18nData
     }
     onShow() {
-      wepy.setNavigationBarTitle({
-        title: 'mine_title'.i18n
-      });
+  		this.setPageUx('mine_title');
     }
   }
 </script>

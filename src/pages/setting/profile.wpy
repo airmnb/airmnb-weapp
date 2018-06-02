@@ -109,9 +109,7 @@
     }
 
     onLoad() {
-      wepy.setNavigationBarTitle({
-        title: 'profile_title'.i18n
-      });
+		  this.setPageUx('profile_title');
       // this.user = this.cleanClone(amb.config.user);
       // this.user.accountName = this.user.accountName || this.user.nickName;
       if(!amb.config.user) {
@@ -122,12 +120,7 @@
 
     changeLanguage(lang) {
       amb.chooseLanguage(lang);
-      wepy.setNavigationBarTitle({
-        title: 'profile_title'.i18n
-      });
-      this.updateData({
-        i: amb.pageI18nData
-      });
+		  this.setPageUx('profile_title');
     }
 
     onShow() {

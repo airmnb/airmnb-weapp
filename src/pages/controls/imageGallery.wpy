@@ -84,7 +84,11 @@ page {
       console.log('options', options);
       this.value = options.value ? options.value.split(',') : [];
       this.imageUrls = this.getImageUrls();
-      wepy.setNavigationBarTitle({title: options.label || 'activity_images'.i18n});
+
+      this.setPageUx('activity_images'); 
+      if(options.label) {
+        wepy.setNavigationBarTitle({title: options.label});
+      }
     }
 
     updateParentData(value) {
