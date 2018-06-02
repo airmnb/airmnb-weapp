@@ -21,8 +21,6 @@ amb.chooseLanguage = function (lang) {
 
 console.log('amb.config', amb.config);
 
-// Only supports three languages en, zh_CN, zh_TW
-// https://developers.weixin.qq.com/miniprogram/dev/api/open.html
 amb.i18nDic = i18n;
 
 amb.getDate = function(offsetDays) {
