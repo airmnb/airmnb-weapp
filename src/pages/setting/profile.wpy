@@ -46,6 +46,15 @@
       </navigator>
     </view>
     <view class="panel">
+      <picker mode="selector" value="{{user.language}}" bindchange="langChange"
+        range="{{langRange}}" range-key="{{'label'}}">
+        <view class="panel-item">
+          <text class="label">{{i.language}}</text>
+          <text class="value">{{user.language}}</text>
+        </view>
+      </picker>
+    </view>
+    <view class="panel">
       <view class="panel-item">
         <button @tap="save">{{i.button_save}}</button>
       </view>
@@ -63,6 +72,15 @@
     data = {
       user: {},
       i: amb.pageI18nData,
+      langRange: [
+        {
+          label: '简体中文',
+          value: 'zh_CN'
+        },
+        {
+          label: 'English',
+          value: 'en'
+        }],
     }
 
     methods = {
@@ -82,12 +100,17 @@
         this.updateData({
           'user.dob': e.detail.value
         });
+      },
+      langChange(e) {
+        const index = parseInt(e.detail.value);
+        const item = this.langRange[index];
+        this.changeLanguage(item.value);
       }
     }
 
     onLoad() {
       wepy.setNavigationBarTitle({
-        title: amb.pageI18nData.profile_title
+        title: 'profile_title'.i18n
       });
       // this.user = this.cleanClone(amb.config.user);
       // this.user.accountName = this.user.accountName || this.user.nickName;
@@ -95,6 +118,16 @@
         throw new Error('Impossible condition. amb.config.user must have been set when app launches');
       }
       this.setUser(amb.config.user);
+    }
+
+    changeLanguage(lang) {
+      amb.chooseLanguage(lang);
+      wepy.setNavigationBarTitle({
+        title: 'profile_title'.i18n
+      });
+      this.updateData({
+        i: amb.pageI18nData
+      });
     }
 
     onShow() {

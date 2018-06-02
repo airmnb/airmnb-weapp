@@ -7,7 +7,8 @@ amb.config = {
 	app_url2: 'https://www.airmnb.com', 
 	app_url: 'http://localhost:5000',
 	api_version: '1.0',
-	language: 'en',
+	// language: 'en',
+	language: 'zh_CN',
 	jwt: null,
 	user: null,
 	ibsAppKey: 'E2FBZ-OTQ3O-I5AWR-SWLTV-4I5FV-ZTBSQ', // Tencent Map Service http://lbs.qq.com/qqmap_wx_jssdk/method-geocoder.html
@@ -15,6 +16,7 @@ amb.config = {
 
 amb.chooseLanguage = function (lang) {
 	amb.config.language = lang || 'en';
+	refreshDic();
 }
 
 console.log('amb.config', amb.config);
@@ -59,8 +61,8 @@ amb.cleanSetModel = (obj) => {
 
 function translate(str) {
 	const langKey = amb.config.language;
-	const dic = amb.i18nDic[langKey];
-	const ret = dic[str] || amb.i18nDic['en'][str] || '$[' + str + ']';
+	const dic = amb.i18nDic[langKey] || amb.i18nDic['en'];
+	const ret = dic[str] || '$[' + str + ']';
 	return ret;
 }
 
@@ -70,17 +72,20 @@ Object.defineProperty(String.prototype, 'i', {
 	},
 });
 
-const keys = Object.keys(i18n.en);
-
+// const keys = Object.keys(i18n.en);
 amb.pageI18nData = {};
-Object.keys(i18n.en).forEach(k => {
-	amb.pageI18nData[k] = translate(k);
-	// Object.defineProperty(amb.pageI18nData, k, {
-	// 	get: function () { 
-	// 		return translate(k);
-	// 	},
-	// });
-});
+
+function refreshDic(){
+	Object.keys(i18n.en).forEach(k => {
+		amb.pageI18nData[k] = translate(k);
+		// Object.defineProperty(amb.pageI18nData, k, {
+		// 	get: function () { 
+		// 		return translate(k);
+		// 	},
+		// });
+	});
+}
+refreshDic();
 
 
 Object.defineProperty(String.prototype, 'i18n', {

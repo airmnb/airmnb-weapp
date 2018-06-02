@@ -19,16 +19,14 @@
 import wepy from 'wepy';
 import amb from '@/util/amb'
 
-console.log('amb.pageI18nData', amb.pageI18nData.setting_language);
-
 export default class Index extends wepy.page {
   data = {
     i: amb.pageI18nData,
   }
 
-  onLoad() {
+  onShow() {
     wepy.setNavigationBarTitle({
-      title: amb.pageI18nData.setting_title
+      title: 'setting_title'.i18n
     });
   }
 }

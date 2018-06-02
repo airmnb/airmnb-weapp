@@ -20,9 +20,9 @@
     data = {
       i: amb.pageI18nData
     }
-    onLoad() {
+    onShow() {
       wepy.setNavigationBarTitle({
-        title: amb.pageI18nData.mine_title
+        title: 'mine_title'.i18n
       });
     }
   }

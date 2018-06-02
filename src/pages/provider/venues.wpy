@@ -69,7 +69,7 @@
     }
     onLoad() {
       wepy.setNavigationBarTitle({
-        title: amb.pageI18nData.venues_title
+        title: 'venues_title'.i18n
       });
 
       this.refresh();

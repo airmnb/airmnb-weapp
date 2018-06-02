@@ -32,7 +32,7 @@
     }
     async onLoad() {
       wepy.setNavigationBarTitle({
-        title: amb.pageI18nData.babies_title
+        title: 'babies_title'.i18n
       });
       console.log('babies onload');
       await this.refresh();

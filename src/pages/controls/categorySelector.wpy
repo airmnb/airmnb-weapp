@@ -5,7 +5,7 @@
   <view>
     <form bindsubmit="onsave">
       <view class="panel">
-        <view class="panel-item" wx:for={{items}} wx:key="index" wx:for-item="item">
+        <view class="panel-item" wx:for="{{items}}" wx:key="index" wx:for-item="item">
           {{item.label}}<switch checked="{{value & item.value}}" bindchange="toggle({{item.value}})" color="#D81B60"/>
         </view>
       </view>
@@ -74,7 +74,7 @@
     }
 
     onLoad(options) {
-      wepy.setNavigationBarTitle({title: amb.pageI18nData.cat_title}); 
+      wepy.setNavigationBarTitle({title: 'cat_title'.i18n}); 
       this.key = options.key || '';
       const value = parseInt(options.value || 0);
 

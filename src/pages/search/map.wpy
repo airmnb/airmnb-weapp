@@ -137,7 +137,7 @@
 			enablePullDownRefresh: true
 		};
 		data = {
-			i: amb.pageI18nData,
+			i: null,
 			showsSearchBar: false,
 			loading: true,
 			lng: 0,
@@ -189,12 +189,16 @@
 		}
 
 		async onLoad (options) {
-			wepy.setNavigationBarTitle({
-				title: amb.pageI18nData.map_title
-			});
+			
 			wepy.showLoading({mask: true});
 			// Wechat login and get Airmnb user
 			await loginService.login();
+			wepy.setNavigationBarTitle({
+				title: 'map_title'.i18n
+			});
+			this.updateData({
+				i: amb.pageI18nData
+			})
 			await this.centerByCurrentLocation();
 			this.refresh();
 		}
@@ -204,13 +208,12 @@
 			setInterval()
 		}
 
-		async onShow () {
-			// const result = await searchService.search();
+		onShow () {
+			wepy.setNavigationBarTitle({
+				title: 'map_title'.i18n
+			});
 		}
 
-		/**
-		 * 页面相关事件处理函数--监听用户下拉动作
-		 */
 		onPullDownRefresh () {
 			this.refresh();
 		}
@@ -267,7 +270,6 @@
 			const mapObj = wx.createMapContext("map");
 			mapObj.getCenterLocation({
 				success: async (res) => {
-			console.log('refresh OK?', res)
 					await this.getMapMarkers(res.latitude, res.longitude);
 				}
 			});

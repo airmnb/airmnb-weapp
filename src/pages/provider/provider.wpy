@@ -158,11 +158,13 @@ export default class Index extends wepy.page {
 		this.loading = false;
 	}
 	async onLoad() {
-		wepy.setNavigationBarTitle({
-			title: amb.pageI18nData.provider_title
-		});
 		this.refresh();
 		this.adjectListHeight();
+	}
+	onShow() {
+		wepy.setNavigationBarTitle({
+			title: 'provider_title'.i18n
+		});
 	}
 	onPullDownRefresh() {
 		this.refresh();

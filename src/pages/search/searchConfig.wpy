@@ -60,7 +60,7 @@
 
     onLoad() {
       wepy.setNavigationBarTitle({
-        title: amb.pageI18nData.searchconfig_title
+        title: 'searchconfig_title'.i18n
       });
     }
   }

@@ -32,7 +32,8 @@ class LoginService {
       return user;
     }finally{
       amb.config.user = user;
-      console.log('login info done', jwt, user);
+      amb.chooseLanguage(user.language);
+      console.log('login info done', jwt, user, amb.config.language);
     }
   }
 
@@ -62,6 +63,7 @@ class LoginService {
     // };
 
     const wxResp = await wepy.login();
+    console.log('wx resp', wxResp);
     const code = wxResp.code;
     let response = await sysClient.get('/login/weapp', {code});
 

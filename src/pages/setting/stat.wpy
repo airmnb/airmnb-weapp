@@ -63,7 +63,7 @@
 
     onLoad() {
       wepy.setNavigationBarTitle({
-        title: amb.pageI18nData.stat_title
+        title: 'stat_title'.i18n
       });
       this.onPullDownRefresh();
     }

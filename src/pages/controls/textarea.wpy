@@ -47,7 +47,7 @@
       this.key = options.key || '';
       this.value = options.value || '';
 
-      wepy.setNavigationBarTitle({title: options.label || amb.pageI18nData.label_input});
+      wepy.setNavigationBarTitle({title: options.label || 'label_input'.i18n});
     }
 
     updateParentData(value) {
