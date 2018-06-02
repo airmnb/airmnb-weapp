@@ -10,6 +10,15 @@
       <navigator url="/pages/setting/babies" class="last-navigator" hover-class="navigator-hover">{{i.setting_mybabies}}</navigator>
     </view>
     <view class="panel">
+      <picker mode="selector" value="{{null}}" bindchange="langChange"
+        range="{{langRange}}" range-key="{{'label'}}">
+        <view class="panel-item">
+          <text class="label">{{i.language}}</text>
+          <text class="value">{{language}}</text>
+        </view>
+      </picker>
+    </view>
+    <view class="panel">
       <navigator url="/pages/setting/aboutus" hover-class="navigator-hover">{{i.setting_aboutus}}</navigator>
       <navigator url="/pages/setting/stat" class="last-navigator" hover-class="navigator-hover">{{i.setting_statistic}}</navigator>
     </view>
@@ -18,14 +27,65 @@
 <script>
 import wepy from 'wepy';
 import amb from '@/util/amb'
+import userService from '@/util/userService';
 
 export default class Index extends wepy.page {
   data = {
     i: amb.pageI18nData,
+    language: '',
+    langRange: [
+      {
+        label: '简体中文',
+        value: 'zh_CN'
+      },
+      {
+        label: 'English',
+        value: 'en'
+      }],
+  }
+
+  methods = {
+    langChange(e) {
+      const index = parseInt(e.detail.value);
+      const item = this.langRange[index];
+      this.saveUserLanguage(item.value);
+    }
+  }
+
+  onLoad() {
+    this.bindLanguageDisplay();
+  }
+
+  async saveUserLanguage(lang) {
+    const user = amb.config.user;
+    if(lang == user.language) return;
+    wepy.showLoading();
+    try{
+      user.language = lang;
+      await userService.save(user);
+      this.changeLanguage(lang);
+      this.bindLanguageDisplay();
+    }finally{
+      wepy.hideLoading();
+    }
+  }
+
+  bindLanguageDisplay() {
+    const lang = amb.config.user.language;
+    const item = this.langRange.find(x => x.value == lang);
+    console.log('lang', lang, 'item', item);
+    this.updateData({
+      language: item ? item.label : ''
+    });
   }
 
   onShow() {
 		this.setPageUx('setting_title');
   }
+
+  changeLanguage(lang) {
+    amb.chooseLanguage(lang);
+    this.setPageUx('setting_title');
+   }
 }
 </script>

@@ -4,11 +4,11 @@ import i18n from '@/util/i18n'
 const amb = amb || {};
 
 amb.config = { 
-	app_url2: 'https://www.airmnb.com', 
-	app_url: 'http://localhost:5000',
+	app_url: 'https://www.airmnb.com', 
+	app_url2: 'http://localhost:5000',
 	api_version: '1.0',
-	// language: 'en',
-	language: 'zh_CN',
+	language: 'en',
+	// language: 'zh_CN',
 	jwt: null,
 	user: null,
 	ibsAppKey: 'E2FBZ-OTQ3O-I5AWR-SWLTV-4I5FV-ZTBSQ', // Tencent Map Service http://lbs.qq.com/qqmap_wx_jssdk/method-geocoder.html

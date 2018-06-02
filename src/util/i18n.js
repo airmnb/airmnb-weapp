@@ -187,7 +187,7 @@ const i18n = {
     "male": "男",
     "female": "女",
     "gender": "性别",
-    "language": "语言",
+    "language": "界面语言设置",
     "fullname": "姓名",
     "account_name": "爱彼儿昵称",
     "account_id": "爱彼儿ID",
