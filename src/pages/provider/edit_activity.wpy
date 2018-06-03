@@ -133,6 +133,7 @@ export default class EditActivity extends wepy.page {
     addMode: false,
     activity: {},
     venueName: amb.pageI18nData.venue_current,
+    ageRange: [],
     capRange: [],
     currencyRange: [],
     venueRange: [],

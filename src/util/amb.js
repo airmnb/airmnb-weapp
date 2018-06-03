@@ -5,8 +5,8 @@ const amb = amb || {};
 const defaultLanguage = 'zh_CN';
 // const defaultLanguage = 'en';
 amb.config = { 
-	app_url: 'https://www.airmnb.com', 
-	app_url2: 'http://localhost:5000',
+	app_url2: 'https://www.airmnb.com', 
+	app_url: 'http://localhost:5000',
 	api_version: '1.0',
 	language: defaultLanguage,
 	jwt: null,
