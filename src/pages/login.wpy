@@ -3,7 +3,7 @@ page {
 	height: 100%;
 	width: 100%;
 
-	& > view {
+	& view.view-width {
 		height: 100%;
 		width: 100%;
 		display: flex;
@@ -22,21 +22,23 @@ page {
 </style>
 
 <template>
-	<view wx:if="{{!loading}}">
+	<view class="view-width">
 		<text class="logo">{{i.welcome_title}}</text>
-   	<text class="sub-title">{{i.login_use_wechat}}</text>
-		<view class="panel">
-			<view class="panel-item warning">
-				<button @tap="loginWithWechat">{{i.login_title}}</button>
+		<view class="view-width" wx:if="{{!loading}}">
+			<text class="sub-title">{{i.login_use_wechat}}</text>
+			<view class="panel">
+				<view class="panel-item warning">
+					<button @tap="loginWithWechat">{{i.login_title}}</button>
+				</view>
 			</view>
-		</view>
-    <text class="sub-title">{{i.login_choose_language}}</text>
-		<view class="panel panel-language">
-			<view class="panel-item">
-				<button @tap="chooseChinese">简体中文</button>
-			</view>
-			<view class="panel-item">
-				<button @tap="chooseEnglish">English</button>
+			<text class="sub-title">{{i.login_choose_language}}</text>
+			<view class="panel panel-language">
+				<view class="panel-item">
+					<button @tap="chooseChinese">简体中文</button>
+				</view>
+				<view class="panel-item">
+					<button @tap="chooseEnglish">English</button>
+				</view>
 			</view>
 		</view>
 		<!-- <form bindsubmit="nativeAccountLogin">
@@ -98,19 +100,24 @@ page {
 		}
 
 		async onLoad() {
-			this.setPageUx('map_title');
-			const hasSession = await loginService.checkSession();
-			if(hasSession) {
-				await loginService.login();
-				wepy.switchTab({
-					url: '/pages/search/map'
-				})
-				return;
-			}
+			wepy.showLoading({mask: true})
+			try{
+				this.setPageUx('map_title');
+				const hasSession = await loginService.checkSession();
+				if(hasSession) {
+					await loginService.login();
+					wepy.switchTab({
+						url: '/pages/search/map'
+					})
+					return;
+				}
 
-			this.updateData({
-				loading: false
-			})
+				this.updateData({
+					loading: false
+				})
+			}finally{
+				wepy.hideLoading()
+			}
 		}
 	}
 </script>
