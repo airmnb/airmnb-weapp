@@ -112,8 +112,8 @@ swiper {
                     <view class="activity-content">
                       <text class="secondary-text">{{a.name}}</text>
                       <text class="info-text">{{a.info}}</text>
-                      <text class="info-text">{{a.start}} - {{a.end}}</text>
-                      <text class="info-text">{{a.start}} - {{a.end}}</text>
+                      <text class="info-text">{{a.price}} {{a.startTime}} - {{a.endTime}} {{a.startDate}} - {{a.endDate}}</text>
+                      <text class="info-text"></text>
                     </view>
                     </view>
                   </navigator>

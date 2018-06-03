@@ -1,9 +1,27 @@
 import {apiClient} from "./restClient";
 import amb from "@/util/amb";
 import mapService from "@/util/mapService";
+import cacheService from "@/util/cacheService";
 
 class VenusService {
-  async get(id){
+  constructor(){
+    this.cache = cacheService.for('venue');
+  }
+
+  getCache(id) {
+    try{
+      return wepy.getStorageSync('venue:' + id);
+    }catch(e){
+      return null;
+    }
+  }
+
+  async get(id, force = false){
+    if(!force) {
+      const venue = this.cache.get(id);
+      if(venue) return venue;
+    }
+    
     const resp = await apiClient.get(`venues/${id}`);
     return resp.venue;
   }
@@ -12,6 +30,7 @@ class VenusService {
     if(resp.error) {
       throw new Error(resp.error);
     }
+    this.cache.remove(id)
   }
   async add(venue) {
     venue = amb.cleanSetModel(venue);
@@ -19,19 +38,30 @@ class VenusService {
     // console.log('venue before', venue);
     await this.tryAttachGeoCoordinate(venue);
     // console.log('venue after', venue);
-    await apiClient.post('venues', venue);
+    const newVenue = await apiClient.post('venues', venue);
+    this.cache.set(newVenue.venueId, newVenue);
   }
 
   async getMine() {
+    const cached = cacheService.for('my_venues').get();
+    if(cached) return cached;
+
     const providerId = amb.config.user.userId;
     const resp = await apiClient.get('venues', {providerId});
-    return resp.venues;
+    const venues = resp.venues;
+
+    // cache
+    venues.forEach(x => this.cache.set(x.venueId, x));
+    cacheService.for('my_venues').set(null, venues);
+
+    return venues;
   }
 
   async update(venue) {
     venue = amb.cleanSetModel(venue);
     await this.tryAttachGeoCoordinate(venue);
-    await apiClient.put(`venues/${venue.venueId}`, venue);
+    const updated = await apiClient.put(`venues/${venue.venueId}`, venue);
+    this.cache.set(updated.venueId, updated);
   }
 
   async tryAttachGeoCoordinate(venue) {
