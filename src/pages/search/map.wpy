@@ -190,9 +190,9 @@
 
 		async onLoad (options) {
 			
-			wepy.showLoading({mask: true});
-			// Wechat login and get Airmnb user
-			await loginService.login();
+			// wepy.showLoading({mask: true});
+			// // Wechat login and get Airmnb user
+			// await loginService.login();
   		this.setPageUx('map_title');
 			
 			await this.centerByCurrentLocation();

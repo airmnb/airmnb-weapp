@@ -107,6 +107,10 @@ const i18n = {
     "cat_health": "Health",
     "cat_new": "New moms & New babies",
     "cat_stuff": "Toys, Books, or Stuff",
+    "welcome_title": "Welcome to Air Mom & Baby",
+    "login_title": "Login",
+    "login_choose_language": "Choose language",
+    "login_use_wechat": "Login with the current WeChat account",
   },
   "zh_CN": {
     "map_search_bar": "搜  索",
@@ -216,6 +220,10 @@ const i18n = {
     "cat_health": "健康",
     "cat_new": "新妈妈、新生儿",
     "cat_stuff": "玩具、书籍、物品",
+    "welcome_title": "欢迎使用爱彼儿",
+    "login_title": "登  录",
+    "login_choose_language": "语言选择",
+    "login_use_wechat": "当前微信账户登录",
   },
   "zh_TW": {}
 }

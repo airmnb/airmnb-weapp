@@ -1,7 +1,7 @@
 /* colors */
 @primary-light: #FFE79E;
 @primary: #FFCC00;
-@primary-dark: #880E4F;
+@primary-dark: #BB9900;
 @secondary-light: rgb(169, 208, 241);
 @secondary: #03a9f4;
 @secondary-dark: #0D47A1;
@@ -15,6 +15,8 @@
   color: @secondary-dark;
   font-weight: bold;
 }
+
+
 
 .info-text {
   color: @gray-dark;
@@ -154,6 +156,16 @@ page {
   font-weight: bold;
 }
 
+.btn-primary {
+  background-color: @primary;
+  color: @black;
+  border-color: @black;
+}
+
+.btn-primary:active {
+  background-color: @primary-dark;  
+}
+
 .btn-secondary {
   background-color: @secondary;
   color: @white;
@@ -203,7 +215,6 @@ page {
 
   button {
     background-color: @primary;
-    color: @white;
   }
 }
 
