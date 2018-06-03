@@ -5,7 +5,7 @@ import cacheService from "@/util/cacheService";
 
 class VenusService {
   constructor(){
-    this.cache = cacheService.for('venue');
+    this.cache = cacheService.for('venues');
   }
 
   async get(id, force = false){
@@ -36,7 +36,7 @@ class VenusService {
 
   async getMine(force = false) {
     if(!force) {
-      const cached = cacheService.for('my_venues').get();
+      const cached = cacheService.for('venues').get();
       if(cached) return cached;
     }
 
@@ -46,7 +46,7 @@ class VenusService {
 
     // cache
     venues.forEach(x => this.cache.set(x.venueId, x));
-    cacheService.for('my_venues').set(null, venues);
+    cacheService.for('venues').set(null, venues);
 
     return venues;
   }
