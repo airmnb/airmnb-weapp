@@ -5,14 +5,14 @@ const amb = amb || {};
 const defaultLanguage = 'zh_CN';
 const now = new Date();
 const timezoneOffsetMinutes = - now.getTimezoneOffset();
-const timezone = timezoneOffsetMinutes >= 0 ? '+' + timezoneOffsetMinutes : '' + timezoneOffsetMinutes;
+const timeOffset = timezoneOffsetMinutes >= 0 ? '+' + timezoneOffsetMinutes : '' + timezoneOffsetMinutes;
 // const defaultLanguage = 'en';
 amb.config = { 
 	app_url2: 'https://www.airmnb.com', 
 	app_url: 'http://localhost:5000',
 	api_version: '1.0',
 	language: defaultLanguage,
-	timezone: timezone,
+	timeOffset: timeOffset,
 	jwt: null,
 	user: null,
 	ibsAppKey: 'E2FBZ-OTQ3O-I5AWR-SWLTV-4I5FV-ZTBSQ', // Tencent Map Service http://lbs.qq.com/qqmap_wx_jssdk/method-geocoder.html

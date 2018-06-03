@@ -210,7 +210,7 @@ export default class EditActivity extends wepy.page {
       }
       console.log('activity to save', this.activity);
       try{
-        this.activity.timezone = amb.config.timezone;
+        this.activity.timeOffset = amb.config.timeOffset;
         if(this.addMode) {
           await activityService.add(this.activity);
         }else{
