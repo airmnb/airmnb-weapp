@@ -1,6 +1,8 @@
 import wepy from 'wepy';
 import i18n from '@/util/i18n'
 
+const isProd = true;
+// isProd = false;
 const amb = amb || {};
 const defaultLanguage = 'zh_CN';
 const now = new Date();
@@ -8,8 +10,7 @@ const timezoneOffsetMinutes = - now.getTimezoneOffset();
 const timeOffset = timezoneOffsetMinutes >= 0 ? '+' + timezoneOffsetMinutes : '' + timezoneOffsetMinutes;
 // const defaultLanguage = 'en';
 amb.config = { 
-	app_url2: 'https://www.airmnb.com', 
-	app_url: 'http://localhost:5000',
+	app_url: isProd ? 'https://www.airmnb.com' : 'http://localhost:5000', 
 	api_version: '1.0',
 	language: defaultLanguage,
 	timeOffset: timeOffset,
