@@ -22,7 +22,7 @@ page {
 </style>
 
 <template>
-	<view>
+	<view wx:if="{{!loading}}">
 		<text class="logo">{{i.welcome_title}}</text>
    	<text class="sub-title">{{i.login_use_wechat}}</text>
 		<view class="panel">
@@ -68,6 +68,7 @@ page {
 	export default class LoginPage extends wepy.page {
 		data = {
 			i: null,
+			loading: true,
 		}
 
 		methods = {
@@ -96,8 +97,20 @@ page {
 			})
 		}
 
-		onLoad() {
-  		this.setPageUx('map_title');
+		async onLoad() {
+			this.setPageUx('map_title');
+			const hasSession = await loginService.checkSession();
+			if(hasSession) {
+				await loginService.login();
+				wepy.switchTab({
+					url: '/pages/search/map'
+				})
+				return;
+			}
+
+			this.updateData({
+				loading: false
+			})
 		}
 	}
 </script>

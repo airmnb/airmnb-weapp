@@ -3,6 +3,16 @@ import wepy from 'wepy';
 import amb from '@/util/amb';
 
 class LoginService {
+  async checkSession(){
+    try{
+      await wepy.checkSession();
+      console.log('wx session is available');
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+
   async login() {
     const wechatUserInfo = await this.getWechatUserInfo();
     console.log('wechatUserInfo', wechatUserInfo);
@@ -15,7 +25,7 @@ class LoginService {
       // 
       // If both wx session is available and airmnb jwt token exists, don't relogin
       await wepy.checkSession();
-      console.log('wx session is available');
+      // console.log('wx session is available');
       jwt = this.getApiJwtFromLocalStorage();
       this.setJwtToken(jwt);
       console.log('airmnb jwt found in local storage', jwt);
@@ -53,24 +63,11 @@ class LoginService {
 
 
   async localLogin() {
-    // TODO: Mock user here for debug
-    // return {
-    //   id: '680ed7ac-6a3d-4b6c-b534-1008f1c9caf3',
-    //   nickName: 'superopengl',
-    //   fullName: 'Jun Shao',
-    //   mobile: '0405581228',
-    //   email: 'mr.shaojun@gmail.com'
-    // };
-
     const wxResp = await wepy.login();
     console.log('wx resp', wxResp);
     const code = wxResp.code;
-    let response = await sysClient.get('/login/weapp', {code});
-
+    const response = await sysClient.get('/login/weapp', {code});
     console.log('/sys/login/weapp After', response);
-
-    // apiClient.get('/users');
-    // sysClient.get('/debug');
     return response;
   }
 
