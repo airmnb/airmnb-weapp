@@ -4,8 +4,8 @@ import i18n from '@/util/i18n'
 const amb = amb || {};
 const defaultLanguage = 'zh_CN';
 const now = new Date();
-const timezoneOffsetHours = - now.getTimezoneOffset()/60;
-const timezone = timezoneOffsetHours >= 0 ? '+' + timezoneOffsetHours : '' + timezoneOffsetHours;
+const timezoneOffsetMinutes = - now.getTimezoneOffset();
+const timezone = timezoneOffsetMinutes >= 0 ? '+' + timezoneOffsetMinutes : '' + timezoneOffsetMinutes;
 // const defaultLanguage = 'en';
 amb.config = { 
 	app_url2: 'https://www.airmnb.com', 
