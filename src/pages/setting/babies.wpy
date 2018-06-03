@@ -32,15 +32,15 @@
     }
     async onLoad() {
   		this.setPageUx('babies_title');
-      await this.refresh();
+      await this.refresh(false);
     }
     async onPullDownRefresh() {
       await this.refresh();
       wepy.stopPullDownRefresh();
     }
-    async refresh(){
+    async refresh(force = true){
       wepy.showLoading();
-      const babies = await babyService.getMine();
+      const babies = await babyService.getMine(force);
       babies.forEach(x => {
         x.avatarSrcUrl = imageService.getSrcUrl(x.avatarImageId);
       })

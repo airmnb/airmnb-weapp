@@ -8,18 +8,10 @@ class VenusService {
     this.cache = cacheService.for('venue');
   }
 
-  getCache(id) {
-    try{
-      return wepy.getStorageSync('venue:' + id);
-    }catch(e){
-      return null;
-    }
-  }
-
   async get(id, force = false){
     if(!force) {
-      const venue = this.cache.get(id);
-      if(venue) return venue;
+      const cached = this.cache.get(id);
+      if(cached) return cached;
     }
     
     const resp = await apiClient.get(`venues/${id}`);
@@ -38,13 +30,15 @@ class VenusService {
     // console.log('venue before', venue);
     await this.tryAttachGeoCoordinate(venue);
     // console.log('venue after', venue);
-    const newVenue = await apiClient.post('venues', venue);
-    this.cache.set(newVenue.venueId, newVenue);
+    const neo = await apiClient.post('venues', venue);
+    this.cache.set(neo.venueId, neo);
   }
 
-  async getMine() {
-    const cached = cacheService.for('my_venues').get();
-    if(cached) return cached;
+  async getMine(force = false) {
+    if(!force) {
+      const cached = cacheService.for('my_venues').get();
+      if(cached) return cached;
+    }
 
     const providerId = amb.config.user.userId;
     const resp = await apiClient.get('venues', {providerId});
