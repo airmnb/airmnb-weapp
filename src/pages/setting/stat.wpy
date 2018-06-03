@@ -13,27 +13,27 @@
     <view class="panel">
       <view class="panel-item">
         <text class="label">{{i.stat_users}}</text>
-        <text class="value">{{totalUsers}}</text>
+        <text class="value">{{stat.userCount}}</text>
       </view>
       <view class="panel-item">
         <text class="label">{{i.stat_babies}}</text>
-        <text class="value">{{totalBabies}}</text>
+        <text class="value">{{stat.babyCount}}</text>
       </view>
       <view class="panel-item">
         <text class="label">{{i.stat_providers}}</text>
-        <text class="value">{{totalProviders}}</text>
+        <text class="value">{{stat.providerCount}}</text>
       </view>
       <view class="panel-item">
         <text class="label">{{i.stat_activities}}</text>
-        <text class="value">{{totalActivities}}</text>
+        <text class="value">{{stat.activityCount}}</text>
       </view>
       <view class="panel-item">
         <text class="label">{{i.stat_bookings}}</text>
-        <text class="value">{{totalBookings}}</text>
+        <text class="value">{{stat.bookingCount}}</text>
       </view>
       <view class="panel-item">
         <text class="label">{{i.stat_transactions}}</text>
-        <text class="value">{{totalTransactions}}</text>
+        <text class="value">{{stat.transactionCount}}</text>
       </view>
     </view>
   </view>
@@ -41,42 +41,57 @@
 <script>
   import wepy from 'wepy'
   import amb from '@/util/amb'
+  import {apiClient} from "@/util/restClient";
+
   export default class Stat extends wepy.page {
     config = {
       enablePullDownRefresh: true,
     }
     data = {
-      totalUsers: '...',
-      totalBabies: '...',
-      totalProviders: '...',
-      totalActivities: '...',
-      totalBookings: '...',
-      totalTransactions: '...',
+
+      stat: {
+        userCount: '...',
+        babyCount: '...',
+        providerCount: '...',
+        activityCount: '...',
+        bookingCount: '...',
+        transactionCount: '...',
+      },
       i: amb.pageI18nData
     }
 
     methods = {
-      refresh() {
-        this.refreshStat();
-      }
     }
 
     onLoad() {
   		this.setPageUx('stat_title');
-      
-      this.onPullDownRefresh();
+      this.loadData(); 
     }
 
     onPullDownRefresh() {
+      // wepy.showLoading();
+      // const self = this;
+      // this.userCount = Math.floor((Math.random() * 1000) + 1);
+      // this.babyCount = Math.floor((Math.random() * 1000) + 1);
+      // this.providerCount = Math.floor((Math.random() * 1000) + 1);
+      // this.activityCount = Math.floor((Math.random() * 1000) + 1);
+      // this.bookingCount = Math.floor((Math.random() * 1000) + 1);
+      // this.transactionCount = Math.floor((Math.random() * 1000) + 1);
+      // // self.$apply()
+      // wepy.hideLoading();
+      // wepy.stopPullDownRefresh();
+      this.loadData(); 
+    }
+
+    async loadData() {
       wepy.showLoading();
-      const self = this;
-      this.totalUsers = Math.floor((Math.random() * 1000) + 1);
-      this.totalBabies = Math.floor((Math.random() * 1000) + 1);
-      this.totalProviders = Math.floor((Math.random() * 1000) + 1);
-      this.totalActivities = Math.floor((Math.random() * 1000) + 1);
-      this.totalBookings = Math.floor((Math.random() * 1000) + 1);
-      this.totalTransactions = Math.floor((Math.random() * 1000) + 1);
-      // self.$apply()
+      const resp = await apiClient.get(`stat`);
+      if(resp.error) {
+        throw new Error(resp.error);
+      }
+      this.updateData({
+        stat: resp.stat
+      });
       wepy.hideLoading();
       wepy.stopPullDownRefresh();      
     }

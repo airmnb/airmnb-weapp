@@ -2,20 +2,20 @@ import wepy from 'wepy';
 import i18n from '@/util/i18n'
 
 const amb = amb || {};
-
+const defaultLanguage = 'zh_CN';
+// const defaultLanguage = 'en';
 amb.config = { 
 	app_url: 'https://www.airmnb.com', 
 	app_url2: 'http://localhost:5000',
 	api_version: '1.0',
-	language: 'en',
-	// language: 'zh_CN',
+	language: defaultLanguage,
 	jwt: null,
 	user: null,
 	ibsAppKey: 'E2FBZ-OTQ3O-I5AWR-SWLTV-4I5FV-ZTBSQ', // Tencent Map Service http://lbs.qq.com/qqmap_wx_jssdk/method-geocoder.html
 };
 
 amb.chooseLanguage = function (lang) {
-	amb.config.language = lang || 'en';
+	amb.config.language = lang || defaultLanguage;
 	refreshDic();
 }
 
@@ -59,7 +59,7 @@ amb.cleanSetModel = (obj) => {
 
 function translate(str) {
 	const langKey = amb.config.language;
-	const dic = amb.i18nDic[langKey] || amb.i18nDic['en'];
+	const dic = amb.i18nDic[langKey] || amb.i18nDic[defaultLanguage];
 	const ret = dic[str] || '$[' + str + ']';
 	return ret;
 }

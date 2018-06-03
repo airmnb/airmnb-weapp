@@ -55,34 +55,34 @@ export default class extends wepy.app {
 			backgroundColor: '#F5F5F5'
 		},
 		tabBar: {
-			selectedColor: '#FFFFFF',
-			color: '#000000',
+			selectedColor: '#000000',
+			color: '#92813e',
 			backgroundColor: '#FFCC00',
 			list: [
 				{
 					pagePath: 'pages/search/map',
-					// iconPath: 'images/fa-search-off.png',
-					// selectedIconPath: 'images/fa-search.png',
-					text: 'Search'
+					iconPath: 'images/search-light.png',
+					selectedIconPath: 'images/search.png',
+					// text: 'Search'
 				},
 				{
 					pagePath: 'pages/mine/mine',
-					// iconPath: 'images/fa-bookmark-off.png',
-					// selectedIconPath: 'images/fa-bookmark.png',
-					text: 'Me'
+					iconPath: 'images/shop-light.png',
+					selectedIconPath: 'images/shop.png',
+					// text: 'Me'
 				},
 				{
 					pagePath: 'pages/provider/provider',
-					// iconPath: 'images/fa-bookmark-off.png',
-					// selectedIconPath: 'images/fa-bookmark.png',
-					text: 'I Provide'
+					iconPath: 'images/provider-light.png',
+					selectedIconPath: 'images/provider.png',
+					// text: 'Provider'
 				},
 				{
 					pagePath: 'pages/setting/setting',
-					iconPath: 'images/cog.png',
-					iconPath: 'images/cog.png',
-					// selectedIconPath: 'images/fa-home.png',
-					text: 'Settings'
+					// iconPath: 'images/cog.png',
+					iconPath: 'images/cog-light.png',
+					selectedIconPath: 'images/cog.png',
+					// text: 'Settings'
 				}
 			]
 		}
