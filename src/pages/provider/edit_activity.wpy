@@ -67,10 +67,10 @@
         <text class="label">{{i.gender}}</text>
         <checkbox-group bindchange="changeGender">
           <label class="radio">
-            <checkbox value="1" disabled="{{!addMode}}" checked="{{activity.gender & 1}}" color="#D81B60"/>{{i.male}}
+            <checkbox value="1" disabled="{{!addMode}}" checked="{{activity.gender & 1}}" color="#FFCC00"/>{{i.male}}
           </label>
           <label class="radio">
-            <checkbox value="2" disabled="{{!addMode}}" checked="{{activity.gender & 2}}" color="#D81B60"/>{{i.female}}
+            <checkbox value="2" disabled="{{!addMode}}" checked="{{activity.gender & 2}}" color="#FFCC00"/>{{i.female}}
           </label>
         </checkbox-group>
       </view>

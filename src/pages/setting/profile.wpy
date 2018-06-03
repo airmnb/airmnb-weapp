@@ -25,10 +25,10 @@
         <text class="label">{{i.gender}}</text>
         <radio-group class="radio-group" bindchange="setGender">
           <label class="radio">
-            <radio value="1" checked="{{user.gender==1}}" color="#D81B60"/>{{i.male}}
+            <radio value="1" checked="{{user.gender==1}}" color="#FFCC00"/>{{i.male}}
           </label>
           <label class="radio">
-            <radio value="0" checked="{{user.gender==0}}" color="#D81B60"/>{{i.female}}
+            <radio value="0" checked="{{user.gender==0}}" color="#FFCC00"/>{{i.female}}
           </label>
         </radio-group>
       </view>

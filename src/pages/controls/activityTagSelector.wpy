@@ -6,25 +6,25 @@
     <form bindsubmit="onsave">
       <view class="panel">
         <view class="panel-item">
-          {{i.dow_mon}}<switch checked="{{value & 1}}" bindchange="toggle(1)" color="#D81B60"/>
+          {{i.dow_mon}}<switch checked="{{value & 1}}" bindchange="toggle(1)" color="#FFCC00"/>
         </view>
         <view class="panel-item">
-          {{i.dow_tue}}<switch checked="{{value & 2}}" bindchange="toggle(2)" color="#D81B60"/>
+          {{i.dow_tue}}<switch checked="{{value & 2}}" bindchange="toggle(2)" color="#FFCC00"/>
         </view>
         <view class="panel-item">
-          {{i.dow_wed}}<switch checked="{{value & 4}}" bindchange="toggle(4)" color="#D81B60"/>
+          {{i.dow_wed}}<switch checked="{{value & 4}}" bindchange="toggle(4)" color="#FFCC00"/>
         </view>
         <view class="panel-item">
-          {{i.dow_thu}}<switch checked="{{value & 8}}" bindchange="toggle(8)" color="#D81B60"/>
+          {{i.dow_thu}}<switch checked="{{value & 8}}" bindchange="toggle(8)" color="#FFCC00"/>
         </view>
         <view class="panel-item">
-          {{i.dow_fri}}<switch checked="{{value & 16}}" bindchange="toggle(16)" color="#D81B60"/>
+          {{i.dow_fri}}<switch checked="{{value & 16}}" bindchange="toggle(16)" color="#FFCC00"/>
         </view>
         <view class="panel-item">
-          {{i.dow_sat}}<switch checked="{{value & 32}}" bindchange="toggle(32)" color="#D81B60"/>
+          {{i.dow_sat}}<switch checked="{{value & 32}}" bindchange="toggle(32)" color="#FFCC00"/>
         </view>
         <view class="panel-item">
-          {{i.dow_sun}}<switch checked="{{value & 64}}" bindchange="toggle(64)" color="#D81B60"/>
+          {{i.dow_sun}}<switch checked="{{value & 64}}" bindchange="toggle(64)" color="#FFCC00"/>
         </view>
       </view>
       <view class="panel">

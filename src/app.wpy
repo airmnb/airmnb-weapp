@@ -49,15 +49,15 @@ export default class extends wepy.app {
     ],
 		window: {
 			backgroundTextStyle: 'dark',
-			navigationBarBackgroundColor: '#D81B60',
+			navigationBarBackgroundColor: '#FFCC00',
 			// navigationBarTitleText: '爱彼儿',
-			navigationBarTextStyle: 'white',
+			navigationBarTextStyle: 'black',
 			backgroundColor: '#F5F5F5'
 		},
 		tabBar: {
 			selectedColor: '#FFFFFF',
-			color: '#F48FB1',
-			backgroundColor: '#D81B60',
+			color: '#000000',
+			backgroundColor: '#FFCC00',
 			list: [
 				{
 					pagePath: 'pages/search/map',
@@ -79,7 +79,8 @@ export default class extends wepy.app {
 				},
 				{
 					pagePath: 'pages/setting/setting',
-					// iconPath: 'images/fa-home-off.png',
+					iconPath: 'images/cog.png',
+					iconPath: 'images/cog.png',
 					// selectedIconPath: 'images/fa-home.png',
 					text: 'Settings'
 				}

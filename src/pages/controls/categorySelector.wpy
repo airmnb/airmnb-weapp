@@ -6,7 +6,7 @@
     <form bindsubmit="onsave">
       <view class="panel">
         <view class="panel-item" wx:for="{{items}}" wx:key="index" wx:for-item="item">
-          {{item.label}}<switch checked="{{value & item.value}}" bindchange="toggle({{item.value}})" color="#D81B60"/>
+          {{item.label}}<switch checked="{{value & item.value}}" bindchange="toggle({{item.value}})" color="#FFCC00"/>
         </view>
       </view>
       <view class="panel">
