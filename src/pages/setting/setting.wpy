@@ -48,7 +48,12 @@ export default class Index extends wepy.page {
     langChange(e) {
       const index = parseInt(e.detail.value);
       const item = this.langRange[index];
-      this.saveUserLanguage(item.value);
+      const lang = item.value;
+      this.changeLanguage(lang);
+      this.updateData({
+        language: item.label
+      });
+      this.saveUserLanguage(lang);
     }
   }
 
@@ -59,15 +64,8 @@ export default class Index extends wepy.page {
   async saveUserLanguage(lang) {
     const user = amb.config.user;
     if(lang == user.language) return;
-    wepy.showLoading();
-    try{
-      user.language = lang;
-      await userService.save(user);
-      this.changeLanguage(lang);
-      this.bindLanguageDisplay();
-    }finally{
-      wepy.hideLoading();
-    }
+    user.language = lang;
+    await userService.save(user);
   }
 
   bindLanguageDisplay() {

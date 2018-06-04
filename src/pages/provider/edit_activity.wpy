@@ -132,7 +132,7 @@ export default class EditActivity extends wepy.page {
 	data = {
     addMode: false,
     activity: {},
-    venueName: amb.pageI18nData.venue_current,
+    venueName: null,
     ageRange: [],
     capRange: [],
     currencyRange: [],
@@ -252,7 +252,7 @@ export default class EditActivity extends wepy.page {
     this.setPageUx(this.addMode ? 'addactivity_title' : 'editactivity_title');
     wepy.showLoading({mask: true});
     try{
-      await this.initModel();
+      // await this.initModel();
       if(this.addMode) {
         this.activity = {
           name: '',
@@ -270,6 +270,9 @@ export default class EditActivity extends wepy.page {
     }finally{
       wepy.hideLoading();
     }
+  }
+  async onShow(){
+    await this.initModel();
   }
   async setCurrentLocationAsVenue(){
     const address = await mapService.getCurrentAddress();
@@ -313,7 +316,8 @@ export default class EditActivity extends wepy.page {
       label: 'venue_add'.i18n
     });
     this.updateData({
-      venueRange: venueRange
+      venueRange: venueRange,
+      venueName: 'venue_current'.i18n
     });
   }
   async loadActivity(activityId){
