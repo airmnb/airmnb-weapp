@@ -154,19 +154,19 @@ export default class Index extends wepy.page {
 		this.updateData({
 				currentTab: tabIndex,
 		});
-		await this.refresh(tabIndex);
+		await this.refresh(false);
 		this.loading = false;
 	}
 	async onLoad() {
 		this.setPageUx('provider_title');
-		this.refresh(this.currentTab);
+		this.refresh(false);
 		this.adjectListHeight();
 	}
 	onShow() {
 		this.setPageUx('provider_title');
 	}
 	onPullDownRefresh() {
-		this.refresh(this.currentTab, true);
+		this.refresh(true);
   }
   adjectListHeight(){
 		const res = wepy.getSystemInfo();
@@ -178,7 +178,8 @@ export default class Index extends wepy.page {
 			'swiperHeight': calc
 		});
   }
-	async refresh(tabIndex, force = false) {
+	async refresh(force = true) {
+		const tabIndex = this.currentTab;
 		wepy.showLoading();
 		this.updateData({
 			loading: true
