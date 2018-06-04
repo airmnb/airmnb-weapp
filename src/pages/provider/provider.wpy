@@ -131,7 +131,7 @@ import activityService from '@/util/activityService';
 import imageService from '@/util/imageService';
 export default class Index extends wepy.page {
 	config = {
-		enablePullDownRefresh: false
+		enablePullDownRefresh: true
 	};
 	data = {
 		i: amb.pageI18nData,
@@ -159,14 +159,14 @@ export default class Index extends wepy.page {
 	}
 	async onLoad() {
 		this.setPageUx('provider_title');
-		this.refresh();
+		this.refresh(this.currentTab);
 		this.adjectListHeight();
 	}
 	onShow() {
 		this.setPageUx('provider_title');
 	}
 	onPullDownRefresh() {
-		this.refresh();
+		this.refresh(this.currentTab, true);
   }
   adjectListHeight(){
 		const res = wepy.getSystemInfo();
@@ -178,7 +178,7 @@ export default class Index extends wepy.page {
 			'swiperHeight': calc
 		});
   }
-	async refresh(tabIndex = 0) {
+	async refresh(tabIndex, force = false) {
 		wepy.showLoading();
 		this.updateData({
 			loading: true
@@ -186,10 +186,10 @@ export default class Index extends wepy.page {
 		let activities = null;
 		if(tabIndex == 1) {
 			// Closed activities
-			activities = await activityService.getClosed();
+			activities = await activityService.getClosed(force);
 		}else{
 			// Ongoing activities
-			activities = await activityService.getOngoing();
+			activities = await activityService.getOngoing(force);
 		}
 		this.updateData({
 			activities: activities,
