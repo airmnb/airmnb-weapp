@@ -72,11 +72,11 @@
       this.refresh();
     }
     onPullDownRefresh() {
-      this.refresh();
+      this.refresh(true);
     }
-    async refresh(){
+    async refresh(force = false){
       wepy.showLoading();
-      const venues = await venueService.getMine();
+      const venues = await venueService.getMine(force);
       // venues.forEach(x => {
       //   x.avatarSrcUrl = imageService.getSrcUrl(x.avatarImageId);
       // })
