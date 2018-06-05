@@ -31,6 +31,7 @@ export default class extends wepy.app {
 			'pages/login',
 			'pages/search/map', 
 			'pages/search/searchConfig', 
+			'pages/search/view_activity', 
 			'pages/provider/provider', 
 			'pages/provider/venues', 
 			'pages/provider/edit_activity', 

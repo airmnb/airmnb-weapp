@@ -1,0 +1,193 @@
+<style lang="less">
+@secondary-dark: #0D47A1;
+@secondary: #03a9f4;
+
+.image-scroll {
+  height: 500rpx;
+  z-index: -100;
+  margin: 0;
+  image {
+    width: 100%;
+  }
+}
+
+.light-text {
+  color: @secondary;
+}
+
+.activity-name {
+  font-size: x-large;
+  color: @secondary-dark;
+  display: block;
+}
+
+.activity-content {
+  padding: 20rpx;
+}
+
+.activity-info-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .card {
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: row;
+
+    .icon {
+      width: 30rpx;
+      height: 30rpx;
+      margin: auto 20rpx auto 0;
+    }
+    .content {
+      font-size: 1rem;
+    }
+  }
+}
+</style>
+
+<template>
+  <view>
+    <swiper class="panel image-scroll" indicator-dots="{{imageUrls.length>1}}" autoplay="true"
+     scroll-x scroll-with-animation>
+      <block wx:for="{{imageUrls}}" wx:for-item="imageUrl">
+        <swiper-item>
+          <image class="image-card image-image" src="{{imageUrl}}" mode="aspectFill" data-index="{{index}}" bindtap="preview"/>
+        </swiper-item>
+      </block>
+    </swiper>
+    <view class="activity-content">
+      <text class="activity-name">{{activity.name}}</text>
+      <text class="info-text">{{venueAddress}}</text>
+      <text class="top-line">
+        {{activity.info}}
+      </text>
+    </view>
+    <view class="panel light-text">
+      {{i.button_reviews}}
+    </view>
+    <view>
+      <view class="activity-info-container">
+        <view class="card">
+          <image class="icon" src="../../icons/tag.svg"/>
+          <text class="content">{{activity.category}}</text>
+        </view>
+        <view class="card">
+          <image class="icon" src="../../icons/venus.svg"/>
+          <text class="content">{{(activity.gender & 2) > 0}}</text>
+        </view>
+        <view class="card">
+          <image class="icon" src="../../icons/mars.svg"/>
+          <text class="content">{{(activity.gender & 1) > 0}}</text>
+        </view>
+        <view class="card">
+          <image class="icon" src="../../icons/calendar.svg"/>
+          <text class="content">{{activity.startDate}}</text>
+        </view>
+        <view class="card">
+          <image class="icon" src="../../icons/calendar.svg"/>
+          <text class="content">{{activity.endDate}}</text>
+        </view>
+        <view class="card">
+          <image class="icon" src="../../icons/clock.svg"/>
+          <text class="content">{{activity.startDate}}</text>
+        </view>
+        <view class="card">
+          <image class="icon" src="../../icons/clock.svg"/>
+          <text class="content">{{activity.endDate}}</text>
+        </view>
+        <view class="card">
+          <image class="icon" src="../../icons/money.svg"/>
+          <text class="content">{{activity.currency}} {{activity.price}}</text>
+        </view>
+      </view>
+      {{activity.minAge}}
+      {{activity.maxAge}}
+      {{activity.daysOfWeek}}
+    </view>
+
+    <view class="panel">
+      <view class="panel-item warning">
+        <button @tap="deleteOne">{{i.button_check_availability}}</button>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import amb from '@/util/amb';
+import imageService from '@/util/imageService'
+import activityService from '@/util/activityService'
+import venueService from '@/util/venueService'
+import mapService from '@/util/mapService'
+
+export default class ViewActivity extends wepy.page {
+  config = {
+    enablePullDownRefresh: true,
+  }
+	data = {
+    activity: {},
+    imageUrls: [],
+    venueAddress: null,
+  };
+  methods = {
+    preview(e) {
+      const i = e.currentTarget.dataset.index;
+      wepy.previewImage({
+        current: this.imageUrls[i],
+        urls: this.imageUrls
+      })
+    },
+    async save() {
+      wepy.showLoading();
+      if(!this.activity.venueId) {
+        await this.setCurrentLocationAsVenue();
+      }
+      console.log('activity to save', this.activity);
+      try{
+        this.activity.timeOffset = amb.config.timeOffset;
+        if(this.addMode) {
+          await activityService.add(this.activity);
+        }else{
+          await activityService.update(this.activity);
+        }
+      }finally{
+        wepy.hideLoading();
+      }
+
+      // Refresh parent page
+      const pages = getCurrentPages();
+      const parentPage = pages[pages.length-2];
+      parentPage.refresh();
+  
+      wepy.navigateBack();
+    },
+  }
+	async onLoad(options) {
+    const activityId = options.activityId;
+    this.setPageUx(this.addMode ? 'addactivity_title' : 'editactivity_title');
+    await this.loadActivity(activityId);
+  }
+  async refresh() {
+    try {
+      wepy.showLoading({mask: true});
+      await this.initModel();
+    }finally{
+      wepy.hideLoading();
+    }
+  }
+  async loadActivity(activityId){
+    wepy.showLoading();
+    const activity = await activityService.get(activityId);
+    this.updateData({
+      activity: activity,
+      imageUrls: activityService.getImageUrls(activity),
+      venueAddress: venueService.getAddress(activity.venue)
+    })
+    wepy.stopPullDownRefresh();
+    wepy.hideLoading();
+  }
+}
+</script>

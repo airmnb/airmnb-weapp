@@ -108,6 +108,12 @@ class ActivityService {
     });
     return activities;
   }
+
+  getImageUrls(activity) {
+    const ids = activity.imageIds;
+    if(!ids) return [];
+    return ids.map(id => imageService.getSrcUrl(id));
+  }
 }
 
 const venueService = new ActivityService();

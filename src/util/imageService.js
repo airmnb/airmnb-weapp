@@ -32,9 +32,13 @@ class ImageService {
   }
 
   uploadSingleFilePromise(localPath) {
+    const authHeader = apiClient.getRequestHeaders();
+    const header = Object.assign(authHeader, {
+      'Content-Type': 'multipart/form-data'
+    });
     return wepy.uploadFile({
       url: apiClient.path2Url('/images'),
-      header: apiClient.getRequestHeaders(),
+      header: header,
       filePath: localPath,
       name: 'dataFile'}
     )
