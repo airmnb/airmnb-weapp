@@ -31,7 +31,7 @@ class VenusService {
     await this.tryAttachGeoCoordinate(venue);
     // console.log('venue after', venue);
     const neo = await apiClient.post('venues', venue);
-    this.cache.set(neo.venueId, neo);
+    this.cache.set(neo.venue.venueId, neo.venue);
   }
 
   async getMine(force = false) {

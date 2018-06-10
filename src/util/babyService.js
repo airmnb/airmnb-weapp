@@ -32,7 +32,7 @@ class BabyService {
     baby = amb.cleanSetModel(baby);
     baby.creatorId = amb.config.user.userId;
     const neo = await apiClient.post('babies', baby);
-    this.cache.set(neo.babyId, neo);
+    this.cache.set(neo.baby.babyId, neo.baby);
   }
 
   async getMine(force = false) {

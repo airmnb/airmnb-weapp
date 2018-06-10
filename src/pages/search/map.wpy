@@ -51,37 +51,54 @@
   }
 }
 
-  .cards {
-    display: flex;
-		align-items: stretch;
-		padding: 10rpx;
-  }
-  .card {
-    flex: 0 0 200rpx;
-    margin: 10rpx;
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
-  } 
-  .card image {
-		// max-width: 100%;
-		height: 240rpx;
-		width: 360rpx;
-  }
-  .card text {
-		// padding: 0 20rpx 20rpx;
-		width: 360rpx;
-		text-overflow: ellipsis;
-		overflow: hidden;
-		white-space: nowrap;
-		display: block;
-  }
-  .card .text > button {
-    background: gray;
-    border: 0;
-    color: white;
-    padding: 10px;
-    width: 100%;
+.cards {
+	display: flex;
+	align-items: stretch;
+	padding: 10rpx;
+
+	.card {
+		position: relative;
+		flex: 0 0 200rpx;
+		margin: 10rpx;
+		border: 1px solid #ccc;
+		box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+		
+		image {
+			// max-width: 100%;
+			height: 240rpx;
+			width: 360rpx;
 		}
+
+		text {
+			// padding: 0 20rpx 20rpx;
+			width: 360rpx;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+			display: block;
+		}
+
+		.text > button {
+			background: gray;
+			border: 0;
+			color: white;
+			padding: 10px;
+			width: 100%;
+		}
+	}
+
+	.favorite {
+		position: absolute;
+		padding: 20rpx;
+		top: 0;
+		right: 0;
+		image {
+			color: white;
+			width: 35rpx;
+			height: 35rpx;
+		}
+	}
+}
 		
 </style>
 
@@ -96,7 +113,7 @@
 		</map>
 		<!-- <scroll-view scroll-x="true" style="width: 100%; height: 300rpx">
 			<navigator url="/pages/search/book?activityId={{a.activityId}}" 
-			wx:for="{{recommended}}" wx:key="index" wx:for-item="a" class="activity-card">
+			wx:for="{{activities}}" wx:key="index" wx:for-item="a" class="activity-card">
 				<image class="activity-avatar" src="{{a.avatarImageUrl}}" mode="aspectFill" />
 				<view class="activity-content">
 					<text class="secondary-text">{{a.name}}</text>
@@ -110,13 +127,17 @@
 		<scroll-view scroll-x style="white-space: nowrap;">
 			<view class="cards">
 				<navigator url="/pages/search/view_activity?activityId={{a.activityId}}" 
-				wx:for="{{recommended}}" wx:key="index" wx:for-item="a" class="card">
+				wx:for="{{activities}}" wx:key="index" wx:for-item="a" class="card">
 					<image src="{{a.avatarImageUrl}}" mode="aspectFill" />
 					<view class="text">
 						<text class="secondary-text">{{a.name}}</text>
 						<text class="info-text">{{a.info}}</text>
 						<text class="info-text">{{a.start}} - {{a.end}}</text>
 						<text class="info-text">{{a.start}} - {{a.end}}</text>
+					</view>
+					<view class="favorite" data-aid="{{a.activityId}}" data-fid="{{a.favoriteId}}" catchtap="toggleFavorite">
+						<image wx:if="{{!a.favoriteId}}" data-aid="{{a.activityId}}" data-fid="{{a.favoriteId}}" src="../../icons/heart-o.svg"/>
+						<image wx:if="{{a.favoriteId}}" data-aid="{{a.activityId}}" data-fid="{{a.favoriteId}}" src="../../icons/heart.svg"/>
 					</view>
 				</navigator>
 			</view>
@@ -131,6 +152,7 @@
   import imageService from '@/util/imageService'
 	import loginService from '@/util/loginService';
 	import mapService from '@/util/mapService';
+	import favoriteService from '@/util/favoriteService';
 	
 	export default class Map extends wepy.page {
 		config = {
@@ -165,7 +187,7 @@
 			}],
 			markers: [],
 			keywords: '',
-			recommended: []
+			activities: []
 		}
 
 		methods = {
@@ -186,6 +208,34 @@
 						this.refreshMap()
 				}
 			},
+			toggleFavorite(e){
+				const activityId = e.target.dataset.aid
+				const favoriteId = e.target.dataset.fid
+			console.log(activityId, favoriteId, e.target.dataset)
+				this.toggleFavorite(activityId, favoriteId);
+				return false;
+			},
+		}
+
+		async toggleFavorite(activityId, favoriteId) {
+			const activity = this.activities.find(x => x.activityId === activityId);
+			if(!activity) throw new Error(`Not found activity with id ${activityId}`);
+			if(favoriteId) {
+				favoriteService.delete(favoriteId);
+				activity.favoriteId = null; 
+			}else{
+				activity.favoriteId = true;
+				this.updateData({
+					activities: this.activities
+				})
+				const fav = await favoriteService.add(activity);
+				console.log('fav', fav, fav.favoriteId)
+				activity.favoriteId = fav.favoriteId; 
+			}
+			this.updateData({
+				activities: this.activities
+			})
+			return activity;
 		}
 
 		async onLoad (options) {
@@ -209,7 +259,7 @@
 		}
 
 		onPullDownRefresh () {
-			this.refresh();
+			this.refresh(true);
 		}
 
 		/**
@@ -243,9 +293,19 @@
 			await this.getMapMarkers(this.lat, this.lng);
 		}
 
-		async getMapMarkers(lat, lng) {
+		async getMapMarkers(lat, lng, force = true) {
 			wepy.showLoading({mask: false});
-			const activities = await activityService.getWithinRadius(lat, lng, 2000);
+			const favoritesTask = favoriteService.getMyFavorites(force);
+			const activitiesTask = activityService.getWithinRadius(lat, lng, 2000);
+			const results = await Promise.all([favoritesTask, activitiesTask]);
+			console.log('results', activitiesTask, activitiesTask, results)
+			const favorites = results[0];
+			const activities = results[1];
+			// Attach favoriteId property
+			activities.forEach(a => {
+				const fav = favorites.find(x => x.activityId === a.activityId);
+				a.favoriteId = fav ? fav.favoriteId : null;
+			})
 			const markers = mapService.activitiesToMarkers(activities);
 			// markers.unshift({
 			// 	id: 0,
@@ -253,7 +313,7 @@
 			// 	longitude: lng,
 			// });
 			this.updateData({
-				recommended: activities,
+				activities: activities,
 				markers: markers,
 				loading: false
 			});

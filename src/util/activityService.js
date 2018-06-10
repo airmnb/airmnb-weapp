@@ -33,7 +33,7 @@ class ActivityService {
 
     // cache
     const neo = await apiClient.post('activities', activity);
-    this.cache.set(neo.activityId, neo);
+    this.cache.set(neo.activity.activityId, neo.activity);
   }
 
   async getWithinRadius(clat, clng, radius) {
