@@ -132,6 +132,7 @@
 <script>
 import wepy from 'wepy'
 import amb from '@/util/amb'
+import activityService from '@/util/activityService'
 
 /*
 
@@ -250,9 +251,9 @@ export default class CalendarSelector extends wepy.page {
     var cur_year = date.getFullYear();
     var cur_month = date.getMonth() + 1;
     var cur_day = date.getDate();
-    console.log(cur_year);
-    console.log(cur_month);
-    console.log(cur_day);
+    // console.log(cur_year);
+    // console.log(cur_month);
+    // console.log(cur_day);
     const weeks_ch = ['dow_sun_s', 'dow_mon_s', 'dow_tue_s', 'dow_wed_s', 'dow_thu_s', 'dow_fri_s', 'dow_sat_s'].map(x => x.i18n);
     //设置数据
     this.updateData({
@@ -263,6 +264,24 @@ export default class CalendarSelector extends wepy.page {
       selectedDates: new Set()
     })
     this.initData(cur_year,cur_month);
+
+    this.loadAvailabilities(activityId).then(() => {
+      this.initData(cur_year,cur_month);
+    });
+
+  }
+  async loadAvailabilities(activityId) {
+    wepy.showLoading();
+    try{
+      this.availabilities = await activityService.getAvailabilities(activityId);
+      // this.updateData({
+      //   availabilities: this.availabilities
+      // })
+    }catch(e){
+      this.msg(e);
+    }finally{
+      wepy.hideLoading();
+    }
   }
   //初始化数据
   initData(cur_year,cur_month) {
@@ -346,6 +365,12 @@ export default class CalendarSelector extends wepy.page {
      if(this.startDate){
        startDate = this.stringToDate(this.startDate);
      }
+
+     let availableDates = null;
+     if(this.availabilities) {
+        availableDates = new Set(this.availabilities.map(x => x.date));
+      }
+
     for (let i = 1; i <= thisMonthDays; i++) {
       var day = {};
       //加入的时间
@@ -366,6 +391,10 @@ export default class CalendarSelector extends wepy.page {
       var dateYMD = this.formatDate(date,"yyyy-MM-dd");
       if(this.selectedDates.has(dateYMD)) {
         day["status"] = 3;
+      }
+
+      if(availableDates && !availableDates.has(dateYMD)) {
+        day["status"] = 0; // No available vacancies.
       }
       // if(this.startDate&&this.endDate) {
       //   var stime = parseInt(this.calculateTime(date,startDate)); 

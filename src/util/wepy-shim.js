@@ -98,7 +98,7 @@ wepy.page.prototype.setPageUx = function(titleKey) {
 
 wepy.page.prototype.msg = function(msg) {
 	wx.showToast({
-		title: msg,
+		title: (msg || '').toString(),
 		icon: 'none',
 		duration: 3000
 	})
@@ -107,7 +107,7 @@ wepy.page.prototype.msg = function(msg) {
 wepy.page.prototype.debug = function(msg) {
 	wx.showModal({
 		title: 'Debug Info',
-		content: msg,
+		content: (msg || '').toString(),
 		showCancel: false
 	})
 }

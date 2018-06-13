@@ -94,6 +94,11 @@ class ActivityService {
     return activities;  
   }
 
+  async getAvailabilities(activityId) {
+    const resp = await apiClient.get(`activities/${activityId}/timeslots`);
+    return resp.timeslots;
+  }
+
   async update(activity) {
     activity = amb.cleanSetModel(activity);
     const saved = await apiClient.put(`activities/${activity.activityId}`, activity);
