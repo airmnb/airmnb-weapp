@@ -28,6 +28,7 @@ import amb from '@/util/amb';
 export default class extends wepy.app {
 	config = {
 		pages: [
+			'pages/controls/calendarSelector',
 			'pages/login',
 			'pages/search/map', 
 			'pages/search/searchConfig', 
