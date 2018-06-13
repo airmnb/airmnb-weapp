@@ -110,7 +110,7 @@
 
     <view class="panel">
       <view class="panel-item warning">
-        <button @tap="deleteOne">{{i.button_check_availability}}</button>
+        <button @tap="check">{{i.button_check_availability}}</button>
       </view>
     </view>
   </view>
@@ -138,6 +138,11 @@ export default class ViewActivity extends wepy.page {
       wepy.previewImage({
         current: this.imageUrls[i],
         urls: this.imageUrls
+      })
+    },
+    check(){
+      wepy.navigateTo({
+        url: '/pages/search/calendarSelector?activityId=' + this.activity.activityId
       })
     },
     async save() {

@@ -95,3 +95,19 @@ wepy.page.prototype.setPageUx = function(titleKey) {
 		i: amb.pageI18nData
 	});
 }
+
+wepy.page.prototype.msg = function(msg) {
+	wx.showToast({
+		title: msg,
+		icon: 'none',
+		duration: 3000
+	})
+}
+
+wepy.page.prototype.debug = function(msg) {
+	wx.showModal({
+		title: 'Debug Info',
+		content: msg,
+		showCancel: false
+	})
+}
