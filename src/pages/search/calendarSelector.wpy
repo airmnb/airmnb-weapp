@@ -1,0 +1,464 @@
+<style lang="less">
+@primary-light: #FFE79E;
+@primary: #FFCC00;
+@primary-dark: #BB9900;
+@secondary-light: rgb(169, 208, 241);
+@secondary: #03a9f4;
+@secondary-dark: #0D47A1;
+
+.box {
+	display: flex;
+	align-content: center;
+	align-items: center;
+}
+
+.pink-color {
+	color: @secondary-dark;
+}
+.white-color {
+	color: #fff;
+}
+.fs24 {
+	font-size: 24rpx;
+}
+.fs28 {
+	font-size: 28rpx;
+}
+.fs32 {
+	font-size: 32rpx;
+}
+.fs36 {
+	font-size: 36rpx;
+}
+/* pages/calendar/calendar.wxss ====================================*/
+
+.date-area {
+	width: 100%;
+	padding: 10px 0;
+	text-align: center;
+	border-top: 1px solid lightgray;
+	border-bottom: 1px solid lightgray;
+}
+.weeks {
+	padding: 10px 0;
+	height: 50rpx;
+	line-height: 50rpx;
+}
+.week {
+	flex: 1;
+	text-align: center;
+}
+.days {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	align-items: center;
+}
+.grid {
+	display: flex;
+	width: 107.1428571429rpx;
+	flex-direction: column;
+	align-items: center;
+	align-content: center;
+	margin: 5px 0;
+	text-align: center;
+	/*border: 1px solid lightgray;*/
+}
+.day {
+	width: 65rpx;
+	padding: 13rpx 0;
+	color: black;
+	font-size: 26rpx;
+	font-weight: 200;
+	text-align: center;
+}
+.border-radius {
+	border-radius: 50%;
+	position: relative;
+	left: 0;
+	top: 0;
+	color: #fff;
+}
+.disable {
+	color: lightgray;
+}
+.pink-bg {
+	background-color: @secondary-dark;
+}
+.purple-bg {
+	background-color: #b8b8f1;
+}
+.today {
+  font-weight: bold;
+}
+</style>
+<template>
+  <view>
+    <view class="weeks box">
+      <view class="week fs28" wx:for="{{weeks_ch}}" wx:key="{{index}}" data-idx="{{index}}">{{item}}
+      </view>
+    </view>
+
+    <block wx:for="{{allDays}}" wx:for-item="object" wx:key="{{index}}">
+        <!--年月-->
+        <view class="date-area" style="">
+            <view>{{object.year || "--"}} / {{object.month || "--"}}</view>
+        </view>
+        <!--日-->
+        <view class="days">
+            <!--循环空-->
+            <view wx:if="{{object.hasEmptyGrid}}" class="grid white-color" 
+            wx:for="{{object.empytGrids}}" wx:key="{{index}}" data-idx="{{index}}"></view>
+            <!--循环天-->
+            <view class="grid white-color" wx:for="{{object.days}}" wx:key="{{index}}" 
+            data-idx="{{index}}"  data-object="{{object}}" bindtap="selectAction" style="">
+                <!--天-->
+                <view class="day {{item.status==0 ? 'disable' : 'enable'}} {{item.status==3 ? 'border-radius pink-bg' : ''}} {{item.today ? 'today' : ''}}">
+                  {{item.day}}
+                </view>
+                <!--今天-->
+                <!-- <view wx:if="{{item.status==1}}" style="color:gray;font-size:12px;text-align:center;">{{i.today}}</view> -->
+            </view>
+        </view>
+    </block>
+
+    <view class="panel">
+        <view class="panel-item warning">
+          <button>{{i.button_ok}}</button>
+        </view>
+      </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import amb from '@/util/amb'
+
+/*
+
+作者：huangxiongbiao
+链接：https://www.jianshu.com/p/e42390d1389f
+來源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+*/
+export default class CalendarSelector extends wepy.page {
+  data = {
+    i: amb.pageI18nData,
+    selectedDates: new Set(),
+  }
+
+  methods = {
+    selectAction(e) {
+      console.log(e.currentTarget.dataset.object);
+      var year = e.currentTarget.dataset.object.year;
+      var month = e.currentTarget.dataset.object.month;
+      var day = e.currentTarget.dataset.idx+1;
+      console.log(year);
+      console.log(month);
+      console.log(day);
+      var selectDate = new Date(year,month-1,day);
+      //现在的时间
+      var cusDate = new Date(this.org_year, this.org_month,this.org_day);
+      const calcedTime = this.calculateTime(selectDate, cusDate);
+      console.log('calcedTime', calcedTime, selectDate, cusDate);
+      const time = parseInt(calcedTime);
+      console.log(time);
+      if(time<0) {
+        // wx.showToast({
+        //         title: '请选择合理的时间',
+        //         icon: 'error',
+        //         duration: 2000
+        // })
+        // this.debug('failed');
+        return;
+      }
+
+      const theDate = this.formatDate(selectDate,"yyyy-MM-dd");
+
+      if(this.selectedDates.has(theDate)) {
+        this.selectedDates.delete(theDate);
+      }else{
+        this.selectedDates.add(theDate);
+      }
+
+      // this.updateData({
+      //   'selectedDates': this.selectedDates
+      // })
+
+      this.initData(this.org_year, this.org_month+1);
+
+      return;
+
+      if(this.startDate && this.endDate) {
+          this.startDate = this.formatDate(selectDate,"yyyy-MM-dd");
+          this.endDate = null;
+      }else if(this.startDate) {
+          this.endDate = this.formatDate(selectDate,"yyyy-MM-dd");
+      }else {
+          this.startDate = this.formatDate(selectDate,"yyyy-MM-dd");
+      } 
+      this.initData(this.org_year, this.org_month+1);
+      //返回选择的时间（有起止时间的时候返回）
+      if(this.startDate&&this.endDate) {
+        var sDate = this.startDate;
+        var eDate = this.endDate;
+        // var pages = getCurrentPages();
+        // var prevPage = pages[pages.length - 2]; //上一个页面
+        //直接调用上一个页面的updateData()方法，把数据存到上一个页面中去
+        console.log('Selected date range', sDate, eDate);
+        // prevPage.updateData({
+        //   startDate:sDate,
+        //   endDate:eDate
+        // })
+        // wx.navigateBack({
+        //   delta: 1, // 回退前 delta(默认为1) 页面
+        //   success: function(res){
+        //     // success
+        //   },
+        //   fail: function(res) {
+        //     // fail
+        //   },
+        //   complete: function(res) {
+        //     // complete
+        //   }
+        // })
+      }
+    }
+  }
+//==================加载数据================
+  onLoad(options) {
+    // options.startDate = '2018-01-31';
+    // options.endDate = '2018-02-28';
+    const activityId = options.activityId;
+    if(!activityId) {
+      this.debug('activityId is not specified');
+      return;
+    }
+
+    // console.log(options.startDate);
+    // console.log(options.endDate);
+    if(options.startDate&&options.endDate) {
+      console.log(options.startDate);
+      console.log(options.endDate);
+      // var startDate = Data.formatDate(options.startDate,"yyyy-MM-dd");
+      // var endDate =  Data.formatDate(options.endDate,"yyyy-MM-dd");
+      this.startDate = options.startDate;
+      this.endDate = options.endDate;
+    }
+    var date = new Date();
+    //获取当前的年月
+    var cur_year = date.getFullYear();
+    var cur_month = date.getMonth() + 1;
+    var cur_day = date.getDate();
+    console.log(cur_year);
+    console.log(cur_month);
+    console.log(cur_day);
+    const weeks_ch = ['dow_sun_s', 'dow_mon_s', 'dow_tue_s', 'dow_wed_s', 'dow_thu_s', 'dow_fri_s', 'dow_sat_s'].map(x => x.i18n);
+    //设置数据
+    this.updateData({
+      org_year:date.getFullYear(),//现在时间的年月日
+      org_month:date.getMonth(),
+      org_day:cur_day,
+      weeks_ch,
+      selectedDates: new Set()
+    })
+    this.initData(cur_year,cur_month);
+  }
+  //初始化数据
+  initData(cur_year,cur_month) {
+      // 计算最近三个月的对象
+    var mObject0 = this.calculateDays(cur_year, cur_month);
+    if(cur_month+1>12) {
+      cur_year = cur_year+1;
+      cur_month = 1;
+    }else {
+      cur_month = cur_month+1;
+    }
+    var mObject1 = this.calculateDays(cur_year, cur_month);
+    if(cur_month+1>12) {//月不能大于12
+      cur_year = cur_year+1;
+      cur_month = 1;
+    }else {
+      cur_month = cur_month+1;
+    }
+    var mObject2 = this.calculateDays(cur_year, cur_month);
+    this.updateData({
+      allDays:[mObject0,mObject1,mObject2]
+    });
+  }
+  // =============获取当月有多少天（下个月月初是多少）==========
+  getThisMonthDays(year, month) {
+    return new Date(year, month, 0).getDate();
+  }
+  // =============获取当月第一周第一天是周几===========
+  getFirstDayOfWeek(year, month) {
+    return new Date(Date.UTC(year, month - 1, 1)).getDay();
+  }
+  //====================计算当前年月空的几天 =============
+  calculateEmptyGrids(year, month) {
+    const firstDayOfWeek = this.getFirstDayOfWeek(year, month);
+    let empytGrids = [];
+    if (firstDayOfWeek > 0) {
+      for (let i = 0; i < firstDayOfWeek; i++) {
+        empytGrids.push(i);
+      }
+    }
+    return empytGrids;
+  }
+   // =====================计算当前年月有哪些天===========
+   /**
+    * 根据年月计算当前月的天对象状态返回对象
+    * mObject 年月对象
+    * year  年
+    * month 月
+    * hasEmptyGrid  是都有空调
+    * empytGrids  空天数字
+    * days 所有日对象【】
+    */
+   stringToDate(fDate){  
+      var fullDate = fDate.split("-");  
+      return new Date(fullDate[0], fullDate[1]-1, fullDate[2], 0, 0, 0);  
+    }
+
+  calculateDays(year, month) {
+    var mObject = {};//月对象
+    mObject["year"] = year;
+    mObject["month"] = month;
+    //计算当前年月空的几天
+    var empytGrids = this.calculateEmptyGrids(year, month);
+    if(empytGrids.length>0) {
+      mObject["hasEmptyGrid"] = true;
+      mObject["empytGrids"] = empytGrids;
+    }else {
+      mObject["hasEmptyGrid"] = false;
+      mObject["empytGrids"] = [];
+    }
+    var days = [];
+    var thisMonthDays = this.getThisMonthDays(year, month);//这个月有多少天
+    //现在的时间
+     var cusDate = new Date(this.org_year, this.org_month,this.org_day);
+     var startDate;
+     var endDate;
+     if(this.startDate&&this.endDate) {
+        startDate = this.stringToDate(this.startDate);
+        endDate = this.stringToDate(this.endDate);
+     }
+     if(this.startDate){
+       startDate = this.stringToDate(this.startDate);
+     }
+    for (let i = 1; i <= thisMonthDays; i++) {
+      var day = {};
+      //加入的时间
+      var date = new Date(year, month-1,i);
+      // console.log(date)
+      //status 0-不可选择 1-当前时间 2-可选择 3-被选中
+      day["day"] = i;
+      //比现在的时间比较是大于还是小于，小于则不可点击
+      var time = parseInt(this.calculateTime(date,cusDate)); 
+      if(time<0) {
+          day["status"] = 0;
+      }else if(time==0) {
+          day["today"] = true;
+      }else {
+          day["status"] = 2;
+      }
+
+      var dateYMD = this.formatDate(date,"yyyy-MM-dd");
+      if(this.selectedDates.has(dateYMD)) {
+        day["status"] = 3;
+      }
+      // if(this.startDate&&this.endDate) {
+      //   var stime = parseInt(this.calculateTime(date,startDate)); 
+      //   var etime = parseInt(this.calculateTime(date,endDate));
+      //   if(stime>=0&&etime<=0) {
+      //       day["status"] = 3;
+      //   }
+      // }else if(this.startDate){
+      //    var stime = parseInt(this.calculateTime(date,startDate)); 
+      //   if(stime==0) {
+      //       day["status"] = 3;
+      //   }
+      // }
+      days.push(day);
+    }
+    mObject["days"] = days;
+    return mObject;
+  }
+  calculateTime(cusDate,oriDate) {
+      var cusTime = cusDate.getTime();
+      var oriTime = oriDate.getTime();
+      return (cusTime-oriTime)/(1000*60*60*24)
+    }
+
+
+  formatDate(date, format) { 
+      var v = ""; 
+      if (typeof date == "string" || typeof date != "object") { 
+        return; 
+      } 
+      var year  = date.getFullYear(); 
+      var month  = date.getMonth()+1; 
+      var day   = date.getDate(); 
+      var hour  = date.getHours(); 
+      var minute = date.getMinutes(); 
+      var second = date.getSeconds(); 
+      var weekDay = date.getDay(); 
+      var ms   = date.getMilliseconds(); 
+      var weekDayString = ""; 
+        
+      if (weekDay == 1) { 
+        weekDayString = "星期一"; 
+      } else if (weekDay == 2) { 
+        weekDayString = "星期二"; 
+      } else if (weekDay == 3) { 
+        weekDayString = "星期三"; 
+      } else if (weekDay == 4) { 
+        weekDayString = "星期四"; 
+      } else if (weekDay == 5) { 
+        weekDayString = "星期五"; 
+      } else if (weekDay == 6) { 
+        weekDayString = "星期六"; 
+      } else if (weekDay == 7) { 
+        weekDayString = "星期日"; 
+      } 
+  
+      v = format; 
+      //Year 
+      v = v.replace(/yyyy/g, year); 
+      v = v.replace(/YYYY/g, year); 
+      v = v.replace(/yy/g, (year+"").substring(2,4)); 
+      v = v.replace(/YY/g, (year+"").substring(2,4)); 
+  
+      //Month 
+      var monthStr = ("0"+month); 
+      v = v.replace(/MM/g, monthStr.substring(monthStr.length-2)); 
+  
+      //Day 
+      var dayStr = ("0"+day); 
+      v = v.replace(/dd/g, dayStr.substring(dayStr.length-2)); 
+  
+      //hour 
+      var hourStr = ("0"+hour); 
+      v = v.replace(/HH/g, hourStr.substring(hourStr.length-2)); 
+      v = v.replace(/hh/g, hourStr.substring(hourStr.length-2)); 
+  
+      //minute 
+      var minuteStr = ("0"+minute); 
+      v = v.replace(/mm/g, minuteStr.substring(minuteStr.length-2)); 
+  
+      //Millisecond 
+      v = v.replace(/sss/g, ms); 
+      v = v.replace(/SSS/g, ms); 
+        
+      //second 
+      var secondStr = ("0"+second); 
+      v = v.replace(/ss/g, secondStr.substring(secondStr.length-2)); 
+      v = v.replace(/SS/g, secondStr.substring(secondStr.length-2)); 
+        
+      //weekDay 
+      v = v.replace(/E/g, weekDayString); 
+      return v; 
+    }
+}
+</script>
+
