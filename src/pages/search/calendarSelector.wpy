@@ -70,7 +70,8 @@
 	color: black;
 	font-size: 26rpx;
 	font-weight: 200;
-	text-align: center;
+  text-align: center;
+  position: relative;
 }
 .border-radius {
 	border-radius: 50%;
@@ -90,6 +91,17 @@
 }
 .today {
   font-weight: bold;
+}
+.vacancy-badge {
+  color: black;
+  border-radius: 15rpx;
+  min-width: 30rpx;
+  height: 30rpx;
+  background-color: @primary;
+  font-size: 0.5rem;
+  position: absolute;
+  right: 0;
+  bottom: -20;
 }
 </style>
 <template>
@@ -115,6 +127,7 @@
                 <!--天-->
                 <view class="day {{item.status==0 ? 'disable' : 'enable'}} {{item.status==3 ? 'border-radius pink-bg' : ''}} {{item.today ? 'today' : ''}}">
                   {{item.day}}
+                  <!-- <view class="vacancy-badge" wx:if="{{item.vacancyCount}}">{{item.vacancyCount}}</view> -->
                 </view>
                 <!--今天-->
                 <!-- <view wx:if="{{item.status==1}}" style="color:gray;font-size:12px;text-align:center;">{{i.today}}</view> -->
@@ -273,10 +286,14 @@ export default class CalendarSelector extends wepy.page {
   async loadAvailabilities(activityId) {
     wepy.showLoading();
     try{
-      this.availabilities = await activityService.getAvailabilities(activityId);
-      // this.updateData({
-      //   availabilities: this.availabilities
-      // })
+      const availabilities = await activityService.getAvailabilities(activityId);
+      const vacancyMap = new Map();
+      availabilities.forEach(x => {
+        vacancyMap.set(x.date, x.vacancyIds)
+      });
+      this.updateData({
+        vacancyMap: vacancyMap
+      })
     }catch(e){
       this.msg(e);
     }finally{
@@ -366,11 +383,6 @@ export default class CalendarSelector extends wepy.page {
        startDate = this.stringToDate(this.startDate);
      }
 
-     let availableDates = null;
-     if(this.availabilities) {
-        availableDates = new Set(this.availabilities.map(x => x.date));
-      }
-
     for (let i = 1; i <= thisMonthDays; i++) {
       var day = {};
       //加入的时间
@@ -393,8 +405,13 @@ export default class CalendarSelector extends wepy.page {
         day["status"] = 3;
       }
 
-      if(availableDates && !availableDates.has(dateYMD)) {
-        day["status"] = 0; // No available vacancies.
+      if(this.vacancyMap) {
+        const vacancyCount = (this.vacancyMap.get(dateYMD) || []).length; // Available vacancy count.
+        if(vacancyCount) {
+          day["vacancyCount"] = vacancyCount
+        }else{
+          day["status"] = 0;
+        }
       }
       // if(this.startDate&&this.endDate) {
       //   var stime = parseInt(this.calculateTime(date,startDate)); 

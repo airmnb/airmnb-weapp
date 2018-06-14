@@ -185,6 +185,7 @@ export default class Index extends wepy.page {
 			loading: true
 		});
 		let activities = null;
+		console.log('tab', tabIndex)
 		if(tabIndex == 1) {
 			// Closed activities
 			activities = await activityService.getClosed(force);
