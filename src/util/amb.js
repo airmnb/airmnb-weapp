@@ -20,11 +20,7 @@ amb.config = {
 };
 
 amb.chooseLanguage = function (lang) {
-	console.log('amb.chooseLanguage', lang);
 	amb.config.language = lang || defaultLanguage;
-	console.log('amb.config.language', amb.config.language);
-	console.log('amb', amb);
-
 	refreshDic();
 }
 

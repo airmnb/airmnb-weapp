@@ -18,7 +18,6 @@ class LoginService {
     console.log('wechatUserInfo', wechatUserInfo);
     const wechatNickName = wechatUserInfo.nickName;
     amb.chooseLanguage(wechatUserInfo.language);
-    console.log('amb', amb)
     let jwt = null;
     let user = null;
     try {
