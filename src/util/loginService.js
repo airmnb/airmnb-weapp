@@ -34,7 +34,7 @@ class LoginService {
       user = await this.getUserFromWhoAmI();
     }catch(e) {
       console.log('starting relogin due to', e);
-      const resp = await this.localLogin(wechatNickName);
+      const resp = await this.localLogin(wechatUserInfo);
       jwt = resp.sessionToken;
       this.setJwtToken(jwt);
       user = resp.user;
@@ -64,11 +64,13 @@ class LoginService {
   }
 
 
-  async localLogin(wechatNickName) {
+  async localLogin(wechatUserInfo) {
+    const wechatNickName = wechatUserInfo.nickName;
+    const language = wechatUserInfo.language;
     const wxResp = await wepy.login();
     console.log('wx resp', wxResp);
     const code = wxResp.code;
-    const response = await sysClient.get('/login/weapp', {code, wechatNickName});
+    const response = await sysClient.get('/login/weapp', {code, wechatNickName, language});
     console.log('/sys/login/weapp After', response);
     return response;
   }
