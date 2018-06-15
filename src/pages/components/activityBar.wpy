@@ -1,0 +1,32 @@
+<style lang="less">
+
+</style>
+<template>
+  <navigator url="/pages/provider/edit_activity?activityId={{activity.activityId}}">
+    <view class="activity-card" >
+      <image class="activity-avatar" src="{{activity.avatarImageUrl}}" mode="aspectFill" />
+      <view class="activity-content">
+        <text class="secondary-text">{{activity.name}}</text>
+        <text class="info-text">{{activity.info}}</text>
+        <text class="info-text">{{activity.price}} {{activity.startTime}} - {{activity.endTime}} {{activity.startDate}} - {{activity.endDate}}</text>
+        <text class="info-text"></text>
+      </view>
+    </view>
+  </navigator>
+</template>
+<script>
+import wepy from 'wepy';
+import amb from '@/util/amb';
+
+export default class ActivityBar extends wepy.component {
+  props = {
+    activity: {
+      type: Object,
+      twoWay: true
+    }
+  }
+  data = {}
+  methods = {}
+}
+</script>
+
