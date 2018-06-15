@@ -46,6 +46,7 @@ class VenusService {
 
     // cache
     venues.forEach(x => this.cache.set(x.venueId, x));
+    console.log('caching venues', venues);
     cacheService.for('venues').set(null, venues);
 
     return venues;
@@ -55,7 +56,7 @@ class VenusService {
     venue = amb.cleanSetModel(venue);
     await this.tryAttachGeoCoordinate(venue);
     const updated = await apiClient.put(`venues/${venue.venueId}`, venue);
-    this.cache.set(updated.venueId, updated);
+    this.cache.set(updated.venue.venueId, updated.venue);
   }
 
   async tryAttachGeoCoordinate(venue) {
