@@ -126,7 +126,13 @@
 
 		<scroll-view scroll-x style="white-space: nowrap;">
 			<view class="cards">
-				<navigator url="/pages/search/view_activity?activityId={{a.activityId}}" 
+				<repeat for="{{activities}}">
+					<activityBar wx:if="{{!loading}}" 
+					:style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
+					</activityBar>
+				</repeat>
+
+				<!-- <navigator url="/pages/search/view_activity?activityId={{a.activityId}}" 
 				wx:for="{{activities}}" wx:key="index" wx:for-item="a" class="card">
 					<image src="{{a.avatarImageUrl}}" mode="aspectFill" />
 					<view class="text">
@@ -139,25 +145,29 @@
 						<image wx:if="{{!a.favoriteId}}" data-aid="{{a.activityId}}" data-fid="{{a.favoriteId}}" src="../../icons/heart-o.svg"/>
 						<image wx:if="{{a.favoriteId}}" data-aid="{{a.activityId}}" data-fid="{{a.favoriteId}}" src="../../icons/heart.svg"/>
 					</view>
-				</navigator>
+				</navigator> -->
 			</view>
 		</scroll-view>
 	</view>
 	
 </template>
 <script>
-	import wepy from 'wepy'
-	import amb from '@/util/amb'
-  import activityService from '@/util/activityService'
-  import imageService from '@/util/imageService'
-	import loginService from '@/util/loginService';
-	import mapService from '@/util/mapService';
-	import favoriteService from '@/util/favoriteService';
+import wepy from 'wepy'
+import amb from '@/util/amb'
+import activityService from '@/util/activityService'
+import imageService from '@/util/imageService'
+import loginService from '@/util/loginService';
+import mapService from '@/util/mapService';
+import favoriteService from '@/util/favoriteService';
+import ActivityBar from '../components/activityBar'
 	
 	export default class Map extends wepy.page {
 		config = {
 			enablePullDownRefresh: true
 		};
+		components = {
+			activityBar: ActivityBar
+		}
 		data = {
 			i: null,
 			showsSearchBar: false,
@@ -208,35 +218,10 @@
 						this.refreshMap()
 				}
 			},
-			toggleFavorite(e){
-				const activityId = e.target.dataset.aid
-				const favoriteId = e.target.dataset.fid
-			console.log(activityId, favoriteId, e.target.dataset)
-				this.toggleFavorite(activityId, favoriteId);
-				return false;
-			},
+			
 		}
 
-		async toggleFavorite(activityId, favoriteId) {
-			const activity = this.activities.find(x => x.activityId === activityId);
-			if(!activity) throw new Error(`Not found activity with id ${activityId}`);
-			if(favoriteId) {
-				favoriteService.delete(favoriteId);
-				activity.favoriteId = null; 
-			}else{
-				activity.favoriteId = true;
-				this.updateData({
-					activities: this.activities
-				})
-				const fav = await favoriteService.add(activity);
-				console.log('fav', fav, fav.favoriteId)
-				activity.favoriteId = fav.favoriteId; 
-			}
-			this.updateData({
-				activities: this.activities
-			})
-			return activity;
-		}
+
 
 		async onLoad (options) {
 			

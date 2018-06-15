@@ -110,6 +110,14 @@ Object.update = function(target, update) {
 	});
 }
 
+amb.parseDateTime = function(strDate, strTime){
+	// strDate: yyyy-MM-dd
+	// strTime: HH:mm
+	strDate = strDate || '1900-01-01';
+	strTime = strTime || '00:00';
+	return new Date(strDate + ' ' + strTime);
+}
+
 const drawCanvas = function(canvas) {
 	return new Promise((res, rej) => {
 		canvas.draw(false, () => {

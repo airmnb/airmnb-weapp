@@ -5,6 +5,7 @@
 @secondary-light: rgb(169, 208, 241);
 @secondary: #03a9f4;
 @secondary-dark: #0D47A1;
+@gray-dark: #888888;
 
 .box {
 	display: flex;
@@ -36,8 +37,8 @@
 	width: 100%;
 	padding: 10px 0;
 	text-align: center;
-	border-top: 1px solid lightgray;
-	border-bottom: 1px solid lightgray;
+	border-top: 1px solid @gray-dark;
+	border-bottom: 1px solid @gray-dark;
 }
 .weeks {
 	padding: 10px 0;
@@ -62,7 +63,7 @@
 	align-content: center;
 	margin: 5px 0;
 	text-align: center;
-	/*border: 1px solid lightgray;*/
+	border: 1px solid lightgray;
 }
 .day {
 	width: 65rpx;
@@ -81,7 +82,7 @@
 	color: #fff;
 }
 .disable {
-	color: lightgray;
+	color: @gray-dark;
 }
 .pink-bg {
 	background-color: @secondary-dark;
