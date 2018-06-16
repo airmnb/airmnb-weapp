@@ -1,5 +1,5 @@
 <style lang="less">
-@gray: #EFEFEF;
+@gray: #D0D0D0;
 @secondary-dark: #0D47A1;
 @gray-dark: #888888;
 .panel {

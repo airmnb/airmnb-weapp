@@ -1,26 +1,131 @@
 <style lang="less">
-
+page {
+	padding: 0;
+}
 </style>
 
 <template>
   <view>
-    <view class="panel">
-      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover">{{i.mine_favorites}}</navigator>
-      <navigator url="/pages/setting/add_baby" hover-class="navigator-hover">{{i.mine_mycomments}}</navigator>
-      <navigator url="/pages/setting/add_baby" class="last-navigator" hover-class="navigator-hover">{{i.mine_history}}</navigator>
+    <view class="" style="position:relative;">
+      <scroll-view scroll-x="true" class="tab-h">
+        <view class="tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="switchNav">
+          <text data-current="0" class="tab-item-label">{{i.mine_ongoing}}</text>
+        </view>
+        <view class="tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="switchNav">
+          <text data-current="1" class="tab-item-label">{{i.mine_favorites}}</text>
+        </view>
+        <view class="tab-item {{currentTab==2?'active':''}}" data-current="2" bindtap="switchNav">
+          <text data-current="2" class="tab-item-label">{{i.mine_mycomments}}</text>
+        </view>
+        <view class="tab-item {{currentTab==3?'active':''}}" data-current="3" bindtap="switchNav">
+          <text data-current="3" class="tab-item-label">{{i.mine_history}}</text>
+        </view>
+      </scroll-view>
+      <swiper current="{{currentTab}}" duration="300" style="height:{{swiperHeight}}rpx;" bindchange="switchTab">
+        <swiper-item wx:for="{{[0,1,2,3]}}" wx:key="{{index}}">
+            <scroll-view scroll-y="true" class="scoll-h activity-panel">
+							<repeat for="{{activities}}">
+								<activityBar wx:if="{{!loading}}" :style="'bar'"
+								 :navigateTo="'/pages/provider/edit_activity?activityId=' + item.activityId" :activity.sync="item"></activityBar>
+							</repeat>
+            </scroll-view>
+        </swiper-item>
+      </swiper>
     </view>
-    <text class="sub-title">{{i.mine_ongoing}}</text>
   </view>
 </template>
 <script>
-  import wepy from 'wepy'
-  import amb from '@/util/amb'
+import wepy from 'wepy'
+import amb from '@/util/amb'
+import activityService from '@/util/activityService';
+import ActivityBar from '../components/activityBar'
   
-  export default class Index extends wepy.page {
-    data = {
-    }
-    onShow() {
-  		this.setPageUx('mine_title');
-    }
+export default class Mine extends wepy.page {
+  config = {
+		enablePullDownRefresh: true
+	};
+	components = {
+		activityBar: ActivityBar
+	}
+  data = {
+    i: amb.pageI18nData,
+		activities: null,
+		currentTab: 0,
+		swiperHeight: 1000,
+		loading: false,
   }
+  methods = {
+		switchTab(e) {
+			this.loadTabData(e.detail.current);
+		},
+		switchNav(e) {
+			this.loadTabData(e.target.dataset.current);
+		},
+  };
+  async loadTabData(tabIndex) {
+		if(this.currentTab == tabIndex) return;
+		this.updateData({
+				currentTab: tabIndex,
+		});
+		await this.refresh(false);
+		this.loading = false;
+	}
+  onLoad() {
+    this.setPageUx('mine_title');
+		this.refresh(false);
+		this.adjectListHeight();
+  }
+  onShow() {
+    this.setPageUx('mine_title');
+  }
+  onPullDownRefresh() {
+		this.refresh(true);
+  }
+  async adjectListHeight(){
+		const res = await wepy.getSystemInfo();
+		const clientHeight = res.windowHeight;
+		const clientWidth = res.windowWidth;
+		const rpxR = 750 / clientWidth;
+    const calc = clientHeight * rpxR - 180;
+		this.updateData({
+			'swiperHeight': calc
+		});
+  }
+  async refresh(force = true) {
+		const tabIndex = this.currentTab;
+		wepy.showLoading();
+		this.updateData({
+			loading: true
+		});
+		let activities = null;
+    console.log('tab', tabIndex)
+    switch (tabIndex) {
+      case 0:
+        // Mine ongoing
+			  activities = await activityService.getClosed(force);
+        break;
+      case 1:
+        // My favoriates
+			  activities = await activityService.getClosed(force);
+        break;
+      case 2:
+        // My comments
+			  activities = await activityService.getClosed(force);
+        break;
+      case 3:
+        // My history
+			  activities = await activityService.getClosed(force);
+        break;
+      default:
+        activities = []
+        console.log(`${tabIndex} isn't supported`);
+    }
+		this.updateData({
+			activities: activities,
+			loading: false
+		});
+		wepy.stopPullDownRefresh();
+		wepy.hideLoading();
+	}
+}
 </script>

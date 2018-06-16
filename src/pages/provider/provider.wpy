@@ -1,6 +1,8 @@
 <style lang="less">
 @primary: #d81b60;
-
+page {
+	padding: 0;
+}
 .activity-panel {
 	width: 100%;
 	display: flex;
@@ -16,52 +18,6 @@
   }
 }
 
-.panel {
-  background-color: white;
-}
-
-.tab-h {
-	height: 80rpx;
-	width: 100%;
-	box-sizing: border-box;
-	overflow: hidden;
-	line-height: 80rpx;
-  white-space: nowrap;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: stretch;
-	// position: absolute;
-	// top: 0;
-	// left: 0;
-	// z-index: 99;
-}
-.tab-item {
-	margin: 0;
-  display: inline-block;
-  flex: 1 1 100%;
-}
-.tab-item-label {
-	margin: 0 10rpx 0 10rpx;
-	display: inline-block;
-}
-.tab-item.active {
-	color: @primary;
-	position: relative;
-}
-.tab-item.active:after {
-	content: '';
-	display: block;
-	height: 4rpx;
-	width: 100%;
-	background: @primary;
-	position: absolute;
-	bottom: 0;
-}
-.scoll-h {
-	height: 100%;
-}
-
 swiper {
   height: 1000rpx;
   width: 100%;
@@ -74,7 +30,7 @@ swiper {
       <navigator url="/pages/provider/edit_activity" hover-class="navigator-hover">{{i.provider_newactivity}}</navigator>
       <navigator url="/pages/provider/venues" hover-class="navigator-hover">{{i.provider_venues}}</navigator>
     </view>
-    <view class="panel" style="position:relative;">
+    <view class="" style="position:relative;">
       <scroll-view scroll-x="true" class="tab-h">
         <view class="tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="switchNav">
           <text data-current="0" class="tab-item-label">{{i.provider_ongoing}}</text>
@@ -100,8 +56,8 @@ swiper {
 import wepy from 'wepy';
 import amb from '@/util/amb';
 import activityService from '@/util/activityService';
-import imageService from '@/util/imageService';
 import ActivityBar from '../components/activityBar'
+
 export default class Index extends wepy.page {
 	config = {
 		enablePullDownRefresh: true
@@ -144,12 +100,12 @@ export default class Index extends wepy.page {
 	onPullDownRefresh() {
 		this.refresh(true);
   }
-  adjectListHeight(){
-		const res = wepy.getSystemInfo();
+  async adjectListHeight(){
+		const res = await wepy.getSystemInfo();
 		const clientHeight = res.windowHeight;
 		const clientWidth = res.windowWidth;
 		const rpxR = 750 / clientWidth;
-		const calc = clientHeight * rpxR - 180;
+		const calc = clientHeight * rpxR - 340;
 		this.updateData({
 			'swiperHeight': calc
 		});

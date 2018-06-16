@@ -6,7 +6,7 @@
 @secondary: #03a9f4;
 @secondary-dark: #0D47A1;
 @gray-light: #FAFAFA;
-@gray: #EFEFEF;
+@gray: #D0D0D0;
 @gray-dark: #888888;
 @white: #FFFFFF;
 @black: #000000;
@@ -36,6 +36,7 @@ image.icon {
   align-items: center;
   justify-content: center;
   margin: 40rpx 0 40rpx 0;
+  background-color: white;
 
   .top-line {
     border-top: 1rpx solid @gray;
@@ -90,6 +91,7 @@ image.icon {
   }
   navigator::after {
     content: '>';
+    font-family: Arial, Helvetica, sans-serif;
     color: @gray;
     font-weight: bold;
     margin-left: 20rpx;
@@ -293,4 +295,48 @@ page {
       height: 200rpx;
     }
   } 
+}
+
+
+.tab-h {
+	height: 80rpx;
+	width: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
+	line-height: 80rpx;
+  white-space: nowrap;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: stretch;
+	// position: absolute;
+	// top: 0;
+	// left: 0;
+	// z-index: 99;
+}
+.tab-item {
+  margin: 0;
+  display: inline-block;
+  flex: 1 1 100%;
+  color: @gray-dark;
+}
+.tab-item-label {
+	margin: 0 10rpx 0 10rpx;
+	display: inline-block;
+}
+.tab-item.active {
+	color: black;
+	position: relative;
+}
+.tab-item.active:after {
+	content: '';
+	display: block;
+	height: 4rpx;
+	width: 100%;
+	background: @primary;
+	position: absolute;
+	bottom: 0;
+}
+.scoll-h {
+	height: 100%;
 }

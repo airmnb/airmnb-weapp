@@ -63,7 +63,7 @@
 	align-content: center;
 	margin: 5px 0;
 	text-align: center;
-	border: 1px solid lightgray;
+	// border: 1px solid lightgray;
 }
 .day {
 	width: 65rpx;
