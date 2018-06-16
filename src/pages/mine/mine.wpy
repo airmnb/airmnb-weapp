@@ -39,7 +39,8 @@ import wepy from 'wepy'
 import amb from '@/util/amb'
 import activityService from '@/util/activityService';
 import ActivityBar from '../components/activityBar'
-  
+// import favoriteService from '@/util/favoriteService';
+
 export default class Mine extends wepy.page {
   config = {
 		enablePullDownRefresh: true
@@ -92,7 +93,7 @@ export default class Mine extends wepy.page {
 		});
   }
   async refresh(force = true) {
-		const tabIndex = this.currentTab;
+		const tabIndex = parseInt(this.currentTab);
 		wepy.showLoading();
 		this.updateData({
 			loading: true
@@ -106,7 +107,7 @@ export default class Mine extends wepy.page {
         break;
       case 1:
         // My favoriates
-			  activities = await activityService.getClosed(force);
+			  activities = await activityService.getMyFavorites(force);
         break;
       case 2:
         // My comments

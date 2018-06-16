@@ -2,6 +2,7 @@ import {apiClient} from "./restClient";
 import amb from "@/util/amb";
 import imageService from '@/util/imageService'
 import cacheService from "@/util/cacheService";
+import favoriteService from '@/util/favoriteService';
 
 class ActivityService {
   constructor(){
@@ -76,6 +77,12 @@ class ActivityService {
     cacheService.for('activity/closed').set(null, activities);
 
     return activities;
+  }
+
+  async getMyFavorites(force = false) {
+    const favorites = await favoriteService.getMyFavorites(force);
+    const tasks = favorites.map(f => this.get(f.activityId, force));
+    return await Promise.all(tasks);
   }
 
   async getRecommended(force = false){
