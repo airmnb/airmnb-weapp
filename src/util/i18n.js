@@ -121,6 +121,9 @@ const i18n = {
     "login_title": "Login",
     "login_choose_language": "Choose language",
     "login_use_wechat": "Login with the current WeChat account",
+    "boy_only": "Boys only",
+    "girl_only": "Girls only",
+    "list_no_content": "No content",
   },
   "zh_CN": {
     "map_search_bar": "搜  索",
@@ -244,6 +247,9 @@ const i18n = {
     "login_title": "登  录",
     "login_choose_language": "语言选择",
     "login_use_wechat": "当前微信账户登录",
+    "boy_only": "仅限男孩",
+    "girl_only": "仅限女孩",
+    "list_no_content": "无内容",
   },
   "zh_TW": {}
 }
