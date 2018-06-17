@@ -61,7 +61,11 @@
       </picker>
       <navigator url="/pages/controls/dayOfWeekSelector?key=activity.daysOfWeek&value={{activity.daysOfWeek}}" 
         hover-class="navigator-hover">{{i.activity_dayofweek}}
-        <text class="value text-elipsis">{{activity.daysOfWeek ? '...' : ''}}</text>
+        <!-- <text class="value text-elipsis">{{activity.daysOfWeek ? '...' : ''}}</text> -->
+        <repeat for="{{[0]}}">
+          <dowDisplay class="value" :value="activity.daysOfWeek" 
+          :labels="[i.dow_mon_s,i.dow_tue_s,i.dow_wed_s,i.dow_thu_s,i.dow_fri_s,i.dow_sat_s,i.dow_sun_s]"></dowDisplay>
+        </repeat>
       </navigator>
       <view class="panel-item">
         <text class="label">{{i.gender}}</text>
@@ -127,8 +131,12 @@ import imageService from '@/util/imageService'
 import activityService from '@/util/activityService'
 import venueService from '@/util/venueService'
 import mapService from '@/util/mapService'
+import DowDisplay from '../components/dowDisplay'
 
 export default class EditActivity extends wepy.page {
+  components = {
+		dowDisplay: DowDisplay
+	}
 	data = {
     addMode: false,
     activity: {},

@@ -138,7 +138,7 @@
 
     <view class="panel">
         <view class="panel-item warning">
-          <button>{{i.button_ok}}</button>
+          <button @tap="purchase">{{i.button_ok}}</button>
         </view>
       </view>
   </view>
@@ -163,6 +163,8 @@ export default class CalendarSelector extends wepy.page {
   }
 
   methods = {
+    async purchase() {
+    },
     selectAction(e) {
       console.log(e.currentTarget.dataset.object);
       var year = e.currentTarget.dataset.object.year;
@@ -249,6 +251,7 @@ export default class CalendarSelector extends wepy.page {
       this.debug('activityId is not specified');
       return;
     }
+    this.activityId = activityId;
 
     // console.log(options.startDate);
     // console.log(options.endDate);

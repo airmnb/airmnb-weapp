@@ -26,7 +26,7 @@ page {
             <scroll-view scroll-y="true" class="scoll-h activity-panel">
 							<repeat for="{{activities}}">
 								<activityBar wx:if="{{!loading}}" :style="'bar'"
-								 :navigateTo="'/pages/provider/edit_activity?activityId=' + item.activityId" :activity.sync="item"></activityBar>
+								 :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item"></activityBar>
 							</repeat>
             </scroll-view>
         </swiper-item>
