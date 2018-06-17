@@ -14,6 +14,7 @@ class FavoriteService {
       throw new Error(resp.error);
     }
     this.cache.remove(id)
+    this.getMyFavorites(true);
   }
 
   async add(activity) {
@@ -26,6 +27,7 @@ class FavoriteService {
     // cache
     const neo = await apiClient.post('favorites', payload);
     this.cache.set(neo.favorite.favoriteId, neo.favorite);
+    this.getMyFavorites(true);
     return neo.favorite;
   }
 

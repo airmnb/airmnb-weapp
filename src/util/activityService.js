@@ -82,7 +82,9 @@ class ActivityService {
   async getMyFavorites(force = false) {
     const favorites = await favoriteService.getMyFavorites(force);
     const tasks = favorites.map(f => this.get(f.activityId, force));
-    return await Promise.all(tasks);
+    let activities = await Promise.all(tasks);
+    activities = this.setAvatarImageUrl(activities)
+    return activities;
   }
 
   async getRecommended(force = false){

@@ -78,6 +78,7 @@ export default class Mine extends wepy.page {
   }
   onShow() {
     this.setPageUx('mine_title');
+		this.refresh(false);
   }
   onPullDownRefresh() {
 		this.refresh(true);
