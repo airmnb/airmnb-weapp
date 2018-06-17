@@ -86,6 +86,22 @@ class ActivityService {
     return activities;
   }
 
+  async getPurchased(force = false) {
+    if(!force) {
+      const cached = cacheService.for('activity/purchased').get();
+      if(cached) return cached;
+    }
+
+    const resp = await apiClient.get('activities/purchased');
+    const activities = this.setAvatarImageUrl(resp.activities)
+
+    // cache
+    activities.forEach(x => this.cache.set(x.activityId, x));
+    cacheService.for('activity/purchased').set(null, activities);
+
+    return activities;
+  }
+
   async getMyFavorites(force = false) {
     const favorites = await favoriteService.getMyFavorites(force);
     const tasks = favorites.map(f => this.get(f.activityId, force));
