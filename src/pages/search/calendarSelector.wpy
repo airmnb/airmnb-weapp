@@ -164,6 +164,12 @@ export default class CalendarSelector extends wepy.page {
 
   methods = {
     async purchase() {
+      const timeslotIds = this.availabilities
+      .filter(a => this.selectedDates.has(a.date))
+      .map(a => a.timeslotId);
+
+      const resp = activityService.purchase(this.activityId, timeslotIds);
+
     },
     selectAction(e) {
       console.log(e.currentTarget.dataset.object);
@@ -293,10 +299,11 @@ export default class CalendarSelector extends wepy.page {
       const availabilities = await activityService.getAvailabilities(activityId);
       const vacancyMap = new Map();
       availabilities.forEach(x => {
-        vacancyMap.set(x.date, x.vacancyIds)
+        vacancyMap.set(x.date, x.timeslotId)
       });
       this.updateData({
-        vacancyMap: vacancyMap
+        vacancyMap: vacancyMap,
+        availabilities: availabilities
       })
     }catch(e){
       this.msg(e);
