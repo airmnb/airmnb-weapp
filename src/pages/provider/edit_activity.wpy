@@ -62,10 +62,13 @@
       <navigator url="/pages/controls/dayOfWeekSelector?key=activity.daysOfWeek&value={{activity.daysOfWeek}}" 
         hover-class="navigator-hover">{{i.activity_dayofweek}}
         <!-- <text class="value text-elipsis">{{activity.daysOfWeek ? '...' : ''}}</text> -->
-        <repeat for="{{[0]}}">
-          <dowDisplay class="value" :value="activity.daysOfWeek" 
-          :labels="[i.dow_mon_s,i.dow_tue_s,i.dow_wed_s,i.dow_thu_s,i.dow_fri_s,i.dow_sat_s,i.dow_sun_s]"></dowDisplay>
-        </repeat>
+        <view class="value">
+          <repeat for="{{[0]}}">
+            <!-- Use repeat to work around wepy component -->
+            <dowDisplay :value="activity.daysOfWeek" 
+            :labels="[i.dow_mon_s,i.dow_tue_s,i.dow_wed_s,i.dow_thu_s,i.dow_fri_s,i.dow_sat_s,i.dow_sun_s]"></dowDisplay>
+          </repeat>
+        </view>
       </navigator>
       <view class="panel-item">
         <text class="label">{{i.gender}}</text>

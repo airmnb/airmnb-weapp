@@ -45,6 +45,10 @@
       font-size: 1rem;
     }
   }
+
+  .card.card-long {
+    flex: 2 2 100%;
+  }
 }
 </style>
 
@@ -74,40 +78,39 @@
           <image class="icon" src="../../icons/tag.svg"/>
           <text class="content">{{activity.category}}</text>
         </view>
-        <view class="card">
+        <view class="card" wx:if="{{activity.gender === 2}}">
           <image class="icon" src="../../icons/venus.svg"/>
-          <text class="content">{{(activity.gender & 2) > 0}}</text>
+          <text class="content">i.girl_only</text>
         </view>
-        <view class="card">
+        <view class="card" wx:if="{{activity.gender === 1}}">
           <image class="icon" src="../../icons/mars.svg"/>
-          <text class="content">{{(activity.gender & 1) > 0}}</text>
+          <text class="content">i.boy_only</text>
         </view>
         <view class="card">
+          <repeat for="{{[0]}}">
+            <!-- Use repeat to work around wepy component -->
+            <dowDisplay :value="activity.daysOfWeek" 
+            :labels="[i.dow_mon_s,i.dow_tue_s,i.dow_wed_s,i.dow_thu_s,i.dow_fri_s,i.dow_sat_s,i.dow_sun_s]"></dowDisplay>
+          </repeat>
+        </view>
+        <view class="card card-long">
           <image class="icon" src="../../icons/calendar.svg"/>
-          <text class="content">{{activity.startDate}}</text>
+          <text class="content">{{activity.startDate}} - {{activity.endDate}}</text>
         </view>
-        <view class="card">
-          <image class="icon" src="../../icons/calendar.svg"/>
-          <text class="content">{{activity.endDate}}</text>
-        </view>
-        <view class="card">
+        <view class="card card-long">
           <image class="icon" src="../../icons/clock.svg"/>
-          <text class="content">{{activity.startDate}}</text>
-        </view>
-        <view class="card">
-          <image class="icon" src="../../icons/clock.svg"/>
-          <text class="content">{{activity.endDate}}</text>
+          <text class="content">{{activity.startTime}} - {{activity.endTime}}</text>
         </view>
         <view class="card">
           <image class="icon" src="../../icons/money.svg"/>
           <text class="content">{{activity.currency}} {{activity.price}}</text>
         </view>
+        <view class="card">
+          <image class="icon" src="../../icons/birthday-cake.svg"/>
+          <text class="content">{{activity.minAge}} - {{activity.maxAge}}</text>
+        </view>
       </view>
-      {{activity.minAge}}
-      {{activity.maxAge}}
-      {{activity.daysOfWeek}}
     </view>
-
     <view class="panel">
       <view class="panel-item warning">
         <button @tap="check">{{i.button_check_availability}}</button>
@@ -122,12 +125,17 @@ import imageService from '@/util/imageService'
 import activityService from '@/util/activityService'
 import venueService from '@/util/venueService'
 import mapService from '@/util/mapService'
+import DowDisplay from '../components/dowDisplay'
 
 export default class ViewActivity extends wepy.page {
   config = {
     enablePullDownRefresh: true,
   }
+  components = {
+		dowDisplay: DowDisplay
+	}
 	data = {
+    i: amb.pageI18nData,
     activity: {},
     imageUrls: [],
     venueAddress: null,
