@@ -70,6 +70,27 @@ class ActivityService {
     return activities;
   }
 
+  // isValid(activity) {
+  //   let isStartValid = true;
+  //   if(activity.startDate) {
+  //     if(activity.startTime) {
+  //       const sTime = new Date(activity.startDate + ' ' + activity.startTime)
+  //       isStartValid = new Date().getTime() <= sTime.getTime();
+  //     }else{
+  //       const sTime = new Date(activity.startDate + ' ' + activity.startTime)
+  //     }
+  //   }
+  //   let isEndValid = true;
+  //   if(activity.endData) {
+  //     if(activity.endTime) {
+  //       // With end time
+  //     }else {
+  //       // No end time
+  //     }
+  //   }
+  //   return isStartValid && isEndValid;
+  // }
+
   async getClosed(force = false) {
     if(!force) {
       const cached = cacheService.for('activity/closed').get();

@@ -78,14 +78,20 @@
 	border-radius: 50%;
 	position: relative;
 	left: 0;
-	top: 0;
-	color: #fff;
+  top: 0;
+  border: 1rpx solid @secondary-dark;
 }
 .disable {
 	color: @gray-dark;
 }
+.selectable {
+  color: @secondary-dark;
+  font-weight: bold;
+}
 .pink-bg {
-	background-color: @secondary-dark;
+  background-color: @secondary-dark;
+  color: #fff;
+  font-weight: bold;
 }
 .purple-bg {
 	background-color: #b8b8f1;
@@ -126,7 +132,7 @@
             <view class="grid white-color" wx:for="{{object.days}}" wx:key="{{index}}" 
             data-idx="{{index}}"  data-object="{{object}}" bindtap="selectAction" style="">
                 <!--天-->
-                <view class="day {{item.status==0 ? 'disable' : 'enable'}} {{item.status==3 ? 'border-radius pink-bg' : ''}} {{item.today ? 'today' : ''}}">
+                <view class="day {{item.status==0 ? 'disable' : 'enable'}} {{item.status==2 ? 'border-radius selectable' : item.status==3 ? 'border-radius pink-bg' : ''}} {{item.today ? 'today' : ''}}">
                   {{item.day}}
                   <!-- <view class="vacancy-badge" wx:if="{{item.vacancyCount}}">{{item.vacancyCount}}</view> -->
                 </view>
