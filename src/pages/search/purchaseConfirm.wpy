@@ -1,0 +1,132 @@
+<style lang="less">
+.activity-bar {
+  margin-top: 20rpx;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+
+  .activity-info{
+    max-width: 490rpx;
+  }
+}
+
+.activity-card {
+  position: relative;
+  flex: 0 0 200rpx;
+  margin: 10rpx;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+
+  .favorite {
+    position: absolute;
+    padding: 20rpx;
+    top: 0;
+    right: 0;
+    image {
+      color: white;
+      width: 35rpx;
+      height: 35rpx;
+    }
+  }
+
+  .activity-info{
+    max-width: 350rpx;
+  }
+}
+
+.activity-bar, .activity-card {
+  .activity-avatar {
+    height: 240rpx;
+    // border-radius: 10rpx;
+    max-width: 360rpx;
+    flex: 0 0 240rpx;
+  }
+
+  .activity-content {
+    // flex: 100%;
+    margin-left: 10rpx;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .activity-info {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+  }
+}
+
+</style>
+<template>
+  <navigator url="{{navigateTo}}">
+    <view class="{{'activity-' + (style || 'card')}}">
+      <image class="activity-avatar" src="{{activity.avatarImageUrl}}" mode="aspectFill" />
+      <view class="activity-content">
+        <text class="secondary-text">{{activity.name}}</text>
+        <text class="info-text activity-info">{{activity.info}}</text>
+        <text class="info-text">{{displayDate}}</text>
+        <text class="info-text">{{activity.price}}</text>
+      </view>
+      <view wx:if="{{style==='card'}}" class="favorite" catchtap="toggleFavorite">
+        <image wx:if="{{!activity.favoriteId}}" src="../../icons/heart-o.svg"/>
+        <image wx:if="{{activity.favoriteId}}" src="../../icons/heart.svg"/>
+      </view>
+    </view>
+  </navigator>
+</template>
+<script>
+import wepy from 'wepy';
+import amb from '@/util/amb';
+import favoriteService from '@/util/favoriteService';
+
+export default class PurchaseConfirm extends wepy.component {
+  props = {
+    activity: {
+      type: Object,
+      twoWay: true
+    },
+    style: String,
+    readonly: Boolean,
+    navigateTo: String,
+  }
+  data = {
+    i: amb.pageI18nData,
+  }
+  computed = {
+    displayDate() {
+      console.log('displayDate', this.activity, this.action)
+      const a = this.activity;
+      if(!a) return '';
+      if(a.startDate) {
+        const d = amb.parseDateTime(a.startDate);
+      }
+      if(a.endDate) {
+        const d = amb.parseDateTime(a.endDate);
+      }
+      return a.startTime + ' - ' + a.endTime;
+    }
+  }
+  methods = {
+    toggleFavorite(e){
+      this.toggleFavorite();
+      return false;
+    },
+  }
+
+  async toggleFavorite() {
+    const favoriteId = this.activity.favoriteId;
+    if(favoriteId) {
+      favoriteService.delete(favoriteId);
+      this.activity.favoriteId = null; 
+    }else{
+      this.activity.favoriteId = true;
+      const fav = await favoriteService.add(this.activity);
+      console.log('fav', fav, fav.favoriteId)
+      this.activity.favoriteId = fav.favoriteId;
+      this.$apply();
+    }
+  }
+}
+</script>
+

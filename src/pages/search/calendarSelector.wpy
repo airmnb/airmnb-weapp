@@ -175,7 +175,6 @@ export default class CalendarSelector extends wepy.page {
       .map(a => a.timeslotId);
 
       const resp = activityService.purchase(this.activityId, timeslotIds);
-
     },
     selectAction(e) {
       console.log(e.currentTarget.dataset.object);

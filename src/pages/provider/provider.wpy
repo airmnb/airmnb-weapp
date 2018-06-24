@@ -57,6 +57,7 @@ swiper {
 import wepy from 'wepy';
 import amb from '@/util/amb';
 import activityService from '@/util/activityService';
+import providerService from '@/util/providerService';
 import ActivityBar from '../components/activityBar'
 
 export default class Index extends wepy.page {
@@ -97,10 +98,19 @@ export default class Index extends wepy.page {
 	}
 	onShow() {
 		this.setPageUx('provider_title');
+		this.checkValidProvider();
 	}
 	onPullDownRefresh() {
 		this.refresh(true);
-  }
+	}
+	async checkValidProvider(){
+		const userId = amb.config.user.userId;
+		try{
+			await providerService.get(userId);
+		}catch(e){
+			wepy.navigateTo({url: '/pages/provider/provider_profile'});
+		}
+	}
   async adjectListHeight(){
 		const res = await wepy.getSystemInfo();
 		const clientHeight = res.windowHeight;

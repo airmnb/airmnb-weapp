@@ -1,0 +1,86 @@
+<style lang="less">
+</style>
+
+<template>
+  <view>
+    <!-- <panel>Profile</panel> -->
+    <view class="panel">
+      <view class="panel-item">
+        <text class="label">{{i.account_id}}</text>
+        <text class="value uuid" selectable="true">{{provider.providerId}}</text>
+      </view>
+    </view>
+
+    <text class="sub-title">{{i.provider_profile_msg}}</text>
+    <view class="panel">
+
+      <navigator url="/pages/controls/textarea?key=provider.info&value={{provider.info}}&label={{i.provider_info}}" 
+      hover-class="navigator-hover" class="required">{{i.provider_info}}<text class="value">{{provider.info}}</text>
+      </navigator>
+
+      <navigator url="/pages/controls/textarea?key=provider.certificates&value={{provider.certificates}}&label={{i.provider_certificates}}" 
+      hover-class="navigator-hover">{{i.provider_certificates}}<text class="value">{{provider.certificates}}</text>
+      </navigator>
+    </view>
+    <view class="panel">
+      <view class="panel-item">
+        <button @tap="save">{{i.button_save}}</button>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import amb from '@/util/amb'
+  import userService from '@/util/userService';
+  import providerService from '@/util/providerService';
+
+  export default class ProviderProfile extends wepy.page {
+    config = {
+      enablePullDownRefresh: true,
+    }
+    data = {
+      provider: {},
+      i: amb.pageI18nData,
+    }
+
+    methods = {
+      async save() {
+        wepy.showLoading();
+        await providerService.save(this.provider);
+        wepy.hideLoading();
+        wepy.navigateBack();
+      },
+    }
+
+    onLoad() {
+		  this.setPageUx('profile_title');
+      // this.provider = this.cleanClone(amb.config.provider);
+      // this.provider.accountName = this.provider.accountName || this.provider.nickName;
+      if(!amb.config.user) {
+        throw new Error('Impossible condition. amb.config.user must have been set when app launches');
+      }
+    }
+
+    onShow() {
+      this.updateData({
+        'provider.providerId': amb.config.user.userId
+      })
+    }
+
+    onPullDownRefresh() {
+      this.refresh();
+    }
+
+    async refresh(){
+      wepy.showLoading()
+      const providerId = amb.config.user.userId;
+      const provider = await providerService.get(providerId);
+      this.updateData({
+        provider: provider
+      })
+      wepy.stopPullDownRefresh();
+      wepy.hideLoading();
+    }
+  }
+</script>
