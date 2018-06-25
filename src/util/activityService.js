@@ -41,7 +41,7 @@ class ActivityService {
       timeslotIds
     }
     const neo = await apiClient.post(`activities/${activityId}/purchase`, payload);
-    return neo;
+    return neo.purchase;
   }
 
   async getWithinRadius(clat, clng, radius) {
@@ -174,5 +174,5 @@ class ActivityService {
   }
 }
 
-const venueService = new ActivityService();
-export default venueService;
+const activityService = new ActivityService();
+export default activityService;

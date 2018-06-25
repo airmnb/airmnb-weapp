@@ -50,10 +50,17 @@
     flex: 2 2 100%;
   }
 }
+
+.purchase-id {
+  display: inline;
+}
 </style>
 
 <template>
   <view>
+    <view class="" wx:if="{{purchase}}">
+      {{i.purchase_thankyou}}<text selectable="true" class="purchase-id uuid">{{purchase.purchaseId}}</text>
+    </view>
     <swiper class="panel image-scroll" indicator-dots="{{imageUrls.length>1}}" autoplay="true"
      scroll-x scroll-with-animation>
       <block wx:for="{{imageUrls}}" wx:for-item="imageUrl">
@@ -93,7 +100,7 @@
             :labels="[i.dow_mon_s,i.dow_tue_s,i.dow_wed_s,i.dow_thu_s,i.dow_fri_s,i.dow_sat_s,i.dow_sun_s]"></dowDisplay>
           </repeat>
         </view>
-        <view class="card card-long">
+        <view class="card card-long" wx:if="{{!purchase}}">
           <image class="icon" src="../../icons/calendar.svg"/>
           <text class="content">{{activity.startDate}} - {{activity.endDate}}</text>
         </view>
@@ -123,6 +130,7 @@ import wepy from 'wepy';
 import amb from '@/util/amb';
 import imageService from '@/util/imageService'
 import activityService from '@/util/activityService'
+import purchaseService from '@/util/purchaseService'
 import venueService from '@/util/venueService'
 import mapService from '@/util/mapService'
 import DowDisplay from '../components/dowDisplay'
@@ -137,6 +145,8 @@ export default class ViewActivity extends wepy.page {
 	data = {
     i: amb.pageI18nData,
     activity: {},
+    purchase: null,
+    isPurchaseView: false,
     imageUrls: [],
     venueAddress: null,
   };
@@ -180,8 +190,11 @@ export default class ViewActivity extends wepy.page {
   }
 	async onLoad(options) {
     const activityId = options.activityId;
+    const purchaseId = options.purchaseId;
     this.setPageUx(this.addMode ? 'addactivity_title' : 'editactivity_title');
-    await this.loadActivity(activityId);
+    const aTask = this.loadActivity(activityId);
+    const pTask = this.loadPurchase(purchaseId);
+    await Promise.all([aTask, pTask]);
   }
   async refresh() {
     try {
@@ -190,6 +203,13 @@ export default class ViewActivity extends wepy.page {
     }finally{
       wepy.hideLoading();
     }
+  }
+  async loadPurchase(purchaseId) {
+    if(!purchaseId) return;
+    const purchase = await purchaseService.get(purchaseId);
+    this.updateData({
+      purchase
+    });
   }
   async loadActivity(activityId){
     wepy.showLoading();

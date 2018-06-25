@@ -39,6 +39,7 @@ page {
 import wepy from 'wepy'
 import amb from '@/util/amb'
 import activityService from '@/util/activityService';
+import purchaseService from '@/util/purchaseService';
 import ActivityBar from '../components/activityBar'
 // import favoriteService from '@/util/favoriteService';
 
@@ -100,12 +101,14 @@ export default class Mine extends wepy.page {
 		this.updateData({
 			loading: true
 		});
-		let activities = null;
+    let activities = null;
+    let purchases = null;
     console.log('tab', tabIndex)
     switch (tabIndex) {
       case 0:
         // Mine ongoing
-			  activities = await activityService.getPurchased(force);
+        purchases = await purchaseService.getOngoing(force);
+        activities = purchases.map(p => p.activity);
         break;
       case 1:
         // My favoriates
@@ -117,12 +120,15 @@ export default class Mine extends wepy.page {
         break;
       case 3:
         // My history
-			  activities = await activityService.getClosed(force);
+        purchases = await purchaseService.getClosed(force);
+        activities = purchases.map(p => p.activity);
         break;
       default:
         activities = []
         console.log(`${tabIndex} isn't supported`);
     }
+    activities = activityService.setAvatarImageUrl(activities);
+
 		this.updateData({
 			activities: activities,
 			loading: false

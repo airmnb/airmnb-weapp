@@ -95,7 +95,6 @@ export default class ActivityBar extends wepy.component {
   }
   computed = {
     displayDate() {
-      console.log('displayDate', this.activity, this.action)
       const a = this.activity;
       if(!a) return '';
       if(a.startDate) {
