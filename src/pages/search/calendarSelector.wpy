@@ -220,48 +220,48 @@ export default class CalendarSelector extends wepy.page {
 
       this.initData(this.org_year, this.org_month+1);
 
-      return;
+      // return;
 
-      if(this.startDate && this.endDate) {
-          this.startDate = this.formatDate(selectDate,"yyyy-MM-dd");
-          this.endDate = null;
-      }else if(this.startDate) {
-          this.endDate = this.formatDate(selectDate,"yyyy-MM-dd");
-      }else {
-          this.startDate = this.formatDate(selectDate,"yyyy-MM-dd");
-      } 
-      this.initData(this.org_year, this.org_month+1);
-      //返回选择的时间（有起止时间的时候返回）
-      if(this.startDate&&this.endDate) {
-        var sDate = this.startDate;
-        var eDate = this.endDate;
-        // var pages = getCurrentPages();
-        // var prevPage = pages[pages.length - 2]; //上一个页面
-        //直接调用上一个页面的updateData()方法，把数据存到上一个页面中去
-        console.log('Selected date range', sDate, eDate);
-        // prevPage.updateData({
-        //   startDate:sDate,
-        //   endDate:eDate
-        // })
-        // wx.navigateBack({
-        //   delta: 1, // 回退前 delta(默认为1) 页面
-        //   success: function(res){
-        //     // success
-        //   },
-        //   fail: function(res) {
-        //     // fail
-        //   },
-        //   complete: function(res) {
-        //     // complete
-        //   }
-        // })
-      }
+      // if(this.startDate && this.endDate) {
+      //     this.startDate = this.formatDate(selectDate,"yyyy-MM-dd");
+      //     this.endDate = null;
+      // }else if(this.startDate) {
+      //     this.endDate = this.formatDate(selectDate,"yyyy-MM-dd");
+      // }else {
+      //     this.startDate = this.formatDate(selectDate,"yyyy-MM-dd");
+      // } 
+      // this.initData(this.org_year, this.org_month+1);
+      // //返回选择的时间（有起止时间的时候返回）
+      // if(this.startDate&&this.endDate) {
+      //   var sDate = this.startDate;
+      //   var eDate = this.endDate;
+      //   // var pages = getCurrentPages();
+      //   // var prevPage = pages[pages.length - 2]; //上一个页面
+      //   //直接调用上一个页面的updateData()方法，把数据存到上一个页面中去
+      //   console.log('Selected date range', sDate, eDate);
+      //   // prevPage.updateData({
+      //   //   startDate:sDate,
+      //   //   endDate:eDate
+      //   // })
+      //   // wx.navigateBack({
+      //   //   delta: 1, // 回退前 delta(默认为1) 页面
+      //   //   success: function(res){
+      //   //     // success
+      //   //   },
+      //   //   fail: function(res) {
+      //   //     // fail
+      //   //   },
+      //   //   complete: function(res) {
+      //   //     // complete
+      //   //   }
+      //   // })
+      // }
     }
   }
 //==================加载数据================
   onLoad(options) {
-    // options.startDate = '2018-01-31';
-    // options.endDate = '2018-02-28';
+    options.startDate = '2018-01-31';
+    options.endDate = '2018-02-28';
     const activityId = options.activityId;
     if(!activityId) {
       this.debug('activityId is not specified');
@@ -322,26 +322,39 @@ export default class CalendarSelector extends wepy.page {
     }
   }
   //初始化数据
-  initData(cur_year,cur_month) {
-      // 计算最近三个月的对象
-    var mObject0 = this.calculateDays(cur_year, cur_month);
-    if(cur_month+1>12) {
-      cur_year = cur_year+1;
-      cur_month = 1;
-    }else {
-      cur_month = cur_month+1;
-    }
-    var mObject1 = this.calculateDays(cur_year, cur_month);
-    if(cur_month+1>12) {//月不能大于12
-      cur_year = cur_year+1;
-      cur_month = 1;
-    }else {
-      cur_month = cur_month+1;
-    }
-    var mObject2 = this.calculateDays(cur_year, cur_month);
+  initData(start_year, start_month, months = 3) {
+    const allDays = []
+    do{
+      const days = this.calculateDays(start_year, start_month);
+      start_month++;
+      if(start_month>12) {
+        start_year++;
+        start_month = 1;
+      }
+      allDays.push(days);
+    }while(allDays.length < months)
     this.updateData({
-      allDays:[mObject0,mObject1,mObject2]
+      allDays
     });
+    //   // 计算最近三个月的对象
+    // var mObject0 = this.calculateDays(cur_year, cur_month);
+    // if(cur_month+1>12) {
+    //   cur_year = cur_year+1;
+    //   cur_month = 1;
+    // }else {
+    //   cur_month = cur_month+1;
+    // }
+    // var mObject1 = this.calculateDays(cur_year, cur_month);
+    // if(cur_month+1>12) {//月不能大于12
+    //   cur_year = cur_year+1;
+    //   cur_month = 1;
+    // }else {
+    //   cur_month = cur_month+1;
+    // }
+    // var mObject2 = this.calculateDays(cur_year, cur_month);
+    // this.updateData({
+    //   allDays:[mObject0,mObject1,mObject2]
+    // });
   }
   // =============获取当月有多少天（下个月月初是多少）==========
   getThisMonthDays(year, month) {
