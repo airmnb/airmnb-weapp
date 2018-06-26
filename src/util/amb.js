@@ -159,6 +159,13 @@ amb.parseDateTime = function(strDate, strTime){
 	return new Date(strDate + ' ' + strTime);
 }
 
+Date.prototype.toYMD = function() {
+	const year = this.getFullYear().toString();
+	const month = (this.getMonth() + 101).toString().substring(1);
+	const day = (this.getDate() + 100).toString().substring(1);
+	return year + "-" + month + "-" + day;
+}
+
 const drawCanvas = function(canvas) {
 	return new Promise((res, rej) => {
 		canvas.draw(false, () => {

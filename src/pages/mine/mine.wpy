@@ -24,10 +24,14 @@ page {
       <swiper current="{{currentTab}}" duration="300" style="height:{{swiperHeight}}rpx;" bindchange="switchTab">
         <swiper-item wx:for="{{[0,1,2,3]}}" wx:key="{{index}}">
             <scroll-view scroll-y="true" class="scoll-h activity-panel">
-              <view class="list-no-content" wx:if="{{!activities || !activities.length}}">{{i.list_no_content}}</view>
-							<repeat for="{{activities}}">
+              <view class="list-no-content" wx:if="{{(!activities || !activities.length) && (!purchases || !purchases.length)}}">{{i.list_no_content}}</view>
+							<repeat for="{{activities}}" wxy:if="{{activities}}">
 								<activityBar wx:if="{{!loading}}" :style="'bar'"
 								 :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item"></activityBar>
+							</repeat>
+              <repeat for="{{purchases}}" wxy:if="{{purchases}}">
+								<activityBar wx:if="{{!loading}}" :style="'bar'"
+								 :navigateTo="'/pages/search/view_activity?activityId=' + item.activity.activityId" :activity.sync="item.activity" :purchase.sync="item"></activityBar>
 							</repeat>
             </scroll-view>
         </swiper-item>
@@ -52,7 +56,8 @@ export default class Mine extends wepy.page {
 	}
   data = {
     i: amb.pageI18nData,
-		activities: null,
+    activities: null,
+    purchases: null,
 		currentTab: 0,
 		swiperHeight: 1000,
 		loading: false,
@@ -108,29 +113,32 @@ export default class Mine extends wepy.page {
       case 0:
         // Mine ongoing
         purchases = await purchaseService.getOngoing(force);
-        activities = purchases.map(p => p.activity);
+        activities = null;
         break;
       case 1:
         // My favoriates
+        purchases = null;
 			  activities = await activityService.getMyFavorites(force);
         break;
       case 2:
         // My comments
-			  activities = await activityService.getClosed(force);
+			  // activities = await activityService.getClosed(force);
         break;
       case 3:
         // My history
         purchases = await purchaseService.getClosed(force);
-        activities = purchases.map(p => p.activity);
+        activities = null;
         break;
       default:
-        activities = []
         console.log(`${tabIndex} isn't supported`);
     }
-    activities = activityService.setAvatarImageUrl(activities);
+    if(activities){
+      activities = activityService.setAvatarImageUrl(activities);
+    }
 
 		this.updateData({
-			activities: activities,
+      purchases,
+			activities,
 			loading: false
 		});
 		wepy.stopPullDownRefresh();
