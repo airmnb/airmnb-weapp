@@ -51,6 +51,37 @@
   }
 }
 
+.categories {
+	// margin-top: 20rpx;
+	// border-top: 1rpx solid #ccc;
+	display: flex;
+	align-items: stretch;
+	padding: 20rpx 10rpx 10rpx 10rpx;
+	flex-wrap: wrap;
+
+	.card {
+		position: relative;
+		flex: 0 0 200rpx;
+		margin: 10rpx;
+		height: 240rpx;
+		border: 1rpx solid #ccc;
+		box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+		
+		image {
+			// max-width: 100%;
+			height: 240rpx;
+			width: 340rpx;
+		}
+
+		.category-label {
+			position: absolute;
+			top: 5rpx;
+			left: 5rpx;
+			text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+		}
+	}
+}
+
 .cards {
 	display: flex;
 	align-items: stretch;
@@ -148,6 +179,15 @@
 				</navigator> -->
 			</view>
 		</scroll-view>
+		<view class="panel" style="background-color: transparent;">
+			<text class="sub-title">{{i.activity_category}}</text>
+			<view class="categories">
+				<view wx:for="{{categories}}" wx:key="index" class="card">
+      		<image class="activity-avatar" src="{{item.image}}" mode="aspectFill" />
+        	<text class="category-label secondary-text">{{item.label}}</text>
+				</view>
+			</view>
+		</view>
 	</view>
 	
 </template>
@@ -172,6 +212,7 @@ import ActivityBar from '../components/activityBar'
 			i: null,
 			showsSearchBar: false,
 			loading: true,
+			categories: [],
 			lng: 0,
 			lat: 0,
 			controls: [{
@@ -229,11 +270,24 @@ import ActivityBar from '../components/activityBar'
 			// // Wechat login and get Airmnb user
 			// await loginService.login();
   		this.setPageUx('map_title');
-			
+			this.categoryI18n();
 			await this.centerByCurrentLocation();
 			this.refresh();
 		}
 
+   	categoryI18n(){
+      const categories = amb.config.categories.map(x => {
+				return {
+					label: x.label.i18n,
+					image: x.image,
+					value: x.value
+				};
+			});
+      this.updateData({
+        categories
+      })
+		}
+		
 		pollTillLoggedIn() {
 			const user = amb.config.user;
 			setInterval()
@@ -241,6 +295,7 @@ import ActivityBar from '../components/activityBar'
 
 		onShow () {
   		this.setPageUx('map_title');
+			this.categoryI18n();
 		}
 
 		onPullDownRefresh () {

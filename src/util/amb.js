@@ -2,7 +2,7 @@ import wepy from 'wepy';
 import i18n from '@/util/i18n'
 
 let isProd = true;
-isProd = false;
+// isProd = false;
 const amb = amb || {};
 const defaultLanguage = 'zh_CN';
 const now = new Date();
@@ -17,6 +17,47 @@ amb.config = {
 	jwt: null,
 	user: null,
 	ibsAppKey: 'E2FBZ-OTQ3O-I5AWR-SWLTV-4I5FV-ZTBSQ', // Tencent Map Service http://lbs.qq.com/qqmap_wx_jssdk/method-geocoder.html
+	categories: [{
+		label: "cat_edu",
+		value: 2,
+		image: "/images/cat_edu.jpg"
+	}, {
+		label: "cat_public",
+		value: 4,
+		image: "/images/cat_public.jpg"
+	}, {
+		label: "cat_care",
+		value: 8,
+		image: "/images/cat_care.jpg"
+	},{
+		label: "cat_playgroup",
+		value: 16,
+		image: "/images/cat_playgroup.jpg"
+	},{
+		label: "cat_coach",
+		value: 32,
+		image: "/images/cat_coach.jpg"
+	},{
+		label: "cat_entertainment",
+		value: 64,
+		image: "/images/cat_entertainment.jpg"
+	},{
+		label: "cat_health",
+		value: 128,
+		image: "/images/cat_health.jpg"
+	},{
+		label: "cat_new",
+		value: 256,
+		image: "/images/cat_new.jpg"
+	},{
+		label: "cat_stuff",
+		value: 512,
+		image: "/images/cat_stuff.jpg"
+	},{
+		label: "cat_other",
+		value: 1,
+		image: "/images/cat_other.jpg"
+	}],
 };
 
 amb.chooseLanguage = function (lang) {

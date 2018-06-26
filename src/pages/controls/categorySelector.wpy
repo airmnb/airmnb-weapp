@@ -29,38 +29,7 @@
       key: undefined,
       // value: 0,
       // i: amb.pageI18nData,
-      items: [{
-          label: "cat_edu",
-          value: 2
-        }, {
-          label: "cat_public",
-          value: 4
-        }, {
-          label: "cat_care",
-          value: 8
-        },{
-          label: "cat_playgroup",
-          value: 16
-        },{
-          label: "cat_coach",
-          value: 32
-        },{
-          label: "cat_entertainment",
-          value: 64
-        },{
-          label: "cat_health",
-          value: 128
-        },{
-          label: "cat_new",
-          value: 256
-        },{
-          label: "cat_stuff",
-          value: 512
-        },{
-          label: "cat_other",
-          value: 1
-        }, 
-      ]
+      items: amb.config.categories
     }
 
     methods = {
