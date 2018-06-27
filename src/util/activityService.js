@@ -36,16 +36,6 @@ class ActivityService {
     const neo = await apiClient.post('activities', activity);
     this.cache.set(neo.activity.activityId, neo.activity);
   }
-  async purchase(activityId, timeslotIds) {
-    const payload = {
-      timeslotIds
-    }
-    const neo = await apiClient.post(`activities/${activityId}/purchase`, payload);
-    const purchase = neo.purchase;
-
-    cacheService.for('purchases').set(purchase.purchaseId, purchase);
-    return purchase;
-  }
 
   async getWithinRadius(clat, clng, radius) {
     const resp = await apiClient.get('activities/map', {

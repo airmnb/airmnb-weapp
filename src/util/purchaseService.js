@@ -19,6 +19,19 @@ class PurchaseService {
     return purchase;
   }
 
+  async create(babyId, activityId, timeslotIds) {
+    const payload = {
+      babyId,
+      activityId,
+      timeslotIds
+    }
+    const neo = await apiClient.post('purchases', payload);
+    const purchase = neo.purchase;
+
+    cacheService.for('purchases').set(purchase.purchaseId, purchase);
+    return purchase;
+  }
+
   async getOngoing(force = false) {
     if(!force) {
       const cached = cacheService.for('purchase/ongoing').get();

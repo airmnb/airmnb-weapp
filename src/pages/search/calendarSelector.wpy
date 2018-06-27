@@ -143,17 +143,21 @@
     </block>
 
     <view class="panel">
+      <picker mode="selector" value="{{babyId}}" bindchange="purchase" disabled="{{!selectedCount}}"
+        range="{{babies}}" range-key="{{'nickName'}}"> 
         <view class="panel-item warning">
-          <button @tap="purchase">{{i.button_ok}}</button>
-        </view>
+        <button>{{i.button_ok}}</button>
       </view>
+      </picker>
+    </view>
   </view>
 </template>
 <script>
 import wepy from 'wepy'
 import amb from '@/util/amb'
 import activityService from '@/util/activityService'
-
+import purchaseService from '@/util/purchaseService'
+import babyService from '@/util/babyService'
 /*
 
 作者：huangxiongbiao
@@ -166,15 +170,21 @@ export default class CalendarSelector extends wepy.page {
   data = {
     i: amb.pageI18nData,
     selectedDates: new Set(),
+    selectedCount: 0,
+    babies: [],
   }
 
   methods = {
-    async purchase() {
+    async purchase(e) {
+      const index = e.detail.value;
+      const babyId = this.babies[index].babyId;
       const timeslotIds = this.availabilities
       .filter(a => this.selectedDates.has(a.date))
       .map(a => a.timeslotId);
 
-      const purchase = await activityService.purchase(this.activityId, timeslotIds);
+      if(!babyId || !timeslotIds.length) throw new Error('Invalid arguments')
+
+      const purchase = await purchaseService.create(babyId, this.activityId, timeslotIds);
       const purchaseId = purchase.purchaseId;
       const activityId = purchase.activity.activityId;
       wepy.navigateTo({
@@ -214,9 +224,9 @@ export default class CalendarSelector extends wepy.page {
         this.selectedDates.add(theDate);
       }
 
-      // this.updateData({
-      //   'selectedDates': this.selectedDates
-      // })
+      this.updateData({
+        'selectedCount': this.selectedDates.size
+      })
 
       this.initData(this.org_year, this.org_month+1);
 
@@ -289,6 +299,7 @@ export default class CalendarSelector extends wepy.page {
     // console.log(cur_day);
     const weeks_ch = ['dow_sun_s', 'dow_mon_s', 'dow_tue_s', 'dow_wed_s', 'dow_thu_s', 'dow_fri_s', 'dow_sat_s'].map(x => x.i18n);
     //设置数据
+
     this.updateData({
       org_year:date.getFullYear(),//现在时间的年月日
       org_month:date.getMonth(),
@@ -302,6 +313,14 @@ export default class CalendarSelector extends wepy.page {
       this.initData(cur_year,cur_month);
     });
 
+    this.loadBabies();
+  }
+  async loadBabies(){
+    const babies = await babyService.getMine();
+    console.log('babies', babies);
+    this.updateData({
+      babies
+    });
   }
   async loadAvailabilities(activityId) {
     wepy.showLoading();
