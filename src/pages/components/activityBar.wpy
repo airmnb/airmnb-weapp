@@ -96,10 +96,6 @@ export default class ActivityBar extends wepy.component {
   computed = {
     displayDate() {
       const a = this.activity;
-      const p = this.purchase;
-      if(p) {
-        return p.startTime + ' - ' + p.endTime;
-      }
       if(!a) return '';
       if(a.startDate) {
         const d = amb.parseDateTime(a.startDate);

@@ -25,13 +25,13 @@ page {
         <swiper-item wx:for="{{[0,1,2,3]}}" wx:key="{{index}}">
             <scroll-view scroll-y="true" class="scoll-h activity-panel">
               <view class="list-no-content" wx:if="{{(!activities || !activities.length) && (!purchases || !purchases.length)}}">{{i.list_no_content}}</view>
-							<repeat for="{{activities}}" wxy:if="{{activities}}">
+							<repeat for="{{activities}}" wx:if="{{activities && activities.length}}">
 								<activityBar wx:if="{{!loading}}" :style="'bar'"
 								 :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item"></activityBar>
 							</repeat>
-              <repeat for="{{purchases}}" wxy:if="{{purchases}}">
-								<activityBar wx:if="{{!loading}}" :style="'bar'"
-								 :navigateTo="'/pages/search/view_activity?activityId=' + item.activity.activityId" :activity.sync="item.activity" :purchase.sync="item"></activityBar>
+              <repeat for="{{purchases}}" wx:if="{{purchases && purchases.length}}">
+								<purchaseBar wx:if="{{!loading}}" :style="'bar'"
+								 :navigateTo="'/pages/search/view_activity?activityId=' + item.activity.activityId" :purchase.sync="item"></purchaseBar>
 							</repeat>
             </scroll-view>
         </swiper-item>
@@ -45,6 +45,7 @@ import amb from '@/util/amb'
 import activityService from '@/util/activityService';
 import purchaseService from '@/util/purchaseService';
 import ActivityBar from '../components/activityBar'
+import PurchaseBar from '../components/purchaseBar'
 // import favoriteService from '@/util/favoriteService';
 
 export default class Mine extends wepy.page {
@@ -52,7 +53,8 @@ export default class Mine extends wepy.page {
 		enablePullDownRefresh: true
 	};
 	components = {
-		activityBar: ActivityBar
+		activityBar: ActivityBar,
+		purchaseBar: PurchaseBar
 	}
   data = {
     i: amb.pageI18nData,
@@ -113,21 +115,22 @@ export default class Mine extends wepy.page {
       case 0:
         // Mine ongoing
         purchases = await purchaseService.getOngoing(force);
-        activities = null;
+        activities = [];
         break;
       case 1:
         // My favoriates
-        purchases = null;
+        purchases = [];
 			  activities = await activityService.getMyFavorites(force);
         break;
       case 2:
         // My comments
-			  // activities = await activityService.getClosed(force);
+        purchases = await purchaseService.getOngoing(force);
+			  activities = [];
         break;
       case 3:
         // My history
         purchases = await purchaseService.getClosed(force);
-        activities = null;
+        activities = [];
         break;
       default:
         console.log(`${tabIndex} isn't supported`);

@@ -1,0 +1,102 @@
+<style lang="less">
+.purchase-bar {
+  margin-top: 20rpx;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+
+  .purchase-info{
+    max-width: 490rpx;
+  }
+}
+
+.purchase-card {
+  position: relative;
+  flex: 0 0 200rpx;
+  margin: 10rpx;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+
+  .favorite {
+    position: absolute;
+    padding: 20rpx;
+    top: 0;
+    right: 0;
+    image {
+      color: white;
+      width: 35rpx;
+      height: 35rpx;
+    }
+  }
+
+  .purchase-info{
+    max-width: 350rpx;
+  }
+}
+
+.purchase-bar, .purchase-card {
+  .purchase-avatar {
+    height: 240rpx;
+    // border-radius: 10rpx;
+    max-width: 360rpx;
+    flex: 0 0 240rpx;
+  }
+
+  .purchase-content {
+    // flex: 100%;
+    margin-left: 10rpx;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .purchase-info {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+  }
+}
+
+</style>
+<template>
+  <navigator url="{{navigateTo}}">
+    <view class="purchase-bar">
+      <image class="purchase-avatar" src="{{purchase.activity.avatarImageUrl}}" mode="aspectFill" />
+      <view class="purchase-content">
+        <text class="secondary-text">{{purchase.activity.name}}</text>
+        <text class="info-text purchase-info">{{purchase.activity.info}}</text>
+        <text class="info-text">{{displayDate}}</text>
+        <text class="info-text">{{purchase.activity.price}}</text>
+        <text class="info-text">{{purchase.baby.name}}</text>
+      </view>
+    </view>
+  </navigator>
+</template>
+<script>
+import wepy from 'wepy';
+import amb from '@/util/amb';
+
+export default class PurchaseBar extends wepy.component {
+  props = {
+    purchase: {
+      type: Object,
+      twoWay: true
+    },
+    navigateTo: String,
+  }
+  data = {
+    i: amb.pageI18nData,
+  }
+  computed = {
+    displayDate() {
+      const p = this.purchase;
+      if(p) {
+        return p.startDate + ' - ' + p.endDate;
+      }
+    }
+  }
+  methods = {
+  }
+}
+</script>
+
