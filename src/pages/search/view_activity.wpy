@@ -60,6 +60,7 @@
   <view>
     <view class="" wx:if="{{purchase}}">
       {{i.purchase_thankyou}}<text selectable="true" class="purchase-id uuid">{{purchase.purchaseId}}</text>
+      <canvas style="width: 200px; height: 200px;" canvas-id="purchaseQrcode"></canvas>
     </view>
     <swiper class="panel image-scroll" indicator-dots="{{imageUrls.length>1}}" autoplay="true"
      scroll-x scroll-with-animation>
@@ -134,6 +135,7 @@ import purchaseService from '@/util/purchaseService'
 import venueService from '@/util/venueService'
 import mapService from '@/util/mapService'
 import DowDisplay from '../components/dowDisplay'
+import drawQrcode from 'weapp-qrcode'
 
 export default class ViewActivity extends wepy.page {
   config = {
@@ -210,6 +212,12 @@ export default class ViewActivity extends wepy.page {
     this.updateData({
       purchase
     });
+    drawQrcode({
+      width: 200,
+      height: 200,
+      canvasId: 'purchaseQrcode',
+      text: purchase.purchaseId
+    })
   }
   async loadActivity(activityId){
     wepy.showLoading();

@@ -187,8 +187,8 @@ export default class CalendarSelector extends wepy.page {
       const purchase = await purchaseService.create(babyId, this.activityId, timeslotIds);
       const purchaseId = purchase.purchaseId;
       const activityId = purchase.activity.activityId;
-      wepy.navigateBack({
-        delta: 2
+      await wepy.navigateBack({
+        delta: 3
       })
       wepy.navigateTo({
         url: `/pages/search/view_activity?activityId=${activityId}&purchaseId=${purchaseId}`
