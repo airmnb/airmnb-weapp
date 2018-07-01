@@ -29,6 +29,7 @@ swiper {
 		<view class="panel">
       <navigator url="/pages/provider/edit_activity" hover-class="navigator-hover">{{i.provider_newactivity}}</navigator>
       <navigator url="/pages/provider/venues" hover-class="navigator-hover">{{i.provider_venues}}</navigator>
+      <navigator url="#" hover-class="navigator-hover" @tap="scanQrcode">{{i.provider_scan_code}}</navigator>
     </view>
     <view class="" style="position:relative;">
       <scroll-view scroll-x="true" class="tab-h">

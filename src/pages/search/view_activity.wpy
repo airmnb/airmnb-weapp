@@ -119,7 +119,7 @@
         </view>
       </view>
     </view>
-    <view class="panel">
+    <view class="panel" wx:if="{{!purchase}}">
       <view class="panel-item warning">
         <button @tap="check">{{i.button_check_availability}}</button>
       </view>
