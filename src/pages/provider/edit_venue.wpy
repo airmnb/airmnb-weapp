@@ -119,10 +119,7 @@ export default class AddVenue extends wepy.page {
         wepy.navigateBack();
       }catch(e){
         wepy.hideLoading();
-        console.log('error', e);
-        await wepy.showModal({
-          title: e.message
-        });
+        this.msg(e);
       }
     },
     async delete(){

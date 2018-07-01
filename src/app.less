@@ -81,6 +81,11 @@ image.icon {
       align-content: center;
       font-size: inherit;
     }
+    button.btn-navigator {
+      text-align: left;
+      padding-left: 0;
+      color: black;
+    }
     button::after{ 
       border-radius: 0px;
       border: none;
@@ -92,7 +97,7 @@ image.icon {
       border-left: 4rpx solid red;
     }
   }
-  navigator::after {
+  navigator::after, .nav-arrow::after {
     content: '>';
     font-family: Arial, Helvetica, sans-serif;
     color: @gray;

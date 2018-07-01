@@ -198,17 +198,22 @@ export default class ViewActivity extends wepy.page {
     const pTask = this.loadPurchase(purchaseId);
     await Promise.all([aTask, pTask]);
   }
-  async refresh() {
+  onPullDownRefresh () {
+		this.refresh(true);
+	}
+  async refresh(force = false) {
     try {
       wepy.showLoading({mask: true});
-      await this.initModel();
+      const pTask = this.loadPurchase(this.purchase ? this.purchase.purchaseId : null, force);
+      const aTask = this.loadActivity(this.activity.activityId, force);
+      await Promise.all([pTask, aTask]);
     }finally{
       wepy.hideLoading();
     }
   }
-  async loadPurchase(purchaseId) {
+  async loadPurchase(purchaseId, force = false) {
     if(!purchaseId) return;
-    const purchase = await purchaseService.get(purchaseId);
+    const purchase = await purchaseService.get(purchaseId, force);
     this.updateData({
       purchase
     });
@@ -219,9 +224,9 @@ export default class ViewActivity extends wepy.page {
       text: purchase.purchaseId
     })
   }
-  async loadActivity(activityId){
+  async loadActivity(activityId, force = false){
     wepy.showLoading();
-    const activity = await activityService.get(activityId);
+    const activity = await activityService.get(activityId, force);
     this.updateData({
       activity: activity,
       imageUrls: activityService.getImageUrls(activity),

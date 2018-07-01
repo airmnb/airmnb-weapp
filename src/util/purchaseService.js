@@ -54,7 +54,7 @@ class PurchaseService {
       if(cached) return cached;
     }
 
-    const resp = await apiClient.get('purchases', {closed: 0});
+    const resp = await apiClient.get('purchases', {closed: 1});
     const purchases = resp.purchases;
 
     // cache
@@ -62,6 +62,13 @@ class PurchaseService {
     cacheService.for('purchase/closed').set(null, purchases);
 
     return purchases;
+  }
+
+  async confirm(purchaseId, force = false){
+    const resp = await apiClient.put(`purchases/${purchaseId}`);
+    const purchase = resp.purchase;
+    this.cache.set(purchase.purchaseId, purchase);
+    return purchase;
   }
 }
 

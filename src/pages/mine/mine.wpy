@@ -31,7 +31,7 @@ page {
 							</repeat>
               <repeat for="{{purchases}}" wx:if="{{purchases && purchases.length}}">
 								<purchaseBar wx:if="{{!loading}}" :style="'bar'"
-								 :navigateTo="'/pages/search/view_activity?activityId=' + item.activity.activityId" :purchase.sync="item"></purchaseBar>
+								 :navigateTo="'/pages/search/view_activity?activityId=' + item.activity.activityId + '&purchaseId=' + item.purchaseId" :purchase.sync="item"></purchaseBar>
 							</repeat>
             </scroll-view>
         </swiper-item>

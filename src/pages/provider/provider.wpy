@@ -29,7 +29,9 @@ swiper {
 		<view class="panel">
       <navigator url="/pages/provider/edit_activity" hover-class="navigator-hover">{{i.provider_newactivity}}</navigator>
       <navigator url="/pages/provider/venues" hover-class="navigator-hover">{{i.provider_venues}}</navigator>
-      <navigator url="#" hover-class="navigator-hover" @tap="scanQrcode">{{i.provider_scan_code}}</navigator>
+      <view class="panel-item nav-arrow">
+				<button class="btn-navigator" @tap="scanQrcode">{{i.provider_scan_code}}</button>
+			</view>
     </view>
     <view class="" style="position:relative;">
       <scroll-view scroll-x="true" class="tab-h">
@@ -59,6 +61,7 @@ import wepy from 'wepy';
 import amb from '@/util/amb';
 import activityService from '@/util/activityService';
 import providerService from '@/util/providerService';
+import purchaseService from '@/util/purchaseService';
 import ActivityBar from '../components/activityBar'
 
 export default class Index extends wepy.page {
@@ -83,6 +86,18 @@ export default class Index extends wepy.page {
 		switchNav(e) {
 			this.loadTabData(e.target.dataset.current);
 		},
+		async scanQrcode(e){
+			const ret = await wepy.scanCode({
+				onlyFromCamera: false
+			});
+			const purchaseId = ret.result;
+			try{
+				await purchaseService.confirm(purchaseId);
+				this.msg(this.i.provider_scan_success)
+			}catch(e) {
+				this.msg(e);
+			}
+		}
 	};
 	async loadTabData(tabIndex) {
 		if(this.currentTab == tabIndex) return;
