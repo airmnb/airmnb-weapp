@@ -52,15 +52,26 @@
 }
 
 .purchase-id {
-  display: inline;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.qrcode {
+  width: 200px;
+  height: 200px;
+  margin: 20rpx;
 }
 </style>
 
 <template>
   <view>
-    <view class="" wx:if="{{purchase}}">
-      {{i.purchase_thankyou}}<text selectable="true" class="purchase-id uuid">{{purchase.purchaseId}}</text>
-      <canvas style="width: 200px; height: 200px;" canvas-id="purchaseQrcode"></canvas>
+    <view class="panel" wx:if="{{purchase}}">
+      <p>
+        {{i.purchase_thankyou}}
+      </p>
+      <canvas class="qrcode" canvas-id="purchaseQrcode"></canvas>
+      <text selectable="true" class="purchase-id uuid">{{purchase.purchaseId}}</text>
     </view>
     <swiper class="panel image-scroll" indicator-dots="{{imageUrls.length>1}}" autoplay="true"
      scroll-x scroll-with-animation>
