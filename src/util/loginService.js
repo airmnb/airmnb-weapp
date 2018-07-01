@@ -43,6 +43,7 @@ class LoginService {
       console.log('internal user', user);
       return user;
     }finally{
+      if(!user) throw new Error('Cannot get a user')
       amb.config.user = user;
       amb.chooseLanguage(user.language);
       console.log('login info done', jwt, user, amb.config.language);

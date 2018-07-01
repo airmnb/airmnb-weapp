@@ -41,8 +41,7 @@ class BabyService {
       if(cached) return cached;
     }
 
-    const creatorId = amb.config.user.userId;
-    const resp = await apiClient.get('babies', {creatorId});
+    const resp = await apiClient.get('babies');
     if(resp.error) {
       throw new Error(resp.error);
     }
