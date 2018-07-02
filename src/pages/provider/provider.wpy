@@ -115,6 +115,7 @@ export default class Index extends wepy.page {
 	onShow() {
 		this.setPageUx('provider_title');
 		this.checkValidProvider();
+		amb.i18nTabbar();
 	}
 	onPullDownRefresh() {
 		this.refresh(true);

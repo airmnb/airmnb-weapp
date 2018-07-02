@@ -1,5 +1,9 @@
 const i18n = {
   "en": {
+    "tabbar_search": "Search",
+    "tabbar_me": "Me",
+    "tabbar_provider": "Provide",
+    "tabbar_settings": "Settings",
     "map_search_bar": "Search",
     "stat_refresh": "Refresh",
     "stat_users": "Users",
@@ -132,6 +136,10 @@ const i18n = {
     "list_no_content": "No content",
   },
   "zh_CN": {
+    "tabbar_search": "搜索",
+    "tabbar_me": "我的",
+    "tabbar_provider": "提供",
+    "tabbar_settings": "设置",
     "map_search_bar": "搜  索",
     "stat_refresh": "刷  新",
     "stat_users": "登录用户",

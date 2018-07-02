@@ -54,6 +54,7 @@ export default class Index extends wepy.page {
         language: item.label
       });
       this.saveUserLanguage(lang);
+      amb.i18nTabbar();
     }
   }
 
@@ -79,6 +80,7 @@ export default class Index extends wepy.page {
 
   onShow() {
 		this.setPageUx('setting_title');
+		amb.i18nTabbar();
   }
 
   changeLanguage(lang) {

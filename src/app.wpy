@@ -66,27 +66,27 @@ export default class extends wepy.app {
 			list: [
 				{
 					pagePath: 'pages/search/map',
-					iconPath: 'images/search-light.png',
-					selectedIconPath: 'images/search.png',
+					// iconPath: 'images/search-light.png',
+					// selectedIconPath: 'images/search.png',
 					// text: 'Search'
 				},
 				{
 					pagePath: 'pages/mine/mine',
-					iconPath: 'images/shop-light.png',
-					selectedIconPath: 'images/shop.png',
+					// iconPath: 'images/shop-light.png',
+					// selectedIconPath: 'images/shop.png',
 					// text: 'Me'
 				},
 				{
 					pagePath: 'pages/provider/provider',
-					iconPath: 'images/provider-light.png',
-					selectedIconPath: 'images/provider.png',
+					// iconPath: 'images/provider-light.png',
+					// selectedIconPath: 'images/provider.png',
 					// text: 'Provider'
 				},
 				{
 					pagePath: 'pages/setting/setting',
 					// iconPath: 'images/cog.png',
-					iconPath: 'images/cog-light.png',
-					selectedIconPath: 'images/cog.png',
+					// iconPath: 'images/cog-light.png',
+					// selectedIconPath: 'images/cog.png',
 					// text: 'Settings'
 				}
 			]

@@ -58,6 +58,37 @@ amb.config = {
 		value: 1,
 		image: "/images/cat_other.jpg"
 	}],
+	tabbars: [
+		{
+			index:0,
+			pagePath: 'pages/search/map',
+			iconPath: 'images/search-light.png',
+			selectedIconPath: 'images/search.png',
+			text: 'tabbar_search'
+		},
+		{
+			index:1,
+			pagePath: 'pages/mine/mine',
+			iconPath: 'images/shop-light.png',
+			selectedIconPath: 'images/shop.png',
+			text: 'tabbar_me'
+		},
+		{
+			index:2,
+			pagePath: 'pages/provider/provider',
+			iconPath: 'images/provider-light.png',
+			selectedIconPath: 'images/provider.png',
+			text: 'tabbar_provider'
+		},
+		{
+			index:3,
+			pagePath: 'pages/setting/setting',
+			// iconPath: 'images/cog.png',
+			iconPath: 'images/cog-light.png',
+			selectedIconPath: 'images/cog.png',
+			text: 'tabbar_settings'
+		}
+	]
 };
 
 amb.chooseLanguage = function (lang) {
@@ -180,6 +211,15 @@ function throwError(message, err) {
 	}
 	const errDetails = err.toString();
 	throw new Error(`${message}: ${errDetails}`);
+}
+
+amb.i18nTabbar = function(){
+	const list = amb.config.tabbars;
+	list.forEach(x => {
+		const opt = Object.assign({}, x)
+		opt.text = x.text.i18n
+		wepy.setTabBarItem(opt)
+	});
 }
 
 export default amb;

@@ -152,6 +152,13 @@ class ActivityService {
   }
 
   setAvatarImageUrl(activities) {
+    if(!Array.isArray(activities)) {
+      const x = activities
+      if(x.imageIds && x.imageIds.length) {
+        x.avatarImageUrl = imageService.getSrcUrl(x.imageIds[0]);
+      }
+      return x;
+    }
     activities.forEach(x => {
       if(x.imageIds && x.imageIds.length) {
         x.avatarImageUrl = imageService.getSrcUrl(x.imageIds[0]);

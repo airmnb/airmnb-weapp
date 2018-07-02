@@ -265,7 +265,6 @@ import ActivityBar from '../components/activityBar'
 
 
 		async onLoad (options) {
-			
 			// wepy.showLoading({mask: true});
 			// // Wechat login and get Airmnb user
 			// await loginService.login();
@@ -296,6 +295,7 @@ import ActivityBar from '../components/activityBar'
 		onShow () {
   		this.setPageUx('map_title');
 			this.categoryI18n();
+			amb.i18nTabbar();
 		}
 
 		onPullDownRefresh () {
@@ -334,30 +334,33 @@ import ActivityBar from '../components/activityBar'
 		}
 
 		async getMapMarkers(lat, lng, force = true) {
-			wepy.showLoading({mask: false});
-			const favoritesTask = favoriteService.getMyFavorites(force);
-			const activitiesTask = activityService.getWithinRadius(lat, lng, 2000);
-			const results = await Promise.all([favoritesTask, activitiesTask]);
-			console.log('results', activitiesTask, activitiesTask, results)
-			const favorites = results[0];
-			const activities = results[1];
-			// Attach favoriteId property
-			activities.forEach(a => {
-				const fav = favorites.find(x => x.activityId === a.activityId);
-				a.favoriteId = fav ? fav.favoriteId : null;
-			})
-			const markers = mapService.activitiesToMarkers(activities);
-			// markers.unshift({
-			// 	id: 0,
-			// 	latitude: lat,
-			// 	longitude: lng,
-			// });
-			this.updateData({
-				activities: activities,
-				markers: markers,
-				loading: false
-			});
-			wepy.hideLoading();
+			try{
+				wepy.showNavigationBarLoading()
+				const favoritesTask = favoriteService.getMyFavorites(force);
+				const activitiesTask = activityService.getWithinRadius(lat, lng, 2000);
+				const results = await Promise.all([favoritesTask, activitiesTask]);
+				console.log('results', activitiesTask, activitiesTask, results)
+				const favorites = results[0];
+				const activities = results[1];
+				// Attach favoriteId property
+				activities.forEach(a => {
+					const fav = favorites.find(x => x.activityId === a.activityId);
+					a.favoriteId = fav ? fav.favoriteId : null;
+				})
+				const markers = mapService.activitiesToMarkers(activities);
+				// markers.unshift({
+				// 	id: 0,
+				// 	latitude: lat,
+				// 	longitude: lng,
+				// });
+				this.updateData({
+					activities: activities,
+					markers: markers,
+					loading: false
+				});
+			}finally{
+				wx.hideNavigationBarLoading()
+			}
 		}
 
 		refreshMap() {

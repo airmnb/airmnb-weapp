@@ -88,6 +88,7 @@ export default class Mine extends wepy.page {
   onShow() {
     this.setPageUx('mine_title');
 		this.refresh(false);
+		amb.i18nTabbar();
   }
   onPullDownRefresh() {
 		this.refresh(true);
@@ -137,6 +138,9 @@ export default class Mine extends wepy.page {
     }
     if(activities){
       activities = activityService.setAvatarImageUrl(activities);
+    }
+    if(purchases){
+      purchases.map(p => p.activity).forEach(a => activityService.setAvatarImageUrl(a));
     }
 
 		this.updateData({
