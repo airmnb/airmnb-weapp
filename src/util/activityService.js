@@ -38,7 +38,7 @@ class ActivityService {
   }
 
   async getWithinRadius(clat, clng, radius) {
-    const resp = await apiClient.get('activities/map', {
+    const resp = await apiClient.get('activities/search', {
       clat,
       clng,
       radius,
