@@ -17,12 +17,12 @@ page {
         <view class="tab-item {{currentTab==2?'active':''}}" data-current="2" bindtap="switchNav">
           <text data-current="2" class="tab-item-label">{{i.mine_mycomments}}</text>
         </view>
-        <view class="tab-item {{currentTab==3?'active':''}}" data-current="3" bindtap="switchNav">
+        <!-- <view class="tab-item {{currentTab==3?'active':''}}" data-current="3" bindtap="switchNav">
           <text data-current="3" class="tab-item-label">{{i.mine_history}}</text>
-        </view>
+        </view> -->
       </scroll-view>
       <swiper current="{{currentTab}}" duration="300" style="height:{{swiperHeight}}rpx;" bindchange="switchTab">
-        <swiper-item wx:for="{{[0,1,2,3]}}" wx:key="{{index}}">
+        <swiper-item wx:for="{{[0,1,2]}}" wx:key="{{index}}">
             <scroll-view scroll-y="true" class="scoll-h activity-panel">
               <view class="list-no-content" wx:if="{{(!activities || !activities.length) && (!purchases || !purchases.length)}}">{{i.list_no_content}}</view>
 							<repeat for="{{activities}}" wx:if="{{activities && activities.length}}">
@@ -128,11 +128,11 @@ export default class Mine extends wepy.page {
         purchases = await purchaseService.getOngoing(force);
 			  activities = [];
         break;
-      case 3:
-        // My history
-        purchases = await purchaseService.getClosed(force);
-        activities = [];
-        break;
+      // case 3:
+      //   // My history
+      //   purchases = await purchaseService.getClosed(force);
+      //   activities = [];
+      //   break;
       default:
         console.log(`${tabIndex} isn't supported`);
     }
