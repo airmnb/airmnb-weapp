@@ -18,10 +18,6 @@
         </view>
       </picker>
     </view>
-    <view class="panel">
-      <navigator url="/pages/setting/aboutus" hover-class="navigator-hover">{{i.setting_aboutus}}</navigator>
-      <navigator url="/pages/setting/stat" class="last-navigator" hover-class="navigator-hover">{{i.setting_statistic}}</navigator>
-    </view>
   </view>
 </template>
 <script>
