@@ -59,18 +59,16 @@
           <text class="value">{{activity.endTime}}</text>
         </view>
       </picker>
-      <navigator url="/pages/controls/dayOfWeekSelector?key=activity.daysOfWeek&value={{activity.daysOfWeek}}" 
-        hover-class="navigator-hover">{{i.activity_dayofweek}}
-        <!-- <text class="value text-elipsis">{{activity.daysOfWeek ? '...' : ''}}</text> -->
-        <view class="value">
-          <repeat for="{{[0]}}">
-            <!-- Use repeat to work around wepy component -->
-            <dowDisplay :value="activity.daysOfWeek" 
-            :labels="[i.dow_mon_s,i.dow_tue_s,i.dow_wed_s,i.dow_thu_s,i.dow_fri_s,i.dow_sat_s,i.dow_sun_s]"></dowDisplay>
-          </repeat>
-        </view>
-      </navigator>
       <view class="panel-item">
+        <view class="label">{{i.activity_dayofweek}}</view>
+        <repeat class="value" for="{{[0]}}">
+          <!-- Use repeat to work around wepy component -->
+          <dowSelector :value.sync="activity.daysOfWeek" :activity.sync="activity" :readonly="!addMode"
+          :labels="[i.dow_mon_s,i.dow_tue_s,i.dow_wed_s,i.dow_thu_s,i.dow_fri_s,i.dow_sat_s,i.dow_sun_s]"
+          class="value"></dowSelector>
+        </repeat>
+      </view>
+      <!-- <view class="panel-item">
         <text class="label">{{i.gender}}</text>
         <checkbox-group bindchange="changeGender">
           <label class="radio">
@@ -94,7 +92,7 @@
           <text class="label">{{i.activity_max_age}}</text>
           <text class="value">{{activity.maxAge}}</text>
         </view>
-      </picker>
+      </picker> -->
       <picker mode="selector" disabled="{{!addMode}}" class="top-line" value="{{activity.capacity}}" bindchange="capChange"
         range="{{capRange}}">
         <view class="panel-item">
@@ -103,7 +101,7 @@
         </view>
       </picker>
     </view>
-    <view class="panel">
+    <!-- <view class="panel">
       <navigator disabled="{{!addMode}}" url="/pages/controls/input?key=activity.price&value={{activity.price}}&type=digit&label={{i.activity_price}}" 
       hover-class="navigator-hover">{{i.activity_price}}<text class="value">{{activity.price}}</text>
       </navigator>
@@ -114,7 +112,7 @@
           <text class="value">{{activity.currency}}</text>
         </view>
       </picker>
-    </view>
+    </view> -->
     <view class="panel">
       <view class="panel-item">
         <button @tap="save">{{i.button_save}}</button>
@@ -134,11 +132,11 @@ import imageService from '@/util/imageService'
 import activityService from '@/util/activityService'
 import venueService from '@/util/venueService'
 import mapService from '@/util/mapService'
-import DowDisplay from '../components/dowDisplay'
+import DowSelector from '../components/dowSelector'
 
 export default class EditActivity extends wepy.page {
   components = {
-		dowDisplay: DowDisplay
+    dowSelector: DowSelector
 	}
 	data = {
     addMode: false,

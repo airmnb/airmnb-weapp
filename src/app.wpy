@@ -46,7 +46,6 @@ export default class extends wepy.app {
 			'pages/setting/edit_baby',
 			'pages/controls/textarea',
 			'pages/controls/input',
-			'pages/controls/dayOfWeekSelector',
 			'pages/controls/categorySelector',
       'pages/controls/imageGallery', 
     ],

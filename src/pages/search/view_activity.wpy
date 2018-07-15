@@ -108,8 +108,8 @@
         <view class="card">
           <repeat for="{{[0]}}">
             <!-- Use repeat to work around wepy component -->
-            <dowDisplay :value="activity.daysOfWeek" 
-            :labels="[i.dow_mon_s,i.dow_tue_s,i.dow_wed_s,i.dow_thu_s,i.dow_fri_s,i.dow_sat_s,i.dow_sun_s]"></dowDisplay>
+            <dowSelector :value="activity.daysOfWeek" :readonly="true"
+            :labels="[i.dow_mon_s,i.dow_tue_s,i.dow_wed_s,i.dow_thu_s,i.dow_fri_s,i.dow_sat_s,i.dow_sun_s]"></dowSelector>
           </repeat>
         </view>
         <view class="card card-long" wx:if="{{!purchase}}">
@@ -145,7 +145,7 @@ import activityService from '@/util/activityService'
 import purchaseService from '@/util/purchaseService'
 import venueService from '@/util/venueService'
 import mapService from '@/util/mapService'
-import DowDisplay from '../components/dowDisplay'
+import DowSelector from '../components/dowSelector'
 import drawQrcode from 'weapp-qrcode'
 
 export default class ViewActivity extends wepy.page {
@@ -153,7 +153,7 @@ export default class ViewActivity extends wepy.page {
     enablePullDownRefresh: true,
   }
   components = {
-		dowDisplay: DowDisplay
+		dowSelector: DowSelector
 	}
 	data = {
     i: amb.pageI18nData,
