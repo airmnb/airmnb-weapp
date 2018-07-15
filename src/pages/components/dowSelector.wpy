@@ -1,0 +1,105 @@
+<style lang="less">
+.dow-edit {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 5rpx -20rpx 5rpx 0;
+
+  .dow-item {
+    flex: 1 1;
+    max-width: 120rpx;
+    display: column;
+
+    text, switch {
+      flex: 1;
+      display: block;
+      text-align: center;
+    }
+  }
+}
+
+.dow-display {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  text {
+    margin-right: 10rpx;
+  }
+
+  text:last-child {
+    margin-right: 0;
+  }
+}
+</style>
+
+<template>
+  <view class="{{readonly ? 'dow-display' : 'dow-edit'}}">
+    <block wx:if="{{!readonly}}">
+      <view class="dow-item">
+        <text class="sub-title">{{labels[0]}}</text>
+        <switch checked="{{value & 1}}" bindchange="toggle(1)" color="#FFCC00"/>
+      </view>
+      <view class="dow-item">
+        <text class="sub-title">{{labels[1]}}</text>
+        <switch checked="{{value & 2}}" bindchange="toggle(2)" color="#FFCC00"/>
+      </view>
+      <view class="dow-item">
+        <text class="sub-title">{{labels[2]}}</text>
+        <switch checked="{{value & 4}}" bindchange="toggle(4)" color="#FFCC00"/>
+      </view>
+      <view class="dow-item">
+        <text class="sub-title">{{labels[3]}}</text>
+        <switch checked="{{value & 8}}" bindchange="toggle(8)" color="#FFCC00"/>
+      </view>
+      <view class="dow-item">
+        <text class="sub-title">{{labels[4]}}</text>
+        <switch checked="{{value & 16}}" bindchange="toggle(16)" color="#FFCC00"/>
+      </view>
+      <view class="dow-item">
+        <text class="sub-title">{{labels[5]}}</text>
+        <switch checked="{{value & 32}}" bindchange="toggle(32)" color="#FFCC00"/>
+      </view>
+      <view class="dow-item">
+        <text class="sub-title">{{labels[6]}}</text>
+        <switch checked="{{value & 64}}" bindchange="toggle(64)" color="#FFCC00"/>
+      </view>
+    </block>
+    <block class="readonly" wx:if="{{readonly}}">
+      <text wx:if="{{value & 1}}">{{labels[0]}}</text>
+      <text wx:if="{{value & 2}}">{{labels[1]}}</text>
+      <text wx:if="{{value & 4}}">{{labels[2]}}</text>
+      <text wx:if="{{value & 8}}">{{labels[3]}}</text>
+      <text wx:if="{{value & 16}}">{{labels[4]}}</text>
+      <text wx:if="{{value & 32}}">{{labels[5]}}</text>
+      <text wx:if="{{value & 64}}">{{labels[6]}}</text>
+    </block>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import amb from '@/util/amb'
+  
+  export default class DowSelector extends wepy.component {
+    props = {
+      value: {
+        type: Number,
+        twoWay: true
+      },
+      activity: {
+        type: Object,
+        twoWay: true
+      },
+      labels: Array,
+      readonly: Boolean
+    }
+
+    methods = {
+      toggle(v) {
+        this.activity.daysOfWeek ^= v;
+      },
+    }
+  }
+</script>
