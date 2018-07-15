@@ -79,7 +79,7 @@ export default class extends wepy.app {
 					// text: 'Provider'
 				},
 				{
-					pagePath: 'pages/setting/setting',
+					pagePath: 'pages/setting/profile',
 					// iconPath: 'images/cog.png',
 					// iconPath: 'images/cog-light.png',
 					// selectedIconPath: 'images/cog.png',
