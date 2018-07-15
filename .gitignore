@@ -5,3 +5,4 @@ dist
 ./dist
 .wepycache
 dev.txt
+.idea
