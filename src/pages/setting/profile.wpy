@@ -45,8 +45,18 @@
       hover-class="navigator-hover">{{i.email}}<text class="value">{{user.email || ''}}</text>
       </navigator>
     </view>
+    <text class="sub-title">{{i.babies_mine}}</text>
+    <view class="image-panel">
+      <navigator url="/pages/setting/edit_baby?babyId={{baby.babyId}}" class="image-avatar" wx:for="{{babies}}" wx:key="index" wx:for-item="baby">
+        <view class="image-card image-placeholder">{{baby.nickName}}</view>
+        <image class="image-card image-image" src="{{baby.avatarSrcUrl}}" mode="aspectFill" />
+      </navigator>
+      <view class="image-avatar">
+        <view class="image-card image-placeholder" bindtap="addBaby">+</view>
+      </view>
+    </view>
     <view class="panel">
-      <view class="panel-item">
+      <view class="panel-item warning">
         <button @tap="save">{{i.button_save}}</button>
       </view>
     </view>
@@ -56,6 +66,9 @@
   import wepy from 'wepy'
   import amb from '@/util/amb'
   import userService from '@/util/userService';
+  import babyService from '@/util/babyService'
+  import imageService from '@/util/imageService'
+
   export default class Profile extends wepy.page {
     config = {
       enablePullDownRefresh: true,
@@ -63,6 +76,7 @@
     data = {
       user: {},
       i: amb.pageI18nData,
+      babies: [],
     }
 
     methods = {
@@ -83,9 +97,14 @@
           'user.dob': e.detail.value
         });
       },
+      addBaby() {
+        wepy.navigateTo({
+          url: '/pages/setting/edit_baby'
+        });
+      }
     }
 
-    onLoad() {
+    async onLoad() {
 		  this.setPageUx('profile_title');
       // this.user = this.cleanClone(amb.config.user);
       // this.user.accountName = this.user.accountName || this.user.nickName;
@@ -93,6 +112,7 @@
         throw new Error('Impossible condition. amb.config.user must have been set when app launches');
       }
       this.setUser(amb.config.user);
+      await this.refresh(false);
     }
 
     onShow() {
@@ -100,16 +120,29 @@
 
     onPullDownRefresh() {
       this.refresh();
+      wepy.stopPullDownRefresh();
     }
 
-    async refresh(){
+    async refresh(force = true){
       console.log('amb.config.user', amb.config.user);
       wepy.showLoading()
-      const userId = amb.config.user.userId;
-      const user = await userService.get(userId);
-      this.setUser(user);
-      wepy.stopPullDownRefresh();
-      wepy.hideLoading();
+      try{
+        const userId = amb.config.user.userId;
+        const user = await userService.get(userId);
+        this.setUser(user);
+
+        // Loading babies
+        const babies = await babyService.getMine(force);
+        babies.forEach(x => {
+          x.avatarSrcUrl = imageService.getSrcUrl(x.avatarImageId);
+        })
+        this.updateData({
+          babies: babies
+        })
+      }finally{
+        wepy.stopPullDownRefresh();
+        wepy.hideLoading();
+      }
     }
 
     setUser(user){

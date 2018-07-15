@@ -7,7 +7,6 @@
   <view>
     <view class="panel">
       <navigator url="/pages/setting/profile" hover-class="navigator-hover">{{i.setting_profile}}</navigator>
-      <navigator url="/pages/setting/babies" class="last-navigator" hover-class="navigator-hover">{{i.setting_mybabies}}</navigator>
     </view>
     <view class="panel">
       <picker mode="selector" value="{{null}}" bindchange="langChange"
