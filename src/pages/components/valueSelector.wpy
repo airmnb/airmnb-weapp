@@ -10,9 +10,12 @@
   margin: 5rpx -20rpx 5rpx 0;
 
   .value-selector-item {
-    flex: 1 1;
-    max-width: 120rpx;
+    flex: 1 1 1;
+    // max-width: 120rpx;
     display: column;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
 
     text, switch {
       flex: 1;
@@ -43,6 +46,7 @@
   color: @gray-dark;
   display: block;
   white-space: nowrap;
+  margin: 0 1rem 0 1rem;
 }
 </style>
 
