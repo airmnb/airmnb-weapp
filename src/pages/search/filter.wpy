@@ -8,7 +8,7 @@
       <input style="height:35rpx;" placeholder="{{i.search_keywards}}" maxLength="30" focus/>
     </view>
 
-    <view class="panel">
+    <view class="panel">   
       <!-- Start time -->
       <picker mode="date" value="{{opt.startDate}}" start="2018-01-01" end="2028-12-31" bindchange="startDateChange">  
         <view class="panel-item">
@@ -38,9 +38,9 @@
         <view class="label">{{i.activity_dayofweek}}</view>
         <repeat class="value" for="{{[0]}}">
           <!-- Use repeat to work around wepy component -->
-          <valueSelector :value="opt.daysOfWeek" key="daysOfWeek" :owner.sync="opt" :readonly="false"
+          <dowSelector :value="opt.daysOfWeek" key="daysOfWeek" :owner.sync="opt" :readonly="false"
           :definition="dowDefinition"
-          class="value"></valueSelector>
+          class="value"></dowSelector>
         </repeat>
       </view>
     </view>
@@ -48,9 +48,9 @@
     <view class="panel">
       <repeat for="{{[0]}}">
         <!-- Use repeat to work around wepy component -->
-        <valueSelector :value="opt.category" key="category" :owner.sync="opt" :readonly="false"
+        <categorySelector :value="opt.category" key="category" :owner.sync="opt" :readonly="false"
         :definition="categoryDefinition"
-        class="value"></valueSelector>
+        class="value"></categorySelector>
       </repeat>
     </view>
     <view class="panel">
@@ -74,7 +74,8 @@
 
   export default class Filter extends wepy.page {
     components = {
-      valueSelector: ValueSelector
+      dowSelector: ValueSelector,
+      categorySelector: ValueSelector
     }
     data = {
       i: amb.pageI18nData,
