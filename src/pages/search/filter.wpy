@@ -38,11 +38,20 @@
         <view class="label">{{i.activity_dayofweek}}</view>
         <repeat class="value" for="{{[0]}}">
           <!-- Use repeat to work around wepy component -->
-          <valueSelector :value.sync="opt.daysOfWeek" :activity.sync="opt" :readonly="false"
-          :labels="[i.dow_mon_s,i.dow_tue_s,i.dow_wed_s,i.dow_thu_s,i.dow_fri_s,i.dow_sat_s,i.dow_sun_s]"
+          <valueSelector :value="opt.daysOfWeek" key="daysOfWeek" :owner.sync="opt" :readonly="false"
+          :definition="dowDefinition"
           class="value"></valueSelector>
         </repeat>
       </view>
+    </view>
+    <view class="sub-title">{{i.cat_title}}</view>
+    <view class="panel">
+      <repeat for="{{[0]}}">
+        <!-- Use repeat to work around wepy component -->
+        <valueSelector :value="opt.category" key="category" :owner.sync="opt" :readonly="false"
+        :definition="categoryDefinition"
+        class="value"></valueSelector>
+      </repeat>
     </view>
     <view class="panel">
       <view class="panel-item">
@@ -75,8 +84,11 @@
         startTime: '',
         endTime: '',
         daysOfWeek: 127,
+        category: 0,
         freeOnly: false
-      }
+      },
+      categoryDefinition: [],
+      dowDefinition: []
     }
     methods = {
       startDateChange(e) {
@@ -111,6 +123,85 @@
 
     onLoad() {
   		this.setPageUx('searchconfig_title');
+    }
+
+    onShow() {
+      const categoryDefinition = [
+        {
+          label: this.i.cat_edu,
+          value: 2
+        },
+        {
+          label: this.i.cat_public,
+          value: 4
+        },
+        {
+          label: this.i.cat_care,
+          value: 8
+        },
+        {
+          label: this.i.cat_playgroup,
+          value: 16
+        },
+        {
+          label: this.i.cat_coach,
+          value: 32
+        },
+        {
+          label: this.i.cat_entertainment,
+          value: 64
+        },
+        {
+          label: this.i.cat_health,
+          value: 128
+        },
+        {
+          label: this.i.cat_new,
+          value: 256
+        },
+        {
+          label: this.i.cat_stuff,
+          value: 512
+        },
+        {
+          label: this.i.cat_other,
+          value: 1
+        }
+      ];
+      const dowDefinition = [
+      {
+        label: this.i.dow_mon_s,
+        value: 1
+      },
+      {
+        label: this.i.dow_tue_s,
+        value: 2
+      },
+      {
+        label: this.i.dow_wed_s,
+        value: 4
+      }, 
+      {
+        label: this.i.dow_thu_s,
+        value: 8
+      },
+      {
+        label: this.i.dow_fri_s,
+        value: 16
+      },{
+        label: this.i.dow_sat_s,
+        value: 32
+      }, 
+      {
+        label: this.i.dow_sun_s,
+        value: 64
+      }];
+
+
+      this.updateData({
+        categoryDefinition,
+        dowDefinition
+      });
     }
   }
 </script>

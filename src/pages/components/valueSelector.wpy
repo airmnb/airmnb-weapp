@@ -1,4 +1,6 @@
 <style lang="less">
+@gray-dark: #888888;
+
 .value-selector-edit {
   display: flex;
   width: 100%;
@@ -33,13 +35,22 @@
     margin-right: 0;
   }
 }
+
+.value-label {
+  font-size: 0.6rem;
+  // font-weight: bold;
+  margin: 0;
+  color: @gray-dark;
+  display: block;
+  white-space: nowrap;
+}
 </style>
 
 <template>
   <view class="{{readonly ? 'value-selector-display' : 'value-selector-edit'}}">
     <block wx:if="{{!readonly}}">
       <view class="value-selector-item" wx:for="{{definition}}" wx:key="{{index}}">
-        <text class="sub-title">{{item.label}}</text>
+        <text class="value-label">{{item.label}}</text>
         <switch checked="{{value & item.value}}" data-value="{{item.value}}" bindchange="toggle" color="#FFCC00"/>
       </view>
     </block>
