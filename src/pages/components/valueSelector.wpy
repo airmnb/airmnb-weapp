@@ -1,0 +1,75 @@
+<style lang="less">
+.dow-edit {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 5rpx -20rpx 5rpx 0;
+
+  .dow-item {
+    flex: 1 1;
+    max-width: 120rpx;
+    display: column;
+
+    text, switch {
+      flex: 1;
+      display: block;
+      text-align: center;
+    }
+  }
+}
+
+.dow-display {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  text {
+    margin-right: 10rpx;
+  }
+
+  text:last-child {
+    margin-right: 0;
+  }
+}
+</style>
+
+<template>
+  <view class="{{readonly ? 'dow-display' : 'dow-edit'}}">
+    <block wx:if="{{!readonly}}">
+      <view class="dow-item" wx:for="{{definition}}" wx:key="{{index}}">
+        <text class="sub-title">{{item.label}}</text>
+        <switch checked="{{value & item.value}}" data-value="{{item.value}}" bindchange="toggle" color="#FFCC00"/>
+      </view>
+    </block>
+    <block class="readonly" wx:if="{{readonly}}">
+      <text wx:if="{{value & item.value}}" wx:for="{{definition}}" wx:key="{{index}}">{{item.label}}</text>
+    </block>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import amb from '@/util/amb'
+  
+  export default class ValueSelector extends wepy.component {
+    props = {
+      value: Number,
+      key: String,
+      owner: {
+        type: Object,
+        twoWay: true
+      },
+      definition: Array,
+      // labels: Array,
+      readonly: Boolean
+    }
+
+    methods = {
+      toggle(e) {
+        const v = e.target.dataset.value;
+        this.owner[this.key] ^= v;
+      },
+    }
+  }
+</script>

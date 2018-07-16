@@ -38,9 +38,9 @@
         <view class="label">{{i.activity_dayofweek}}</view>
         <repeat class="value" for="{{[0]}}">
           <!-- Use repeat to work around wepy component -->
-          <dowSelector :value.sync="opt.daysOfWeek" :activity.sync="opt" :readonly="false"
+          <valueSelector :value.sync="opt.daysOfWeek" :activity.sync="opt" :readonly="false"
           :labels="[i.dow_mon_s,i.dow_tue_s,i.dow_wed_s,i.dow_thu_s,i.dow_fri_s,i.dow_sat_s,i.dow_sun_s]"
-          class="value"></dowSelector>
+          class="value"></valueSelector>
         </repeat>
       </view>
     </view>
@@ -61,11 +61,11 @@
 <script>
   import wepy from 'wepy'
   import amb from '@/util/amb'
-  import DowSelector from '../components/dowSelector'
+  import ValueSelector from '../components/valueSelector'
 
   export default class Filter extends wepy.page {
     components = {
-      dowSelector: DowSelector
+      valueSelector: ValueSelector
     }
     data = {
       i: amb.pageI18nData,

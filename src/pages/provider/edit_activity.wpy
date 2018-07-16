@@ -63,9 +63,9 @@
         <view class="label">{{i.activity_dayofweek}}</view>
         <repeat class="value" for="{{[0]}}">
           <!-- Use repeat to work around wepy component -->
-          <dowSelector :value.sync="activity.daysOfWeek" :activity.sync="activity" :readonly="!addMode"
-          :labels="[i.dow_mon_s,i.dow_tue_s,i.dow_wed_s,i.dow_thu_s,i.dow_fri_s,i.dow_sat_s,i.dow_sun_s]"
-          class="value"></dowSelector>
+          <valueSelector :value="activity.daysOfWeek" key="daysOfWeek" :owner.sync="activity" :readonly="!addMode"
+          :definition="dowDefinition"
+          class="value"></valueSelector>
         </repeat>
       </view>
       <!-- <view class="panel-item">
@@ -132,13 +132,14 @@ import imageService from '@/util/imageService'
 import activityService from '@/util/activityService'
 import venueService from '@/util/venueService'
 import mapService from '@/util/mapService'
-import DowSelector from '../components/dowSelector'
+import ValueSelector from '../components/valueSelector'
 
 export default class EditActivity extends wepy.page {
   components = {
-    dowSelector: DowSelector
+    valueSelector: ValueSelector
 	}
 	data = {
+    i: amb.pageI18nData,
     addMode: false,
     activity: {},
     venueName: null,
@@ -146,6 +147,35 @@ export default class EditActivity extends wepy.page {
     capRange: [],
     currencyRange: [],
     venueRange: [],
+    dowDefinition: [
+          {
+            label: amb.pageI18nData.dow_mon_s,
+            value: 1
+          },
+          {
+            label: amb.pageI18nData.dow_tue_s,
+            value: 2
+          },
+          {
+            label: amb.pageI18nData.dow_wed_s,
+            value: 4
+          }, 
+          {
+            label: amb.pageI18nData.dow_thu_s,
+            value: 8
+          },
+          {
+            label: amb.pageI18nData.dow_fri_s,
+            value: 16
+          },{
+            label: amb.pageI18nData.dow_sat_s,
+            value: 32
+          }, 
+          {
+            label: amb.pageI18nData.dow_sun_s,
+            value: 64
+          }
+          ]
   };
   methods = {
     changeGender(e) {

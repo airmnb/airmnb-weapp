@@ -82,13 +82,14 @@
   import wepy from 'wepy'
   import amb from '@/util/amb'
   
-  export default class DowSelector extends wepy.component {
+  export default class CategorySelector extends wepy.component {
     props = {
       value: {
         type: Number,
         twoWay: true
       },
-      activity: {
+      key: String,
+      owner: {
         type: Object,
         twoWay: true
       },
@@ -98,7 +99,7 @@
 
     methods = {
       toggle(v) {
-        this.activity.daysOfWeek ^= v;
+        this.owner.daysOfWeek ^= v;
       },
     }
   }
