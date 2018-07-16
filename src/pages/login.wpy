@@ -95,7 +95,7 @@ page {
 			// Wechat login and get Airmnb user
 			await loginService.login();
 			wepy.switchTab({
-				url: '/pages/search/map'
+				url: '/pages/search/landing'
 			})
 		}
 
@@ -107,7 +107,7 @@ page {
 				if(hasSession) {
 					await loginService.login();
 					wepy.switchTab({
-						url: '/pages/search/map'
+						url: '/pages/search/landing'
 					})
 					return;
 				}

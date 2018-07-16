@@ -1,6 +1,7 @@
 /* colors */
 @primary-light: #FFE79E;
 @primary: #FFCC00;
+@primary-transparent: rgba(255, 204, 0, 0.8);
 @primary-dark: #BB9900;
 @secondary-light: rgb(169, 208, 241);
 @secondary: #03a9f4;
@@ -362,4 +363,43 @@ page {
 }
 .scoll-h {
 	height: 100%;
+}
+
+
+.footer-nav {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	position:fixed;
+	bottom: 20rpx;
+  width: 100%;
+  // margin: auto;
+  // left: 0;
+  // right: 0;
+
+	.footer-nav-item {
+		border: 1rpx solid @primary-dark;
+    width: 200rpx;
+    height: 80rpx;
+    background-color: @primary-transparent;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+
+    text {
+      display: inline-block;
+      vertical-align: middle;
+      line-height: normal;
+      margin:auto;
+    }
+	}
+
+	.footer-nav-item:first-child {
+		border-radius: 40rpx 0 0 40rpx;
+	}
+
+	.footer-nav-item:last-child {
+    border-radius: 0 40rpx 40rpx 0;
+	}
 }

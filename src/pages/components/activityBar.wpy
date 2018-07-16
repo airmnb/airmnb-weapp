@@ -8,6 +8,13 @@
   .activity-info{
     max-width: 490rpx;
   }
+
+  .activity-avatar {
+    height: 240rpx;
+    // border-radius: 10rpx;
+    max-width: 360rpx;
+    flex: 0 0 240rpx;
+  }
 }
 
 .activity-card {
@@ -32,16 +39,16 @@
   .activity-info{
     max-width: 350rpx;
   }
+
+  .activity-avatar {
+    height: 360rpx;
+    // border-radius: 10rpx;
+    width: 100%;
+    // flex: 0 0 240rpx;
+  }
 }
 
 .activity-bar, .activity-card {
-  .activity-avatar {
-    height: 240rpx;
-    // border-radius: 10rpx;
-    max-width: 360rpx;
-    flex: 0 0 240rpx;
-  }
-
   .activity-content {
     // flex: 100%;
     margin-left: 10rpx;

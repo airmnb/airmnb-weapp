@@ -1,0 +1,97 @@
+<style lang="less">
+
+</style>
+
+<template>
+	<view style="overflow:hidden">
+		<view class="cards">
+			<repeat for="{{activities}}">
+				<activityBar wx:if="{{!loading}}" 
+				:style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
+				</activityBar>
+			</repeat>
+		</view>
+		<view class="footer-nav">
+			<navigator url="/pages/search/map" class="footer-nav-item">
+				<text>{{i.map_button_map}}</text>
+			</navigator>
+			<navigator url="/pages/search/filter" class="footer-nav-item">
+				<text>{{i.map_button_filter}}</text>
+			</navigator>
+		</view>
+	</view>
+</template>
+<script>
+import wepy from 'wepy'
+import amb from '@/util/amb'
+import activityService from '@/util/activityService'
+import imageService from '@/util/imageService'
+import loginService from '@/util/loginService';
+import mapService from '@/util/mapService';
+import favoriteService from '@/util/favoriteService';
+import ActivityBar from '../components/activityBar'
+	
+export default class Landing extends wepy.page {
+	config = {
+		enablePullDownRefresh: true
+	};
+	components = {
+		activityBar: ActivityBar
+	}
+	data = {
+		i: null,
+		loading: true,
+		showsSearchBar: false,
+		loading: true,
+		lng: 0,
+		lat: 0,
+		keywords: '',
+		activities: []
+	}
+
+	methods = {
+		controltap(e) {
+			if(e.controlId === 1) {
+				// Current location
+				this.centerByCurrentLocation();
+			}else if(e.controlId === 2) {
+				wepy.navigateTo({url: '/pages/search/filter'});
+			}
+		},
+		gotoSearchConfig() {
+			wepy.navigateTo({url: '/pages/search/filter'});
+		},
+	}
+
+	async onLoad (options) {
+		this.setPageUx('map_title');
+		this.refresh();
+	}
+	
+	pollTillLoggedIn() {
+		const user = amb.config.user;
+		setInterval()
+	}
+
+	onShow() {
+		this.setPageUx('map_title');
+		amb.i18nTabbar();
+	}
+
+	onPullDownRefresh () {
+		this.refresh(true);
+	}
+
+	gotoSearchSetting() {
+		wx.navigateTo({url: '/pages/search/filter'});
+	}
+
+	async refresh(force = false) {
+		const activities = await activityService.getRecommended(force);
+		this.updateData({
+			activities: activities,
+			loading: false
+		})
+	}
+}
+</script>

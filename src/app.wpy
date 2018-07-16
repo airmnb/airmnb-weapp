@@ -29,8 +29,9 @@ export default class extends wepy.app {
 	config = {
 		pages: [
 			'pages/login',
+			'pages/search/landing', 
 			'pages/search/map', 
-			'pages/search/searchConfig', 
+			'pages/search/filter', 
 			'pages/search/view_activity', 
 			'pages/search/calendarSelector',
 			'pages/search/purchaseConfirm',
@@ -61,7 +62,7 @@ export default class extends wepy.app {
 			backgroundColor: '#FFCC00',
 			list: [
 				{
-					pagePath: 'pages/search/map',
+					pagePath: 'pages/search/landing',
 					// iconPath: 'images/search-light.png',
 					// selectedIconPath: 'images/search.png',
 					// text: 'Search'

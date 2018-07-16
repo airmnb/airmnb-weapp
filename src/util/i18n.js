@@ -134,6 +134,9 @@ const i18n = {
     "boy_only": "Boys only",
     "girl_only": "Girls only",
     "list_no_content": "No content",
+    "map_button_map": "Map",
+    "map_button_filter": "Filter",
+    "search_activity_only": "Free activity only"
   },
   "zh_CN": {
     "tabbar_search": "搜索",
@@ -270,6 +273,9 @@ const i18n = {
     "boy_only": "仅限男孩",
     "girl_only": "仅限女孩",
     "list_no_content": "无内容",
+    "map_button_map": "地图",
+    "map_button_filter": "过滤",
+    "search_activity_only": "仅限免费活动"
   },
   "zh_TW": {}
 }

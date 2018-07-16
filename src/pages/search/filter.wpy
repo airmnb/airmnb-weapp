@@ -1,0 +1,116 @@
+<style lang="less">
+
+</style>
+
+<template>
+  <view>
+    <view class="search-bar">
+      <input style="height:35rpx;" placeholder="{{i.search_keywards}}" maxLength="30" focus/>
+    </view>
+
+    <view class="panel">
+      <!-- Start time -->
+      <picker mode="date" value="{{opt.startDate}}" start="2018-01-01" end="2028-12-31" bindchange="startDateChange">  
+        <view class="panel-item">
+          <text class="label">{{i.activity_start_date}}</text>
+          <text class="value">{{opt.startDate}}</text>
+        </view>
+      </picker>
+      <picker mode="date" class="top-line" value="{{opt.endDate}}" start="2018-01-01" end="2028-12-31" bindchange="endDateChange">  
+        <view class="panel-item">
+          <text class="label">{{i.activity_end_date}}</text>
+          <text class="value">{{opt.endDate}}</text>
+        </view>
+      </picker>
+      <picker mode="time" class="top-line" value="{{opt.startTime}}" start="06:00" end="20:00" bindchange="startTimeChange">  
+        <view class="panel-item">
+          <text class="label">{{i.activity_start_time}}</text>
+          <text class="value">{{opt.startTime}}</text>
+        </view>
+      </picker>
+      <picker mode="time" class="top-line" value="{{opt.endTime}}" start="06:00" end="20:00" bindchange="endTimeChange">  
+        <view class="panel-item">
+          <text class="label">{{i.activity_end_time}}</text>
+          <text class="value">{{opt.endTime}}</text>
+        </view>
+      </picker>
+      <view class="panel-item">
+        <view class="label">{{i.activity_dayofweek}}</view>
+        <repeat class="value" for="{{[0]}}">
+          <!-- Use repeat to work around wepy component -->
+          <dowSelector :value.sync="opt.daysOfWeek" :activity.sync="opt" :readonly="false"
+          :labels="[i.dow_mon_s,i.dow_tue_s,i.dow_wed_s,i.dow_thu_s,i.dow_fri_s,i.dow_sat_s,i.dow_sun_s]"
+          class="value"></dowSelector>
+        </repeat>
+      </view>
+    </view>
+    <view class="panel">
+      <view class="panel-item">
+        <text class="label">{{i.search_activity_only}}</text>
+        <switch class="value" checked="{{opt.freeOnly}}" bindchange="toggleFreeOnly" color="#FFCC00"/>
+      </view>
+    </view>
+
+    <view class="panel">
+      <view class="panel-item warning">
+        <button @tap="search">{{i.map_search_bar}}</button>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import amb from '@/util/amb'
+  import DowSelector from '../components/dowSelector'
+
+  export default class Filter extends wepy.page {
+    components = {
+      dowSelector: DowSelector
+    }
+    data = {
+      i: amb.pageI18nData,
+      opt: {
+        startDate: '',
+        endDate: '',
+        startTime: '',
+        endTime: '',
+        daysOfWeek: 127,
+        freeOnly: false
+      }
+    }
+    methods = {
+      startDateChange(e) {
+        this.updateData({
+          'opt.startDate': e.detail.value
+        });
+      },
+      startTimeChange(e) {
+        this.updateData({
+          'opt.startTime': e.detail.value
+        });
+      },
+      endDateChange(e) {
+        this.updateData({
+          'opt.endDate': e.detail.value
+        });
+      },
+      endTimeChange(e) {
+        this.updateData({
+          'opt.endTime': e.detail.value
+        });
+      },
+      toggleFreeOnly() {
+        this.updateData({
+          'opt.freeOnly': !this.opt.freeOnly
+        });
+      },
+      async search() {
+        wepy.navigateBack();
+      }
+    }
+
+    onLoad() {
+  		this.setPageUx('searchconfig_title');
+    }
+  }
+</script>
