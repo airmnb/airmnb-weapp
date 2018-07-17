@@ -1,4 +1,6 @@
 <style lang="less">
+@gray-dark: #888888;
+
 .activity-bar {
   margin-top: 20rpx;
   width: 100%;
@@ -14,6 +16,11 @@
     // border-radius: 10rpx;
     max-width: 360rpx;
     flex: 0 0 240rpx;
+
+    &.activity-avatar-placeholder {
+      outline: 2rpx dashed @gray-dark;
+      outline-offset: -2rpx;
+    }
   }
 }
 
@@ -68,7 +75,8 @@
 <template>
   <navigator url="{{navigateTo}}">
     <view class="{{'activity-' + (style || 'card')}}">
-      <image class="activity-avatar" src="{{activity.avatarImageUrl}}" mode="aspectFill" />
+      <view class="activity-avatar-placeholder"></view>
+      <image wx:if="{{activity.avatarImageUrl || style == 'bar'}}" class="{{activity.avatarImageUrl ? 'activity-avatar' : 'activity-avatar activity-avatar-placeholder'}}" src="{{activity.avatarImageUrl}}" mode="aspectFill"/>
       <view class="activity-content">
         <text class="secondary-text">{{activity.name}}</text>
         <text class="info-text activity-info">{{activity.info}}</text>
