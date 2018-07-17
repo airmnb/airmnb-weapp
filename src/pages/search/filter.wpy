@@ -5,7 +5,7 @@
 <template>
   <view>
     <view class="search-bar">
-      <input style="height:35rpx;" placeholder="{{i.search_keywards}}" maxLength="30" focus/>
+      <input placeholder="{{i.search_keywards}}" maxLength="50" focus=“autoFocus”/>
     </view>
 
     <view class="panel">   
@@ -79,6 +79,7 @@
     }
     data = {
       i: amb.pageI18nData,
+      autoFocus: false,
       opt: {
         startDate: '',
         endDate: '',
@@ -122,8 +123,11 @@
       }
     }
 
-    onLoad() {
-  		this.setPageUx('searchconfig_title');
+    onLoad(option) {
+      this.setPageUx('searchconfig_title');
+      this.updateData({
+        autoFocus: !!option.focus
+      });
     }
 
     onShow() {
