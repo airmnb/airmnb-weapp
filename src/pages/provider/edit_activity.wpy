@@ -13,12 +13,6 @@
       </navigator>
     </view>
     <view class="panel">
-      <repeat for="{{[0]}}">
-        <!-- Use repeat to work around wepy component -->
-        <categorySelector :value="activity.category" key="category" :owner.sync="activity" :readonly="false"
-        :definition="categoryDefinition"
-        class="value"></categorySelector>
-      </repeat>
       <!-- Add mode: choose venue -->
       <picker mode="selector" wx:if="{{addMode}}" class="top-line" value="{{activity.venueId}}" bindchange="venueChange"
         range="{{venueRange}}" range-key="{{'label'}}"> 
@@ -32,11 +26,6 @@
         <text class="label">{{i.activity_venue}}</text>
         <text class="value text-elipsis">{{venueName}}</text>
       </view>
-      <navigator url="/pages/controls/imageGallery?key=activity.imageIds&value={{activity.imageIds}}&label={{i.activity_images}}" 
-        hover-class="navigator-hover">{{i.activity_images}}
-      </navigator>
-    </view>
-    <view class="panel">
       <picker mode="date" disabled="{{!addMode}}" value="{{activity.startDate}}" start="2018-01-01" end="2028-12-31" bindchange="startDateChange">  
         <view class="panel-item required">
           <text class="label">{{i.activity_start_date}}</text>
@@ -61,13 +50,27 @@
           <text class="value">{{activity.endTime}}</text>
         </view>
       </picker>
-      <view class="panel-item">
+    </view>
+    <view class="panel">
+      <navigator url="/pages/controls/imageGallery?key=activity.imageIds&value={{activity.imageIds}}&label={{i.activity_images}}" 
+        hover-class="navigator-hover">{{i.activity_images}}
+      </navigator>
+      <view class="panel-item panel-item-v">
         <view class="label">{{i.activity_dayofweek}}</view>
         <repeat class="value" for="{{[0]}}">
           <!-- Use repeat to work around wepy component -->
           <dowSelector :value="activity.daysOfWeek" key="daysOfWeek" :owner.sync="activity" :readonly="!addMode"
           :definition="dowDefinition"
           class="value"></dowSelector>
+        </repeat>
+      </view>
+      <view class="panel-item panel-item-v">
+        <view class="label">{{i.cat_title}}</view>
+        <repeat class="value" for="{{[0]}}">
+          <!-- Use repeat to work around wepy component -->
+          <categorySelector :value="activity.category" key="category" :owner.sync="activity" :readonly="false"
+          :definition="categoryDefinition"
+          class="value"></categorySelector>
         </repeat>
       </view>
       <!-- <view class="panel-item">

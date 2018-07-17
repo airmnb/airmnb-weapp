@@ -33,7 +33,7 @@
           <text class="value">{{opt.endTime}}</text>
         </view>
       </picker>
-      <view class="panel-item no-right-padding">
+      <view class="panel-item panel-item-v">
         <view class="label">{{i.activity_dayofweek}}</view>
         <repeat class="value" for="{{[0]}}">
           <!-- Use repeat to work around wepy component -->
@@ -42,16 +42,17 @@
           class="value"></dowSelector>
         </repeat>
       </view>
+      <view class="panel-item panel-item-v">
+        <view class="label">{{i.cat_title}}</view>
+        <repeat class="value" for="{{[0]}}">
+          <!-- Use repeat to work around wepy component -->
+          <categorySelector :value="opt.category" key="category" :owner.sync="opt" :readonly="false"
+          :definition="categoryDefinition"
+          class="value"></categorySelector>
+        </repeat>
+      </view>
     </view>
-    <view class="sub-title">{{i.cat_title}}</view>
-    <view class="panel">
-      <repeat for="{{[0]}}">
-        <!-- Use repeat to work around wepy component -->
-        <categorySelector :value="opt.category" key="category" :owner.sync="opt" :readonly="false"
-        :definition="categoryDefinition"
-        class="value"></categorySelector>
-      </repeat>
-    </view>
+    
     <view class="panel">
       <view class="panel-item">
         <text class="label">{{i.search_activity_only}}</text>

@@ -238,8 +238,20 @@ page {
   }
 }
 
-.panel-item.no-right-padding {
-  padding-right: 0;
+.panel-item.panel-item-v {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: flex-start;
+
+  .label {
+    width: 100%;
+    margin-top: 10rpx;
+  }
+
+  .value {
+    margin-left: -5rpx;
+    margin-right: -5rpx;
+  }
 }
 
 .text-elipsis { 
