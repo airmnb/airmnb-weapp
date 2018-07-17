@@ -1,5 +1,4 @@
 <style lang="less">
-
 </style>
 
 <template>
@@ -34,7 +33,7 @@
           <text class="value">{{opt.endTime}}</text>
         </view>
       </picker>
-      <view class="panel-item">
+      <view class="panel-item no-right-padding">
         <view class="label">{{i.activity_dayofweek}}</view>
         <repeat class="value" for="{{[0]}}">
           <!-- Use repeat to work around wepy component -->

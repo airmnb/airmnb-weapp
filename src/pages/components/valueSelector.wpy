@@ -1,5 +1,7 @@
 <style lang="less">
+@gray: #D0D0D0;
 @gray-dark: #888888;
+@primary: #FFCC00;
 
 .value-selector-edit {
   display: flex;
@@ -48,14 +50,46 @@
   white-space: nowrap;
   margin: 0 1rem 0 1rem;
 }
+
+.value-tag {
+  position: relative;
+  font-size: 0.6rem;
+  color: @gray-dark;
+  white-space: nowrap;
+  border: 1rpx solid @gray;
+  background-color: white;
+  height: 60rpx;
+  min-width: 30rpx;
+  border-radius: 30rpx;
+  // text-align: center;
+  // vertical-align: middle;
+  padding: 0 30rpx 0 30rpx;
+  display: flex;
+  justify-content:center;
+  align-content: center;
+  margin: 5rpx;
+
+  text {
+    display:inline-block;
+    vertical-align:middle;
+    line-height:normal;
+    margin:auto;
+  }
+
+  &.checked {
+    background-color: @primary;
+    border-color: @primary;
+  }
+}
 </style>
 
 <template>
   <view class="{{readonly ? 'value-selector-display' : 'value-selector-edit'}}">
     <block wx:if="{{!readonly}}">
       <view class="value-selector-item" wx:for="{{definition}}" wx:key="{{index}}">
-        <text class="value-label">{{item.label}}</text>
-        <switch checked="{{value & item.value}}" data-value="{{item.value}}" bindchange="toggle" color="#FFCC00"/>
+        <view class="{{(value & item.value) ? 'value-tag checked' : 'value-tag'}}" data-value="{{item.value}}" @tap="toggle">
+          <text>{{item.label}}</text>
+        </view>
       </view>
     </block>
     <block class="readonly" wx:if="{{readonly}}">
@@ -82,8 +116,9 @@
 
     methods = {
       toggle(e) {
-        const v = e.target.dataset.value;
+        const v = e.currentTarget.dataset.value;
         this.owner[this.key] ^= v;
+        console.log('toggle', this.key, v, e);
       },
     }
   }
