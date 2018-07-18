@@ -6,8 +6,7 @@
 	<view style="overflow:hidden">
 		<view class="cards">
 			<repeat for="{{activities}}">
-				<activityBar wx:if="{{!loading}}" 
-				:style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
+				<activityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
 				</activityBar>
 			</repeat>
 		</view>
@@ -29,6 +28,7 @@ import imageService from '@/util/imageService'
 import loginService from '@/util/loginService';
 import mapService from '@/util/mapService';
 import favoriteService from '@/util/favoriteService';
+import cacheService from "@/util/cacheService";
 import ActivityBar from '../components/activityBar'
 	
 export default class Landing extends wepy.page {
@@ -40,9 +40,7 @@ export default class Landing extends wepy.page {
 	}
 	data = {
 		i: null,
-		loading: true,
 		showsSearchBar: false,
-		loading: true,
 		lng: 0,
 		lat: 0,
 		keywords: '',
@@ -65,7 +63,7 @@ export default class Landing extends wepy.page {
 
 	async onLoad (options) {
 		this.setPageUx('map_title');
-		this.refresh();
+		this.loadLastestSearchResult();
 	}
 	
 	pollTillLoggedIn() {
@@ -73,29 +71,52 @@ export default class Landing extends wepy.page {
 		setInterval()
 	}
 
-	onShow() {
+	async onShow() {
 		this.setPageUx('map_title');
-		amb.i18nTabbar();
+		try{
+			wepy.showLoading();
+			amb.i18nTabbar();
+			await this.loadLastestSearchResult();
+		}finally{
+			wepy.hideLoading();
+		}
 	}
 
-	onPullDownRefresh () {
-		this.refresh(true);
+	async onPullDownRefresh () {
+		await this.refreshSearch();
 	}
 
 	gotoSearchSetting() {
 		wx.navigateTo({url: '/pages/search/filter'});
 	}
 
-	async refresh(force = false) {
-		const activities = await activityService.getRecommended(force);
+	async loadLastestSearchResult() {
+		const cached = cacheService.for('search').get();
+		const activities = cached || await activityService.getRecommended(force);
 		this.updateData({
 			activities: activities,
-			loading: false
 		})
 	}
 
-	async loadFromLastSearch() {
-		
+	async refreshSearch() {
+		const opt = cacheService.for('search_opt').get() || {};
+		const location = await mapService.getCurrentAddress();
+		const query = Object.assign({
+			clat: location.latitude,
+			clng: location.longitude,
+		}, opt)
+
+		// Clean up query parameters
+		Object.keys(query).forEach(k => {
+			if(!query[k] && query[k] !== 0) {
+				delete query[k];
+			}
+		})
+
+		const activities = await activityService.search(query, true);
+		this.updateData({
+			activities: activities,
+		})
 	}
 }
 </script>

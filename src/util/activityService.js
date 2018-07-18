@@ -142,6 +142,7 @@ class ActivityService {
 
   async search(opt, force = false) {
     opt = opt || {};
+
     if(!force) {
       const cached = cacheService.for('search').get();
       if(cached) return cached;

@@ -4,7 +4,7 @@
 <template>
   <view>
     <view class="search-bar">
-      <input placeholder="{{i.search_keywards}}" maxLength="50" focus="autoFocus" bindinput="changeKeyword"/>
+      <input placeholder="{{i.search_keywards}}" maxLength="50" focus="autoFocus" bindinput="changeKeyword" value="{{opt.keywords}}"/>
     </view>
 
     <view class="panel">   
@@ -73,6 +73,7 @@ import amb from '@/util/amb'
 import ValueSelector from '../components/valueSelector'
 import activityService from '@/util/activityService'
 import mapService from '@/util/mapService'
+import cacheService from "@/util/cacheService";
 
 export default class Filter extends wepy.page {
   components = {
@@ -83,7 +84,7 @@ export default class Filter extends wepy.page {
     i: amb.pageI18nData,
     autoFocus: false,
     opt: {
-      key: '',
+      keywords: '',
       startDate: '',
       endDate: '',
       startTime: '',
@@ -98,7 +99,7 @@ export default class Filter extends wepy.page {
   methods = {
     changeKeyword(e) {
       this.updateData({
-        'opt.key': e.detail.value
+        'opt.keywords': e.detail.value
       });
     },
     startDateChange(e) {
@@ -132,6 +133,9 @@ export default class Filter extends wepy.page {
         clat: location.latitude,
         clng: location.longitude,
       }, this.opt)
+
+      // Save the query condition
+      cacheService.for('search_opt').set(null, this.opt);
 
       // Clean up query parameters
       Object.keys(query).forEach(k => {
@@ -223,10 +227,13 @@ export default class Filter extends wepy.page {
       value: 64
     }];
 
+    const cached_opt = cacheService.for('search_opt').get();
+    const opt = cached_opt || this.opt;
 
     this.updateData({
       categoryDefinition,
-      dowDefinition
+      dowDefinition,
+      opt
     });
   }
 }
