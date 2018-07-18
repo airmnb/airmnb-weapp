@@ -24,7 +24,7 @@ page {
 <template>
 	<view class="view-width">
 		<text class="logo">{{i.welcome_title}}</text>
-		<view class="view-width" wx:if="{{!loading}}">
+		<view class="view-width" wx:if="{{!loading && false}}">
 			<text class="sub-title">{{i.login_use_wechat}}</text>
 			<view class="panel">
 				<view class="panel-item warning">
@@ -41,23 +41,6 @@ page {
 				</view>
 			</view>
 		</view>
-		<!-- <form bindsubmit="nativeAccountLogin">
-      <view class="panel">
-    		<text class="sub-title">{{i.mine_ongoing}}</text>
-        <view class="panel-item">
-          <input name="account" type="{{type}}"/>
-        </view>
-    		<text class="sub-title">{{i.mine_ongoing}}</text>
-				<view class="panel-item">
-          <input name="account" type="{{type}}"/>
-        </view>
-      </view>
-      <view class="panel">
-        <view class="panel-item">
-          <button formType="submit">{{i.button_ok}}</button>
-        </view>
-      </view>
-    </form> -->
 	</view>
 	
 </template>
@@ -103,21 +86,33 @@ page {
 			wepy.showLoading({mask: true})
 			try{
 				this.setPageUx('map_title');
-				const hasSession = await loginService.checkSession();
-				if(hasSession) {
-					await loginService.login();
-					wepy.switchTab({
-						url: '/pages/search/landing'
-					})
-					return;
-				}
-
-				this.updateData({
-					loading: false
-				})
+				// await this.loadWithManualLogin();
+				await this.immidiateLogin();
 			}finally{
-				wepy.hideLoading()
+				wepy.hideLoading();
 			}
+		}
+
+		async immidiateLogin(){
+			await loginService.login();
+			wepy.switchTab({
+				url: '/pages/search/landing'
+			})
+		}
+
+		async loadWithManualLogin(){
+			const hasSession = await loginService.checkSession();
+			if(hasSession) {
+				await loginService.login();
+				wepy.switchTab({
+					url: '/pages/search/landing'
+				})
+				return;
+			}
+
+			this.updateData({
+				loading: false
+			});
 		}
 	}
 </script>

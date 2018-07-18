@@ -4,7 +4,7 @@
 <template>
   <view>
     <view class="search-bar">
-      <input placeholder="{{i.search_keywards}}" maxLength="50" focus=“autoFocus”/>
+      <input placeholder="{{i.search_keywards}}" maxLength="50" focus="autoFocus"/>
     </view>
 
     <view class="panel">   
