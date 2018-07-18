@@ -4,7 +4,7 @@
 <template>
   <view>
     <view class="search-bar">
-      <input placeholder="{{i.search_keywards}}" maxLength="50" focus="autoFocus"/>
+      <input placeholder="{{i.search_keywards}}" maxLength="50" focus="autoFocus" bindinput="changeKeyword"/>
     </view>
 
     <view class="panel">   
@@ -68,145 +68,166 @@
   </view>
 </template>
 <script>
-  import wepy from 'wepy'
-  import amb from '@/util/amb'
-  import ValueSelector from '../components/valueSelector'
+import wepy from 'wepy'
+import amb from '@/util/amb'
+import ValueSelector from '../components/valueSelector'
+import activityService from '@/util/activityService'
+import mapService from '@/util/mapService'
 
-  export default class Filter extends wepy.page {
-    components = {
-      dowSelector: ValueSelector,
-      categorySelector: ValueSelector
-    }
-    data = {
-      i: amb.pageI18nData,
-      autoFocus: false,
-      opt: {
-        startDate: '',
-        endDate: '',
-        startTime: '',
-        endTime: '',
-        daysOfWeek: 127,
-        category: 0,
-        freeOnly: false
-      },
-      categoryDefinition: [],
-      dowDefinition: []
-    }
-    methods = {
-      startDateChange(e) {
-        this.updateData({
-          'opt.startDate': e.detail.value
-        });
-      },
-      startTimeChange(e) {
-        this.updateData({
-          'opt.startTime': e.detail.value
-        });
-      },
-      endDateChange(e) {
-        this.updateData({
-          'opt.endDate': e.detail.value
-        });
-      },
-      endTimeChange(e) {
-        this.updateData({
-          'opt.endTime': e.detail.value
-        });
-      },
-      toggleFreeOnly() {
-        this.updateData({
-          'opt.freeOnly': !this.opt.freeOnly
-        });
-      },
-      async search() {
-        wepy.navigateBack();
-      }
-    }
-
-    onLoad(option) {
-      this.setPageUx('searchconfig_title');
+export default class Filter extends wepy.page {
+  components = {
+    dowSelector: ValueSelector,
+    categorySelector: ValueSelector
+  }
+  data = {
+    i: amb.pageI18nData,
+    autoFocus: false,
+    opt: {
+      key: '',
+      startDate: '',
+      endDate: '',
+      startTime: '',
+      endTime: '',
+      daysOfWeek: 127,
+      category: 0,
+      freeOnly: false
+    },
+    categoryDefinition: [],
+    dowDefinition: []
+  }
+  methods = {
+    changeKeyword(e) {
       this.updateData({
-        autoFocus: !!option.focus
+        'opt.key': e.detail.value
       });
-    }
+    },
+    startDateChange(e) {
+      this.updateData({
+        'opt.startDate': e.detail.value
+      });
+    },
+    startTimeChange(e) {
+      this.updateData({
+        'opt.startTime': e.detail.value
+      });
+    },
+    endDateChange(e) {
+      this.updateData({
+        'opt.endDate': e.detail.value
+      });
+    },
+    endTimeChange(e) {
+      this.updateData({
+        'opt.endTime': e.detail.value
+      });
+    },
+    toggleFreeOnly() {
+      this.updateData({
+        'opt.freeOnly': !this.opt.freeOnly
+      });
+    },
+    async search() {
+      const location = await mapService.getCurrentAddress();
+      const query = Object.assign({
+        clat: location.latitude,
+        clng: location.longitude,
+      }, this.opt)
 
-    onShow() {
-      const categoryDefinition = [
-        {
-          label: this.i.cat_edu,
-          value: 2
-        },
-        {
-          label: this.i.cat_public,
-          value: 4
-        },
-        {
-          label: this.i.cat_care,
-          value: 8
-        },
-        {
-          label: this.i.cat_playgroup,
-          value: 16
-        },
-        {
-          label: this.i.cat_coach,
-          value: 32
-        },
-        {
-          label: this.i.cat_entertainment,
-          value: 64
-        },
-        {
-          label: this.i.cat_health,
-          value: 128
-        },
-        {
-          label: this.i.cat_new,
-          value: 256
-        },
-        {
-          label: this.i.cat_stuff,
-          value: 512
-        },
-        {
-          label: this.i.cat_other,
-          value: 1
+      // Clean up query parameters
+      Object.keys(query).forEach(k => {
+        if(!query[k] && query[k] !== 0) {
+          delete query[k];
         }
-      ];
-      const dowDefinition = [
+      })
+      await activityService.search(query, true);
+      wepy.navigateBack();
+    }
+  }
+
+  onLoad(option) {
+    this.setPageUx('searchconfig_title');
+    this.updateData({
+      autoFocus: !!option.focus
+    });
+  }
+
+  onShow() {
+    const categoryDefinition = [
       {
-        label: this.i.dow_mon_s,
-        value: 1
-      },
-      {
-        label: this.i.dow_tue_s,
+        label: this.i.cat_edu,
         value: 2
       },
       {
-        label: this.i.dow_wed_s,
+        label: this.i.cat_public,
         value: 4
-      }, 
+      },
       {
-        label: this.i.dow_thu_s,
+        label: this.i.cat_care,
         value: 8
       },
       {
-        label: this.i.dow_fri_s,
+        label: this.i.cat_playgroup,
         value: 16
-      },{
-        label: this.i.dow_sat_s,
-        value: 32
-      }, 
+      },
       {
-        label: this.i.dow_sun_s,
+        label: this.i.cat_coach,
+        value: 32
+      },
+      {
+        label: this.i.cat_entertainment,
         value: 64
-      }];
+      },
+      {
+        label: this.i.cat_health,
+        value: 128
+      },
+      {
+        label: this.i.cat_new,
+        value: 256
+      },
+      {
+        label: this.i.cat_stuff,
+        value: 512
+      },
+      {
+        label: this.i.cat_other,
+        value: 1
+      }
+    ];
+    const dowDefinition = [
+    {
+      label: this.i.dow_mon_s,
+      value: 1
+    },
+    {
+      label: this.i.dow_tue_s,
+      value: 2
+    },
+    {
+      label: this.i.dow_wed_s,
+      value: 4
+    }, 
+    {
+      label: this.i.dow_thu_s,
+      value: 8
+    },
+    {
+      label: this.i.dow_fri_s,
+      value: 16
+    },{
+      label: this.i.dow_sat_s,
+      value: 32
+    }, 
+    {
+      label: this.i.dow_sun_s,
+      value: 64
+    }];
 
 
-      this.updateData({
-        categoryDefinition,
-        dowDefinition
-      });
-    }
+    this.updateData({
+      categoryDefinition,
+      dowDefinition
+    });
   }
+}
 </script>

@@ -140,6 +140,23 @@ class ActivityService {
     return activities;  
   }
 
+  async search(opt, force = false) {
+    opt = opt || {};
+    if(!force) {
+      const cached = cacheService.for('search').get();
+      if(cached) return cached;
+    }
+
+    const resp = await apiClient.get('activities/search', opt);
+    const activities = this.setAvatarImageUrl(resp.activities)
+
+    // cache
+    activities.forEach(x => this.cache.set(x.activityId, x));
+    cacheService.for('search').set(null, activities);
+
+    return activities;
+  }
+
   async getAvailabilities(activityId) {
     const resp = await apiClient.get(`activities/${activityId}/timeslots`);
     return resp.timeslots;

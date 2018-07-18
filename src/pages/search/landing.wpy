@@ -93,5 +93,9 @@ export default class Landing extends wepy.page {
 			loading: false
 		})
 	}
+
+	async loadFromLastSearch() {
+		
+	}
 }
 </script>
