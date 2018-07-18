@@ -128,23 +128,28 @@ export default class Filter extends wepy.page {
       });
     },
     async search() {
-      const coord = await mapService.getCurrentCoordinate();
-      const query = Object.assign({
-        clat: coord.latitude,
-        clng: coord.longitude,
-      }, this.opt)
+      try{
+        wepy.showLoading();
+        const coord = await mapService.getCurrentCoordinate();
+        const query = Object.assign({
+          clat: coord.latitude,
+          clng: coord.longitude,
+        }, this.opt)
 
-      // Save the query condition
-      cacheService.for('search_opt').set(null, this.opt);
+        // Save the query condition
+        cacheService.for('search_opt').set(null, this.opt);
 
-      // Clean up query parameters
-      Object.keys(query).forEach(k => {
-        if(!query[k] && query[k] !== 0) {
-          delete query[k];
-        }
-      })
-      await activityService.search(query, true);
-      wepy.navigateBack();
+        // Clean up query parameters
+        Object.keys(query).forEach(k => {
+          if(!query[k] && query[k] !== 0) {
+            delete query[k];
+          }
+        })
+        await activityService.search(query, true);
+        wepy.navigateBack();
+      }finally{
+        wepy.hideLoading();
+      }
     }
   }
 

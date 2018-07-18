@@ -73,13 +73,8 @@ export default class Landing extends wepy.page {
 
 	async onShow() {
 		this.setPageUx('map_title');
-		try{
-			wepy.showLoading();
-			amb.i18nTabbar();
-			await this.loadLastestSearchResult();
-		}finally{
-			wepy.hideLoading();
-		}
+		amb.i18nTabbar();
+		await this.loadLastestSearchResult();
 	}
 
 	async onPullDownRefresh () {
