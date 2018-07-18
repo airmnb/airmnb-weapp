@@ -41,7 +41,6 @@ export default class extends wepy.app {
 			'pages/provider/edit_activity', 
 			'pages/provider/edit_venue', 
 			'pages/mine/mine', 
-			'pages/setting/setting',
 			'pages/setting/profile',
 			'pages/setting/edit_baby',
 			'pages/controls/textarea',

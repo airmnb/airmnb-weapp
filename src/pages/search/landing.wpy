@@ -92,7 +92,7 @@ export default class Landing extends wepy.page {
 
 	async loadLastestSearchResult() {
 		const cached = cacheService.for('search').get();
-		const activities = cached || await activityService.getRecommended(force);
+		const activities = cached || await activityService.getRecommended(true);
 		this.updateData({
 			activities: activities,
 		})
@@ -100,10 +100,10 @@ export default class Landing extends wepy.page {
 
 	async refreshSearch() {
 		const opt = cacheService.for('search_opt').get() || {};
-		const location = await mapService.getCurrentAddress();
+		const coord = await mapService.getCurrentCoordinate();
 		const query = Object.assign({
-			clat: location.latitude,
-			clng: location.longitude,
+			clat: coord.latitude,
+			clng: coord.longitude,
 		}, opt)
 
 		// Clean up query parameters

@@ -128,10 +128,10 @@ export default class Filter extends wepy.page {
       });
     },
     async search() {
-      const location = await mapService.getCurrentAddress();
+      const coord = await mapService.getCurrentCoordinate();
       const query = Object.assign({
-        clat: location.latitude,
-        clng: location.longitude,
+        clat: coord.latitude,
+        clng: coord.longitude,
       }, this.opt)
 
       // Save the query condition
