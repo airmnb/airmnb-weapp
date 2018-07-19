@@ -59,7 +59,7 @@
         <view class="label">{{i.activity_dayofweek}}</view>
         <repeat class="value" for="{{[0]}}">
           <!-- Use repeat to work around wepy component -->
-          <dowSelector :value="activity.daysOfWeek" key="daysOfWeek" :owner.sync="activity" :readonly="!addMode"
+          <dowSelector :value.sync="activity.daysOfWeek" key="daysOfWeek" :owner.sync="activity" :readonly.sync="!addMode"
           :definition="dowDefinition"
           class="value"></dowSelector>
         </repeat>
@@ -68,7 +68,7 @@
         <view class="label">{{i.cat_title}}</view>
         <repeat class="value" for="{{[0]}}">
           <!-- Use repeat to work around wepy component -->
-          <categorySelector :value="activity.category" key="category" :owner.sync="activity" :readonly="false"
+          <categorySelector :value.sync="activity.category" key="category" :owner.sync="activity" :readonly.sync="!addMode"
           :definition="categoryDefinition"
           class="value"></categorySelector>
         </repeat>

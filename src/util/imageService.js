@@ -77,8 +77,7 @@ class ImageService {
       name: 'dataFile'}
     )
   }
-
-  
 }
+
 const imageService = new ImageService();
 export default imageService;
