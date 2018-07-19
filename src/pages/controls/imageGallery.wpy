@@ -8,6 +8,8 @@ page {
   <view>
     <form bindsubmit="save">
       <view class="image-panel">
+        <canvas class="compress-canvas" canvas-id="imageCompressCanvas"/>
+
         <view class="image-avatar" wx:for="{{imageUrls}}" wx:key="index" wx:for-item="imageUrl">
           <view class="image-card image-placeholder"></view>
           <image class="image-card image-image" src="{{imageUrl}}" mode="aspectFill" data-index="{{index}}" bindtap="preview"/>
