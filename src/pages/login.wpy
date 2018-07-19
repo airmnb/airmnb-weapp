@@ -1,118 +1,112 @@
 <style lang="less">
 page {
-	height: 100%;
-	width: 100%;
+  height: 100%;
+  width: 100%;
 
-	& view.view-width {
-		height: 100%;
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		// justify-content: center;
-		align-content: center;
-	}
+  & view.view-width {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    align-content: center;
+  }
 }
 
 .logo {
-	font-size: x-large;
-	text-align: center;
-	margin: 100rpx 0 100rpx 0;
+  font-size: x-large;
+  text-align: center;
+  margin: 100rpx 0 100rpx 0;
 }
 
 </style>
 
 <template>
-	<view class="view-width">
-		<text class="logo">{{i.welcome_title}}</text>
-		<view class="view-width" wx:if="{{!loading && false}}">
-			<text class="sub-title">{{i.login_use_wechat}}</text>
-			<view class="panel">
-				<view class="panel-item warning">
-					<button @tap="loginWithWechat">{{i.login_title}}</button>
-				</view>
-			</view>
-			<text class="sub-title">{{i.login_choose_language}}</text>
-			<view class="panel panel-language">
-				<view class="panel-item">
-					<button @tap="chooseChinese">简体中文</button>
-				</view>
-				<view class="panel-item">
-					<button @tap="chooseEnglish">English</button>
-				</view>
-			</view>
-		</view>
-	</view>
-	
+  <view class="view-width">
+    <text class="logo">{{i.welcome_title}}</text>
+    <view class="view-width" wx:if="{{!loading && false}}">
+      <text class="sub-title">{{i.login_use_wechat}}</text>
+      <view class="panel">
+        <view class="panel-item warning">
+          <button @tap="loginWithWechat">{{i.login_title}}</button>
+        </view>
+      </view>
+      <text class="sub-title">{{i.login_choose_language}}</text>
+      <view class="panel panel-language">
+        <view class="panel-item">
+          <button @tap="chooseChinese">简体中文</button>
+        </view>
+        <view class="panel-item">
+          <button @tap="chooseEnglish">English</button>
+        </view>
+      </view>
+    </view>
+  </view>
+  
 </template>
 <script>
-	import wepy from 'wepy'
-	import amb from '@/util/amb'
-	import loginService from '@/util/loginService';
-	import mapService from '@/util/mapService';
-	
-	export default class LoginPage extends wepy.page {
-		data = {
-			i: null,
-			loading: true,
-		}
+import wepy from 'wepy'
+import amb from '@/util/amb'
+import loginService from '@/util/loginService'
 
-		methods = {
-			loginWithWechat() {
-				this.wechatLogin();
-			},
-			nativeAccountLogin(e) {
-				// pending
-			},
-			chooseChinese(){
-				amb.chooseLanguage('zh_CN');
-  			this.setPageUx('map_title');
-			},
-			chooseEnglish(){
-				amb.chooseLanguage('en');
-  			this.setPageUx('map_title');
-			}
-		}
+export default class LoginPage extends wepy.page {
+  data = {
+    i: null,
+    loading: true
+  }
 
-		async wechatLogin() {
-			wepy.showLoading({mask: true});
-			// Wechat login and get Airmnb user
-			await loginService.login();
-			wepy.switchTab({
-				url: '/pages/search/landing'
-			})
-		}
+  methods = {
+    loginWithWechat() {
+      this.wechatLogin()
+    },
+    chooseChinese() {
+      amb.chooseLanguage('zh_CN')
+      this.setPageUx('map_title')
+    },
+    chooseEnglish() {
+      amb.chooseLanguage('en')
+      this.setPageUx('map_title')
+    }
+  }
 
-		async onLoad() {
-			wepy.showLoading({mask: true})
-			try{
-				this.setPageUx('map_title');
-				// await this.loadWithManualLogin();
-				await this.immidiateLogin();
-			}finally{
-				wepy.hideLoading();
-			}
-		}
+  async wechatLogin() {
+    wepy.showLoading({mask: true})
+    await loginService.login()
+    wepy.switchTab({
+      url: '/pages/search/landing'
+    })
+  }
 
-		async immidiateLogin(){
-			await loginService.login();
-			wepy.switchTab({
-				url: '/pages/search/landing'
-			})
-		}
+  async onLoad() {
+    wepy.showLoading({mask: true})
+    try {
+      this.setPageUx('map_title')
+      await this.immidiateLogin()
+    } finally {
+      wepy.hideLoading()
+    }
+  }
 
-		async loadWithManualLogin(){
-			const hasSession = await loginService.checkSession();
-			if(hasSession) {
-				await loginService.login();
-				wepy.switchTab({
-					url: '/pages/search/landing'
-				})
-				return;
-			}
+  async immidiateLogin() {
+    await loginService.login()
+    wepy.switchTab({
+      url: '/pages/search/landing'
+    })
+  }
 
-			this.updateData({
-				loading: false
-			});
-		}
-	}
+  async loadWithManualLogin() {
+    const hasSession = await loginService.checkSession()
+    if (hasSession) {
+      await loginService.login()
+      wepy.switchTab({
+        url: '/pages/search/landing'
+      })
+      return
+    }
+
+    this.updateData({
+      loading: false
+    })
+  }
+}
 </script>
