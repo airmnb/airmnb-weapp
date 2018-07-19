@@ -72,7 +72,6 @@
 <template>
   <view class="value-selector">
     <block>
-      value{{value}} readonly {{readonly}}
       <view class="value-selector-item" wx:for="{{definition}}" wx:key="{{index}}">
         <view class="{{(value & item.value) ? 'value-tag checked' : 'value-tag'}}" data-value="{{item.value}}" @tap="toggle">
           <text>{{item.label}}</text>
