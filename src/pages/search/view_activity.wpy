@@ -74,7 +74,7 @@
       <canvas class="qrcode" canvas-id="purchaseQrcode"></canvas>
       <text selectable="true" class="purchase-id uuid">{{purchase.purchaseId}}</text>
     </view>
-    <swiper class="panel image-scroll" indicator-dots="{{imageUrls.length>1}}" autoplay="true"
+    <swiper wx:if="{{imageUrls.length}}" class="panel image-scroll" indicator-dots="{{imageUrls.length>1}}" autoplay="true"
      scroll-x scroll-with-animation>
       <block wx:for="{{imageUrls}}" wx:for-item="imageUrl">
         <swiper-item>

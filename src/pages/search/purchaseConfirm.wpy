@@ -61,7 +61,7 @@
 <template>
   <navigator url="{{navigateTo}}">
     <view class="{{'activity-' + (style || 'card')}}">
-      <image class="activity-avatar" src="{{activity.avatarImageUrl}}" mode="aspectFill" />
+      <image wx:if="{{activity.avatarImageUrl}}" class="activity-avatar" src="{{activity.avatarImageUrl}}" mode="aspectFill" />
       <view class="activity-content">
         <text class="secondary-text">{{activity.name}}</text>
         <text class="info-text activity-info">{{activity.info}}</text>
