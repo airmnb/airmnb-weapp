@@ -3,7 +3,7 @@
 @gray-dark: #888888;
 @primary: #FFCC00;
 
-.value-selector-edit {
+.value-selector {
   display: flex;
   width: 100%;
   flex-direction: row;
@@ -70,7 +70,7 @@
 </style>
 
 <template>
-  <view class="value-selector-edit">
+  <view class="value-selector">
     <block>
       value{{value}} readonly {{readonly}}
       <view class="value-selector-item" wx:for="{{definition}}" wx:key="{{index}}">
@@ -105,7 +105,6 @@
 
     methods = {
       toggle(e) {
-        console.log('is readonly', this.readonly, this)
         if(this.readonly) return;
         const v = e.currentTarget.dataset.value;
         this.owner[this.key] ^= v;

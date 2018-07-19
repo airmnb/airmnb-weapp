@@ -40,7 +40,12 @@ class ImageService {
     const info = await wepy.getImageInfo({
       src: bigImagePath
     })
-    // return bigImagePath;
+    
+    // TODO: Always return the big image for now
+    // until we know why image uploading/downloading is so slow on prod.
+    return bigImagePath;
+
+
     if(info.width <= width && info.height <= height) {
       // Return if the image is small enough.
       return bigImagePath;
