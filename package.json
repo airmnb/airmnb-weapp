@@ -10,7 +10,7 @@
     "clean": "find ./dist -maxdepth 1 -not -name 'project.config.json' -not -name 'dist' | xargs rm -rf",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --fix ./src/**/*.wpy",
-    "size": "du -sh ./dist"
+    "size": "npm run clean && npm run build && du -sh ./dist"
   },
   "wepy": {
     "module-a": false,
