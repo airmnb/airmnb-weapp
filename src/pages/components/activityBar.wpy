@@ -79,11 +79,11 @@
       <image wx:if="{{activity.avatarImageUrl || style == 'bar'}}" class="{{activity.avatarImageUrl ? 'activity-avatar' : 'activity-avatar activity-avatar-placeholder'}}" src="{{activity.avatarImageUrl}}" mode="aspectFill"/>
       <view class="activity-content">
         <text class="secondary-text">{{activity.name}}</text>
-        <text class="info-text activity-info">{{activity.info}}</text>
+        <text class="{{style === 'card' ? 'info-text' : 'info-text activity-info'}}">{{activity.info}}</text>
         <text class="info-text">{{displayDate}}</text>
-        <text class="info-text">{{activity.price}}</text>
+        <text class="info-text">{{activity.price ? i.activity_price_not_free : i.activity_price_free}}</text>
       </view>
-      <view wx:if="{{style==='card'}}" class="favorite" catchtap="toggleFavorite">
+      <view wx:if="{{style === 'card'}}" class="favorite" catchtap="toggleFavorite">
         <image wx:if="{{!activity.favoriteId}}" src="../../icons/heart-o.svg"/>
         <image wx:if="{{activity.favoriteId}}" src="../../icons/heart.svg"/>
       </view>
@@ -118,7 +118,7 @@ export default class ActivityBar extends wepy.component {
       if(a.endDate) {
         const d = amb.parseDateTime(a.endDate);
       }
-      return a.startTime + ' - ' + a.endTime;
+      return `${a.startTime} - ${a.endTime}`;
     }
   }
   methods = {
