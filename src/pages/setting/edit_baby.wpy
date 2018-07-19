@@ -5,7 +5,7 @@
   <view>
     <view class="panel" bindtap="chooseImage">
       <text class="sub-title">{{i.baby_avatar}}</text>
-      <image class="avatar-upload" src="{{avatarSrcUrl}}" mode="aspectFill"></image>
+      <image class="avatar-upload" src="{{avatarSrcUrl}}" mode="aspectFill"/>
     </view>
     <view class="panel">
       <navigator url="/pages/controls/input?key=baby.nickName&value={{baby.nickName || ''}}&label={{i.baby_nickname}}" 
@@ -32,7 +32,7 @@
       </view>
       <navigator url="/pages/controls/textarea?key=baby.info&value={{baby.info || ''}}&label={{i.baby_desc}}" 
         hover-class="navigator-hover">{{i.baby_desc}}
-        <text class="value text-elipsis">{{baby.info || ''}}</text>
+        <text class="value text-ellipsis">{{baby.info || ''}}</text>
       </navigator>
     </view>
     <view class="panel">
@@ -42,7 +42,7 @@
     </view>
     <view class="panel" wx:if="{{!addMode}}">
       <view class="panel-item warning">
-        <button @tap="delete">{{i.button_delete}}</button>
+        <button bindtap="delete">{{i.button_delete}}</button>
       </view>
     </view>
   </view>

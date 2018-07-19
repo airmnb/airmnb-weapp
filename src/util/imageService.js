@@ -74,7 +74,7 @@ class ImageService {
       'Content-Type': 'multipart/form-data'
     });
     const path = await smallPathPromise;
-    console.log('small iamge', path);
+    console.log('small image', path);
     return await wepy.uploadFile({
       url: apiClient.path2Url('/images'),
       header: header,

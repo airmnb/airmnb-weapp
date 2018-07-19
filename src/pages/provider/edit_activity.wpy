@@ -9,7 +9,7 @@
       </navigator>
       <navigator url="/pages/controls/textarea?key=activity.info&value={{activity.info}}&label={{i.activity_info}}" 
         hover-class="navigator-hover" class="required">{{i.activity_info}}
-        <text class="value text-elipsis">{{activity.info}}</text>
+        <text class="value text-ellipsis">{{activity.info}}</text>
       </navigator>
     </view>
     <view class="panel">
@@ -18,13 +18,13 @@
         range="{{venueRange}}" range-key="{{'label'}}"> 
         <view class="panel-item required">
           <text class="label">{{i.activity_venue}}</text>
-          <text class="value text-elipsis">{{venueName}}</text>
+          <text class="value text-ellipsis">{{venueName}}</text>
         </view>
       </picker>
       <!-- Edit mode: see venue name only -->
       <view class="panel-item" wx:if="{{!addMode}}">
         <text class="label">{{i.activity_venue}}</text>
-        <text class="value text-elipsis">{{venueName}}</text>
+        <text class="value text-ellipsis">{{venueName}}</text>
       </view>
       <picker mode="date" disabled="{{!addMode}}" value="{{activity.startDate}}" start="2018-01-01" end="2028-12-31" bindchange="startDateChange">  
         <view class="panel-item required">

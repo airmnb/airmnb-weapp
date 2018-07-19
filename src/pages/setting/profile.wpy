@@ -64,6 +64,15 @@
         <view class="image-card image-placeholder" bindtap="addBaby">+</view>
       </view>
     </view>
+    <!-- <text class="sub-title">{{i.provider_profile_msg}}</text>
+    <view class="panel">
+      <navigator url="/pages/controls/textarea?key=user.info&value={{user.info}}&label={{i.provider_info}}" 
+      hover-class="navigator-hover" class="required">{{i.provider_info}}<text class="value">{{user.info}}</text>
+      </navigator>
+      <navigator url="/pages/controls/textarea?key=user.certificates&value={{user.certificates}}&label={{i.provider_certificates}}" 
+      hover-class="navigator-hover">{{i.provider_certificates}}<text class="value">{{user.certificates}}</text>
+      </navigator>
+    </view> -->
     <view class="panel">
       <view class="panel-item warning">
         <button @tap="save">{{i.button_save}}</button>

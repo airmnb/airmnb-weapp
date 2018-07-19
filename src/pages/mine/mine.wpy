@@ -23,7 +23,7 @@ page {
       </scroll-view>
       <swiper current="{{currentTab}}" duration="300" style="height:{{swiperHeight}}rpx;" bindchange="switchTab">
         <swiper-item wx:for="{{[0,1,2]}}" wx:key="{{index}}">
-            <scroll-view scroll-y="true" class="scoll-h activity-panel">
+            <scroll-view scroll-y="true" class="scroll-h activity-panel">
               <view class="list-no-content" wx:if="{{(!activities || !activities.length) && (!purchases || !purchases.length)}}">{{i.list_no_content}}</view>
 							<repeat for="{{activities}}" wx:if="{{activities && activities.length}}">
 								<activityBar wx:if="{{!loading}}" :style="'bar'"

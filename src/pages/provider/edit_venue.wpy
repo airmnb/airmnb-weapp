@@ -39,7 +39,7 @@
       </navigator>
       <navigator url="/pages/controls/textarea?key=venue.info&value={{venue.info || ''}}&label={{i.venue_info}}" 
         hover-class="navigator-hover">{{i.venue_info}}
-        <text class="value text-elipsis">{{venue.info || ''}}</text>
+        <text class="value text-ellipsis">{{venue.info || ''}}</text>
       </navigator>
     </view>
     <view class="panel">
@@ -49,7 +49,7 @@
     </view>
     <view class="panel" wx:if="{{!addMode}}">
       <view class="panel-item warning">
-        <button @tap="delete">{{i.button_delete}}</button>
+        <button bindtap="delete">{{i.button_delete}}</button>
       </view>
     </view>
   </view>
