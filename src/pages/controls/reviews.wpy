@@ -13,6 +13,10 @@ page {
   }
 }
 
+.review-list {
+	height: ~"calc(100% - 415rpx)";
+}
+
 .review {
   padding: 10rpx;
   border-bottom: 1px solid @gray;
@@ -45,7 +49,7 @@ page {
     border: 1rpx solid @gray;
     border-radius: 8rpx;
     background-color: @white;
-    width: 708rpx;
+    width: 686rpx;
     margin: 0 20rpx 0 20rpx;
     padding: 10rpx;
   }
@@ -76,19 +80,21 @@ page {
 
 <template>
   <view>
-    <view class="review" wx:for="{{reviews}}" wx:key="reviewId">
-      <view class="reviewer">{{item.reviewId}}</view>
-      <view class="review-content">{{item.content}}</view>
-      <view class="review-info">
-        <view class="staring">
-          <view wx:for="{{[1,2,3,4,5]}}" wx:key="index" wx:for-item="starIndex">
-            <image class="small-star" wx:if="{{starIndex <= item.stars}}" src="../../icons/star.svg"/>
-            <image class="small-star" wx:else src="../../icons/star-o.svg"/>
+    <scroll-view scroll-y class="review-list">
+      <view class="review" wx:for="{{reviews}}" wx:key="reviewId">
+        <view class="reviewer">{{item.reviewId}}</view>
+        <view class="review-content">{{item.content}}</view>
+        <view class="review-info">
+          <view class="staring">
+            <view wx:for="{{[1,2,3,4,5]}}" wx:key="index" wx:for-item="starIndex">
+              <image class="small-star" wx:if="{{starIndex <= item.stars}}" src="../../icons/star.svg"/>
+              <image class="small-star" wx:else src="../../icons/star-o.svg"/>
+            </view>
           </view>
+          <view class="review-time">{{item.datetime}}</view>
         </view>
-        <view class="review-time">{{item.datetime}}</view>
       </view>
-    </view>
+    </scroll-view>
     <view class="post-review search-bar">
       <view class="staring">
         <view wx:for="{{[1,2,3,4,5]}}" wx:key="index" data-value="{{item}}" @tap="rankStar">
