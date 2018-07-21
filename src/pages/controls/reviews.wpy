@@ -1,0 +1,176 @@
+<style lang="less">
+@gray: #D0D0D0;
+@gray-dark: #888888;
+@white: #FFFFFF;
+@primary: #FFCC00;
+@secondary: #03a9f4;
+page {
+  height: 100%;
+
+  & > view {
+    height: 100%;
+    position: relative;
+  }
+}
+
+.review {
+  padding: 10rpx;
+  border-bottom: 1px solid @gray;
+
+  .reviewer {
+    font-size: 0.6rem;
+    color: @gray-dark;
+  }
+
+  .review-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .review-time {
+      font-size: 0.6rem;
+      color: @secondary;
+    }
+  }
+}
+
+.post-review {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid @gray;
+
+  textarea {
+    height: 4rem;
+    border: 1rpx solid @gray;
+    border-radius: 8rpx;
+    background-color: @white;
+    width: 708rpx;
+    margin: 0 20rpx 0 20rpx;
+    padding: 10rpx;
+  }
+  
+  button {
+    background-color: @primary;
+  }
+}
+
+.staring {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+
+  .star {
+    margin: 20rpx;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .small-star {
+    width: 0.6rem;
+    height: 0.6rem;
+  }
+}
+
+</style>
+
+<template>
+  <view>
+    <view class="review" wx:for="{{reviews}}" wx:key="reviewId">
+      <view class="reviewer">{{item.reviewId}}</view>
+      <view class="review-content">{{item.content}}</view>
+      <view class="review-info">
+        <view class="staring">
+          <view wx:for="{{[1,2,3,4,5]}}" wx:key="index" wx:for-item="starIndex">
+            <image class="small-star" wx:if="{{starIndex <= item.stars}}" src="../../icons/star.svg"/>
+            <image class="small-star" wx:else src="../../icons/star-o.svg"/>
+          </view>
+        </view>
+        <view class="review-time">{{item.datetime}}</view>
+      </view>
+    </view>
+    <view class="post-review search-bar">
+      <view class="staring">
+        <view wx:for="{{[1,2,3,4,5]}}" wx:key="index" data-value="{{item}}" @tap="rankStar">
+          <image class="star" wx:if="{{item <= stars}}" src="../../icons/star.svg"/>
+          <image class="star" wx:else src="../../icons/star-o.svg"/>
+        </view>
+      </view>
+      <textarea placeholder="{{i.search_keywords}}" maxLength="100" bindinput="inputReviewContent"/>
+      <button class="button" @tap="save">{{i.button_ok}}</button>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import amb from '@/util/amb'
+import activityService from '@/util/activityService'
+
+export default class Reviews extends wepy.page {
+  config = {
+  }
+
+  data = {
+    i: amb.pageI18nData,
+    activityId: null,
+    stars: 5,
+    content: '',
+    reviews: [],
+  }
+
+  methods = {
+    rankStar(e) {
+      const stars = parseInt(e.currentTarget.dataset.value);
+      this.updateData({
+        stars
+      })
+    },
+    inputReviewContent(e) {
+      this.updateData({
+        'content': e.detail.value
+      })
+    },
+    async save(){
+      if(/^\s*$/.test(this.content)) return;
+      const review = {
+        activityId: this.activityId,
+        stars: this.stars,
+        content: this.content
+      }
+      try{
+        await activityService.saveReview(review);
+      }catch(e) {
+        wx.showToast({
+          title: e.message
+        })
+      }
+      wepy.navigateBack();
+    }
+  }
+
+  onLoad(options) {
+    const activityId = options.activityId;
+    if(!activityId) throw new Error('activityId is not specified');
+    this.updateData({
+      activityId
+    });
+    this.setPageUx('button_reviews'); 
+    this.loadReviews(activityId);
+  }
+
+  async loadReviews(activityId) {
+    try{
+      wepy.showLoading({mask: true});
+      const reviews = await activityService.getReviews(activityId);
+      reviews.forEach(x => {
+        x.datetime = new Date(x.createdAt).toYMDHM()
+      })
+      this.updateData({
+        reviews
+      });
+    }finally{
+      wepy.hideLoading();
+    }
+  }
+}
+</script>

@@ -46,6 +46,7 @@ export default class extends wepy.app {
 			'pages/controls/textarea',
 			'pages/controls/input',
       'pages/controls/imageGallery', 
+      'pages/controls/reviews', 
     ],
 		window: {
 			backgroundTextStyle: 'dark',

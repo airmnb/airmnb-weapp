@@ -2,7 +2,7 @@ import wepy from 'wepy';
 import i18n from '@/util/i18n'
 
 let isProd = true;
-isProd = false;
+// isProd = false;
 const amb = amb || {};
 const defaultLanguage = 'zh_CN';
 const now = new Date();
@@ -154,6 +154,15 @@ Date.prototype.toYMD = function() {
 	const month = (this.getMonth() + 101).toString().substring(1);
 	const day = (this.getDate() + 100).toString().substring(1);
 	return year + "-" + month + "-" + day;
+}
+
+Date.prototype.toYMDHM = function() {
+	const year = this.getFullYear().toString();
+	const month = (this.getMonth() + 101).toString().substring(1);
+	const day = (this.getDate() + 100).toString().substring(1);
+	const hour = this.getHours();
+	const minute = this.getMinutes();
+	return `${year}/${month}/${day} ${hour}:${minute}`;
 }
 
 const drawCanvas = function(canvas) {

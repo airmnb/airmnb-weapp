@@ -141,7 +141,8 @@ const i18n = {
     "list_no_content": "No content",
     "map_button_map": "Map",
     "map_button_filter": "Filter",
-    "search_activity_only": "Free activity only"
+    "search_activity_only": "Free activity only",
+    "review_content_placeholder": "Your review comment"
   },
   "zh_CN": {
     "tabbar_search": "搜索",
@@ -285,7 +286,8 @@ const i18n = {
     "list_no_content": "无内容",
     "map_button_map": "地图",
     "map_button_filter": "过滤",
-    "search_activity_only": "仅限免费活动"
+    "search_activity_only": "仅限免费活动",
+    "review_content_placeholder": "评论内容"
   },
   "zh_TW": {}
 }

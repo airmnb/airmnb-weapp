@@ -63,6 +63,15 @@ class ActivityService {
     return activities;
   }
 
+  async getReviews(activityId) {
+    const resp = await apiClient.get(`reviews/activity/${activityId}`);
+    return resp.reviews;
+  }
+
+  async saveReview(review) {
+    await apiClient.post(`reviews`, review);
+  }
+
   // isValid(activity) {
   //   let isStartValid = true;
   //   if(activity.startDate) {
