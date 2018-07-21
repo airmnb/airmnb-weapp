@@ -1,11 +1,23 @@
 <style lang="less">
-
+.sub-title-header {
+	margin-top: 20rpx;
+	margin-bottom: 10rpx;
+}
 </style>
 
 <template>
 	<view style="overflow:hidden">
+    <text class="sub-title sub-title-header">{{i.landing_search_result}}</text>
 		<view class="cards">
+			<text wx:if="{{!activities.length}}" class="list-no-content">{{i.landing_search_empty}}</text>
 			<repeat for="{{activities}}">
+				<activityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
+				</activityBar>
+			</repeat>
+		</view>
+		<text class="sub-title sub-title-header">{{i.landing_recommended}}</text>
+		<view class="cards">
+			<repeat for="{{recommended}}">
 				<activityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
 				</activityBar>
 			</repeat>
@@ -44,7 +56,8 @@ export default class Landing extends wepy.page {
 		lng: 0,
 		lat: 0,
 		keywords: '',
-		activities: []
+		activities: [],
+		recommended: []
 	}
 
 	methods = {
@@ -108,9 +121,13 @@ export default class Landing extends wepy.page {
 			}
 		})
 
-		const activities = await activityService.search(query, true);
+		const activitiesTask = activityService.search(query, true);
+		const recommendedTask = activityService.getRecommended(true);
+		const result = await Promise.all([activitiesTask, recommendedTask]); 
+		console.log('result', result);
 		this.updateData({
-			activities: activities,
+			activities: result[0],
+			recommended: result[1]
 		})
 	}
 }
