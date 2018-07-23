@@ -31,10 +31,9 @@ swiper {
   width: 100%;
 }
 
-.button-add-activity {
+.float-button {
 	position: absolute;
 	bottom: 40rpx;
-	right: 40rpx;
 	width: 100rpx;
 	height:100rpx;
 	border-radius: 50%;
@@ -47,16 +46,18 @@ swiper {
 		height: 40rpx;
 	}
 }
+
+.button-add {
+	right: 40rpx;	
+}
+
+.button-scan {
+	right: 160rpx;	
+}
 </style>
 
 <template>
   <view>
-		<view class="panel">
-      <navigator url="/pages/provider/venues" hover-class="navigator-hover">{{i.provider_venues}}</navigator>
-      <view class="panel-item nav-arrow">
-				<button class="btn-navigator" @tap="scanQrcode">{{i.provider_scan_code}}</button>
-			</view>
-    </view>
     <view class="" style="position:relative;">
       <scroll-view scroll-x="true" class="tab-h">
         <view class="tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="switchNav">
@@ -78,8 +79,11 @@ swiper {
         </swiper-item>
       </swiper>
     </view>
-    <view class="button-add-activity float-widget" @tap="add">
-      <image class="small-star" src="../../icons/plus.svg"/>
+    <view class="button-add float-button float-widget" @tap="add">
+      <image src="../../icons/plus.svg"/>
+		</view>
+		<view class="button-scan float-button float-widget" @tap="scanQrcode">
+      <image src="../../icons/qrcode.svg"/>
 		</view>
   </view>
 </template>
@@ -165,7 +169,7 @@ export default class Index extends wepy.page {
 		const clientHeight = res.windowHeight;
 		const clientWidth = res.windowWidth;
 		const rpxR = 750 / clientWidth;
-		const calc = clientHeight * rpxR - 340;
+		const calc = clientHeight * rpxR - 80;
 		this.updateData({
 			'swiperHeight': calc
 		});

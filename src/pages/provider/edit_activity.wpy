@@ -13,6 +13,7 @@
       </navigator>
     </view>
     <view class="panel">
+      <navigator url="/pages/provider/venues" hover-class="navigator-hover">{{i.provider_venues}}</navigator>
       <!-- Add mode: choose venue -->
       <picker mode="selector" wx:if="{{addMode}}" class="top-line" value="{{activity.venueId}}" bindchange="venueChange"
         range="{{venueRange}}" range-key="{{'label'}}"> 
