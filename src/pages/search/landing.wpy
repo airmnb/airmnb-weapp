@@ -43,7 +43,7 @@ import mapService from '@/util/mapService';
 import favoriteService from '@/util/favoriteService';
 import cacheService from "@/util/cacheService";
 import ActivityBar from '../components/activityBar'
-	
+
 export default class Landing extends wepy.page {
 	config = {
 		enablePullDownRefresh: false
@@ -90,7 +90,7 @@ export default class Landing extends wepy.page {
 			wepy.hideLoading()
 		}
 	}
-	
+
 	pollTillLoggedIn() {
 		const user = amb.config.user;
 		setInterval()
@@ -135,7 +135,7 @@ export default class Landing extends wepy.page {
 
 		const activitiesTask = activityService.search(query, true);
 		const recommendedTask = activityService.getRecommended(true);
-		const result = await Promise.all([activitiesTask, recommendedTask]); 
+		const result = await Promise.all([activitiesTask, recommendedTask]);
 		this.updateData({
 			activities: result[0],
 			recommended: result[1]

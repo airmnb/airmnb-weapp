@@ -117,7 +117,7 @@ export default class PurchaseConfirm extends wepy.component {
     const favoriteId = this.activity.favoriteId;
     if(favoriteId) {
       favoriteService.delete(favoriteId);
-      this.activity.favoriteId = null; 
+      this.activity.favoriteId = null;
     }else{
       this.activity.favoriteId = true;
       const fav = await favoriteService.add(this.activity);
