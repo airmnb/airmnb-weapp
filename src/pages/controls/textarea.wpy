@@ -11,11 +11,8 @@
             focus="true" name="input"/>
         </view>
       </view>
-
-      <view class="panel">
-        <view class="panel-item">
-          <button formType="submit">{{i.button_ok}}</button>
-        </view>
+      <view class="panel panel-buttons">
+        <button class="btn-block btn-primary" formType="submit">{{i.button_ok}}</button>
       </view>
     </form>
   </view>

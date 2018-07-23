@@ -73,10 +73,8 @@
       hover-class="navigator-hover">{{i.provider_certificates}}<text class="value">{{user.certificates}}</text>
       </navigator>
     </view> -->
-    <view class="panel">
-      <view class="panel-item warning">
-        <button @tap="save">{{i.button_save}}</button>
-      </view>
+    <view class="panel panel-buttons">
+      <button class="btn-block btn-primary" @tap="save">{{i.button_save}}</button>
     </view>
   </view>
 </template>

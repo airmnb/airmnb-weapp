@@ -6,7 +6,7 @@
 <template>
   <view>
     <view class="panel">
-      <view class="panel-item secondary">
+      <view class="panel-item secondary" @tap="chooseLocation">
         <button @tap="chooseLocation">{{i.button_choose_location}}</button>
       </view>
     </view>
@@ -42,15 +42,10 @@
         <text class="value text-ellipsis">{{venue.info || ''}}</text>
       </navigator>
     </view>
-    <view class="panel">
-      <view class="panel-item">
-        <button @tap="save">{{i.button_save}}</button>
-      </view>
-    </view>
-    <view class="panel" wx:if="{{!addMode}}">
-      <view class="panel-item warning">
-        <button bindtap="delete">{{i.button_delete}}</button>
-      </view>
+
+    <view class="panel panel-buttons">
+      <button class="btn-block btn-primary" bindtap="save">{{i.button_save}}</button>
+      <button wx:if="{{!addMode}}" class="btn-block" bindtap="delete">{{i.button_delete}}</button>
     </view>
   </view>
 </template>

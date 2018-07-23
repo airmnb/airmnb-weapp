@@ -136,6 +136,12 @@ image.icon {
   }
 }
 
+.panel-buttons {
+  background-color: transparent;
+  border: none;
+  display: block;
+}
+
 navigator.no-arrow::after{
   content: '';
 }
@@ -178,6 +184,8 @@ page {
   background-color: @primary;
   color: @black;
   border-color: @black;
+  // width: 100%;
+  // margin: 20rpx;
 }
 
 .btn-primary:active {
@@ -196,7 +204,7 @@ page {
   border-color: @secondary-dark;
 }
 
-.btn-block {
+button.btn-block {
   margin: 20rpx;
 }
 
@@ -204,7 +212,7 @@ page {
   width: 100%;
   border-bottom: 1rpx solid @gray;
 
-  button,input {
+  input {
     margin: 20rpx;
     height: 70rpx;
     display: flex;
@@ -221,17 +229,6 @@ page {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-  }
-  button:active {
-    background-color: @white;
-  }
-}
-
-.panel-item.warning {
-  background-color: @primary;
-
-  button {
-    background-color: @primary;
   }
 }
 

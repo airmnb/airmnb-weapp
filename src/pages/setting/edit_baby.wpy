@@ -35,15 +35,9 @@
         <text class="value text-ellipsis">{{baby.info || ''}}</text>
       </navigator>
     </view>
-    <view class="panel">
-      <view class="panel-item">
-        <button @tap="save">{{i.button_save}}</button>
-      </view>
-    </view>
-    <view class="panel" wx:if="{{!addMode}}">
-      <view class="panel-item warning">
-        <button bindtap="delete">{{i.button_delete}}</button>
-      </view>
+    <view class="panel panel-buttons">
+      <button class="btn-block btn-primary" bindtap="save">{{i.button_save}}</button>
+      <button class="btn-block" bindtap="delete">{{i.button_delete}}</button>
     </view>
   </view>
 </template>

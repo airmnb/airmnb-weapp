@@ -60,10 +60,8 @@
       </view>
     </view>
 
-    <view class="panel">
-      <view class="panel-item warning">
-        <button @tap="search">{{i.map_search_bar}}</button>
-      </view>
+    <view class="panel panel-buttons">
+      <button class="btn-block btn-primary" @tap="search">{{i.map_search_bar}}</button>
     </view>
   </view>
 </template>

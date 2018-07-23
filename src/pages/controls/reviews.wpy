@@ -53,10 +53,6 @@ page {
     margin: 0 20rpx 0 20rpx;
     padding: 10rpx;
   }
-  
-  button {
-    background-color: @primary;
-  }
 }
 
 .staring {
@@ -103,7 +99,7 @@ page {
         </view>
       </view>
       <textarea placeholder="{{i.search_keywords}}" maxLength="100" bindinput="inputReviewContent"/>
-      <button class="button" @tap="save">{{i.button_ok}}</button>
+      <button class="btn-block btn-primary" @tap="save">{{i.button_ok}}</button>
     </view>
   </view>
 </template>

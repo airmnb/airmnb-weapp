@@ -119,15 +119,9 @@
         </view>
       </picker>
     </view> -->
-    <view class="panel">
-      <view class="panel-item">
-        <button @tap="save">{{i.button_save}}</button>
-      </view>
-    </view>
-    <view class="panel" wx:if="{{!addMode}}">
-      <view class="panel-item warning">
-        <button @tap="deleteOne">{{i.button_delete}}</button>
-      </view>
+    <view class="panel panel-buttons">
+      <button class="btn-block btn-primary" @tap="save">{{i.button_save}}</button>
+      <button wx:if="{{!addMode}}" class="btn-block" @tap="deleteOne">{{i.button_delete}}</button>
     </view>
   </view>
 </template>
