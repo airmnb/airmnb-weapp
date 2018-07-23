@@ -338,7 +338,7 @@ export default class CalendarSelector extends wepy.page {
         availabilities: availabilities
       })
     }catch(e){
-      this.msg(e);
+      amb.showError(e)
     }finally{
       wepy.hideLoading();
     }

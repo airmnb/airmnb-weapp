@@ -166,20 +166,16 @@ Date.prototype.toYMDHM = function() {
 	return `${year}/${month}/${day} ${hour}:${minute}`;
 }
 
-const drawCanvas = function(canvas) {
-	return new Promise((res, rej) => {
-		canvas.draw(false, () => {
-			res();
-		});
-	});
-}
-
-function throwError(message, err) {
-	if(err === undefined) {
-		throw message;
-	}
-	const errDetails = err.toString();
-	throw new Error(`${message}: ${errDetails}`);
+amb.showError = function(e) {
+	wepy.hideLoading();
+	console.log('amb.showError', e)
+	wepy.showModal({
+		title: amb.pageI18nData.dialog_title_error,
+		content: e.toString(),
+		showCancel: false,
+		confirmColor: '#03a9f4',
+		confirmText: amb.pageI18nData.button_ok
+	})
 }
 
 amb.i18nTabbar = function(){

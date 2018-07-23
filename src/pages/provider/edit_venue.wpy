@@ -114,7 +114,7 @@ export default class AddVenue extends wepy.page {
         wepy.navigateBack();
       }catch(e){
         wepy.hideLoading();
-        this.msg(e);
+        amb.showError(e);
       }
     },
     async delete(){

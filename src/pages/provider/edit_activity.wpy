@@ -229,16 +229,16 @@ export default class EditActivity extends wepy.page {
         }else{
           await activityService.update(this.activity);
         }
-      }finally{
-        wepy.hideLoading();
-      }
 
-      // Refresh parent page
-      const pages = getCurrentPages();
-      const parentPage = pages[pages.length-2];
-      parentPage.refresh();
-  
-      wepy.navigateBack();
+        // Refresh parent page
+        const pages = getCurrentPages();
+        const parentPage = pages[pages.length-2];
+        parentPage.refresh();
+    
+        wepy.navigateBack();
+      }catch(e){
+        amb.showError(e);
+      }
     },
     async deleteOne(){
       const result = await wepy.showModal({
@@ -246,17 +246,22 @@ export default class EditActivity extends wepy.page {
         content: '',
       })
       if(result.cancel) return;
-      wepy.showLoading();
-      console.log('activity to delete', this.activity);
-      await activityService.delete(this.activity.activityId);
 
-      // Refresh parent page
-      const pages = getCurrentPages();
-      const parentPage = pages[pages.length-2];
-      parentPage.refresh();
-  
-      wepy.hideLoading();
-      wepy.navigateBack();
+      try{
+        wepy.showLoading();
+        console.log('activity to delete', this.activity);
+        await activityService.delete(this.activity.activityId);
+
+        // Refresh parent page
+        const pages = getCurrentPages();
+        const parentPage = pages[pages.length-2];
+        parentPage.refresh();
+    
+        wepy.hideLoading();
+        wepy.navigateBack();
+      }catch(e){
+        amb.showError(e);
+      }
     }
   }
 	async onLoad(options) {

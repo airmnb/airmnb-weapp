@@ -129,9 +129,8 @@ export default class Index extends wepy.page {
 			const purchaseId = ret.result;
 			try{
 				await purchaseService.confirm(purchaseId);
-				this.msg(this.i.provider_scan_success)
 			}catch(e) {
-				this.msg(e);
+        amb.showError(e);
 			}
 		}
 	};
@@ -161,6 +160,7 @@ export default class Index extends wepy.page {
 		try{
 			await providerService.get(userId);
 		}catch(e){
+      amb.showError(e)
 			wepy.navigateTo({url: '/pages/provider/provider_profile'});
 		}
 	}

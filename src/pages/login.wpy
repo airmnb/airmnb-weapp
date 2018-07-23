@@ -84,11 +84,7 @@ export default class LoginPage extends wepy.page {
       this.setPageUx('map_title')
       await this.immidiateLogin()
     } catch (e) {
-      console.log('login error', e);
-      const error = JSON.stringify(e);
-      this.updateData({
-        error
-      })
+      amb.showError(e);
     } finally {
       wepy.hideLoading()
       this.updateData({
