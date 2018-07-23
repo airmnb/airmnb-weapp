@@ -24,7 +24,7 @@ page {
 <template>
   <view class="view-width">
     <text class="logo">{{i.welcome_title}}</text>
-    <view class="view-width" wx:if="{{!loading || true}}">
+    <view class="view-width" wx:if="{{!loading}}">
       <text class="sub-title">{{i.login_use_wechat}}</text>
       <view class="panel">
         <view class="panel-item warning">
@@ -91,6 +91,9 @@ export default class LoginPage extends wepy.page {
       })
     } finally {
       wepy.hideLoading()
+      this.updateData({
+        loading: false
+      })
     }
   }
 

@@ -14,7 +14,7 @@ class LoginService {
   }
 
   async login(wechatUserInfo) {
-    // const wechatUserInfo = await this.getWechatUserInfo();
+    wechatUserInfo = wechatUserInfo || await this.getWechatUserInfo();
     console.log('wechatUserInfo', wechatUserInfo);
     const wechatNickName = wechatUserInfo.nickName;
     amb.chooseLanguage(wechatUserInfo.language);
