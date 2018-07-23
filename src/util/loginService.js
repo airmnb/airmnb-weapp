@@ -13,8 +13,8 @@ class LoginService {
     }
   }
 
-  async login() {
-    const wechatUserInfo = await this.getWechatUserInfo();
+  async login(wechatUserInfo) {
+    // const wechatUserInfo = await this.getWechatUserInfo();
     console.log('wechatUserInfo', wechatUserInfo);
     const wechatNickName = wechatUserInfo.nickName;
     amb.chooseLanguage(wechatUserInfo.language);
@@ -34,7 +34,7 @@ class LoginService {
       user = await this.getUserFromWhoAmI();
     }catch(e) {
       console.log('starting relogin due to', e);
-      const resp = await this.localLogin(wechatUserInfo);
+      const resp = await this.loginWithWechatUserInfo(wechatUserInfo);
       jwt = resp.sessionToken;
       this.setJwtToken(jwt);
       user = resp.user;
@@ -65,7 +65,7 @@ class LoginService {
   }
 
 
-  async localLogin(wechatUserInfo) {
+  async loginWithWechatUserInfo(wechatUserInfo) {
     const wechatNickName = wechatUserInfo.nickName;
     const language = wechatUserInfo.language;
     const wxResp = await wepy.login();

@@ -10,6 +10,7 @@ const timezoneOffsetMinutes = - now.getTimezoneOffset();
 const timeOffset = timezoneOffsetMinutes >= 0 ? '+' + timezoneOffsetMinutes : '' + timezoneOffsetMinutes;
 // const defaultLanguage = 'en';
 amb.config = { 
+	// app_url: isProd ? 'https://www.airmnb.com' : 'https://52.221.237.198', //'http://localhost:5000', 
 	app_url: isProd ? 'https://www.airmnb.com' : 'http://localhost:5000', 
 	api_version: '1.0',
 	language: defaultLanguage,
