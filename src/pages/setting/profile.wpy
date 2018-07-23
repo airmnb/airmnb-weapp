@@ -89,7 +89,7 @@
 
   export default class Profile extends wepy.page {
     config = {
-      enablePullDownRefresh: true,
+      enablePullDownRefresh: false,
     }
     data = {
       i: amb.pageI18nData,
@@ -156,7 +156,7 @@
     }
 
     onShow() {
-      this.setPageUx('setting_title');
+      this.setPageUx('profile_title');
 		  amb.i18nTabbar();
     }
 
@@ -213,7 +213,7 @@
 
     changeLanguage(lang) {
       amb.chooseLanguage(lang);
-      this.setPageUx('setting_title');
+      this.setPageUx('profile_title');
     }
   }
 </script>
