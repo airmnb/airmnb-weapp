@@ -130,6 +130,7 @@ export default class ActivityBar extends wepy.component {
   }
 
   async toggleFavorite() {
+    console.log('bar', this)
     const favoriteId = this.activity.favoriteId;
     if(favoriteId) {
       favoriteService.delete(favoriteId);

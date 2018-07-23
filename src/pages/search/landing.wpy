@@ -11,15 +11,15 @@
 		<view class="cards">
 			<text wx:if="{{!activities.length}}" class="list-no-content">{{i.landing_search_empty}}</text>
 			<repeat for="{{activities}}">
-				<activityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
-				</activityBar>
+				<searchActivityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
+				</searchActivityBar>
 			</repeat>
 		</view>
 		<text class="sub-title sub-title-header">{{i.landing_recommended}}</text>
 		<view class="cards">
 			<repeat for="{{recommended}}">
-				<activityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
-				</activityBar>
+				<recommendedActivityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
+				</recommendedActivityBar>
 			</repeat>
 		</view>
 		<view class="footer-nav">
@@ -48,7 +48,8 @@ export default class Landing extends wepy.page {
 		enablePullDownRefresh: true
 	};
 	components = {
-		activityBar: ActivityBar
+		searchActivityBar: ActivityBar,
+		recommendedActivityBar: ActivityBar
 	}
 	data = {
 		i: null,
