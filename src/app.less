@@ -12,6 +12,13 @@
 @white: #FFFFFF;
 @black: #000000;
 
+.float-widget {
+	background-color: @primary-transparent;
+	border: none;
+  box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+  color: @black;
+}
+
 .secondary-text {
   color: @secondary-dark;
   font-weight: bold;
@@ -405,14 +412,11 @@ page {
   // right: 0;
 
 	.footer-nav-item {
-		border: 1rpx solid @primary-dark;
     width: 200rpx;
     height: 80rpx;
-    background-color: @primary-transparent;
     display: flex;
     justify-content: center;
     align-content: center;
-    box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
 
     text {
       display: inline-block;

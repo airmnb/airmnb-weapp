@@ -23,10 +23,10 @@
 			</repeat>
 		</view>
 		<view class="footer-nav">
-			<navigator url="/pages/search/map" class="footer-nav-item">
+			<navigator url="/pages/search/map" class="footer-nav-item float-widget">
 				<text>{{i.map_button_map}}</text>
 			</navigator>
-			<navigator url="/pages/search/filter" class="footer-nav-item">
+			<navigator url="/pages/search/filter" class="footer-nav-item float-widget">
 				<text>{{i.map_button_filter}}</text>
 			</navigator>
 		</view>

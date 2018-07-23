@@ -1,5 +1,7 @@
 <style lang="less">
 @primary: #FFCC00;
+@primary-transparent: rgba(255, 204, 0, 0.8);
+@primary-dark: #BB9900;
 
 page {
 	padding: 0;
@@ -36,11 +38,13 @@ swiper {
 	width: 100rpx;
 	height:100rpx;
 	border-radius: 50%;
-	background-color: @primary;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
-	&::after {
-		content: '+';
-		font-size: 2rem;
+	image {
+		width: 40rpx;
+		height: 40rpx;
 	}
 }
 </style>
@@ -74,7 +78,9 @@ swiper {
         </swiper-item>
       </swiper>
     </view>
-    <view class="button-add-activity" @tap="add"></view>
+    <view class="button-add-activity float-widget" @tap="add">
+      <image class="small-star" src="../../icons/plus.svg"/>
+		</view>
   </view>
 </template>
 <script>
