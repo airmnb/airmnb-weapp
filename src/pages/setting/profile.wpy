@@ -61,7 +61,9 @@
         <image class="image-card image-image" src="{{baby.avatarSrcUrl}}" mode="aspectFill" />
       </navigator>
       <view class="image-avatar">
-        <view class="image-card image-placeholder" bindtap="addBaby">+</view>
+        <view class="image-card image-placeholder" bindtap="addBaby">
+          <image src="../../icons/plus.svg"/>
+        </view>
       </view>
     </view>
     <!-- <text class="sub-title">{{i.provider_profile_msg}}</text>

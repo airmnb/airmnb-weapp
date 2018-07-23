@@ -17,13 +17,13 @@ page {
           <icon class="image-delete" type="clear" size="30" color="red" data-index="{{index}}" bindtap="delete"/>
         </view>
         <view class="image-avatar">
-          <view class="image-card image-placeholder" bindtap="addImage">+</view>
+          <view class="image-card image-placeholder" bindtap="addImage">
+            <image src="../../icons/plus.svg"/>
+          </view>
         </view>
       </view>
-      <view class="panel">
-        <view class="panel-item">
-          <button formType="submit">{{i.button_ok}}</button>
-        </view>
+      <view class="panel panel-buttons">
+        <button class="btn-block btn-primary" formType="submit">{{i.button_ok}}</button>
       </view>
     </form>
   </view>
