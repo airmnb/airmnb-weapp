@@ -9,7 +9,7 @@
 
     <view class="panel">   
       <!-- Start time -->
-      <picker mode="date" value="{{opt.startDate}}" start="2018-01-01" end="2028-12-31" bindchange="startDateChange">  
+      <!-- <picker mode="date" value="{{opt.startDate}}" start="2018-01-01" end="2028-12-31" bindchange="startDateChange">  
         <view class="panel-item">
           <text class="label">{{i.activity_start_date}}</text>
           <text class="value">{{opt.startDate}}</text>
@@ -20,19 +20,19 @@
           <text class="label">{{i.activity_end_date}}</text>
           <text class="value">{{opt.endDate}}</text>
         </view>
-      </picker>
+      </picker> -->
       <picker mode="time" class="top-line" value="{{opt.startTime}}" start="06:00" end="20:00" bindchange="startTimeChange">  
         <view class="panel-item">
           <text class="label">{{i.activity_start_time}}</text>
           <text class="value">{{opt.startTime}}</text>
         </view>
       </picker>
-      <picker mode="time" class="top-line" value="{{opt.endTime}}" start="06:00" end="20:00" bindchange="endTimeChange">  
+      <!-- <picker mode="time" class="top-line" value="{{opt.endTime}}" start="06:00" end="20:00" bindchange="endTimeChange">  
         <view class="panel-item">
           <text class="label">{{i.activity_end_time}}</text>
           <text class="value">{{opt.endTime}}</text>
         </view>
-      </picker>
+      </picker> -->
       <view class="panel-item panel-item-v">
         <view class="label">{{i.activity_dayofweek}}</view>
         <repeat class="value" for="{{[0]}}">
