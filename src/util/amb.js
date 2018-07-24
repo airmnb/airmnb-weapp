@@ -166,11 +166,11 @@ Date.prototype.toYMDHM = function() {
 	return `${year}/${month}/${day} ${hour}:${minute}`;
 }
 
-amb.showError = function(e) {
+amb.showError = function(e, title) {
 	wepy.hideLoading();
 	console.log('amb.showError', e)
 	wepy.showModal({
-		title: amb.pageI18nData.dialog_title_error,
+		title: (!title && title !== '') ? amb.pageI18nData.dialog_title_error : title,
 		content: e.message || e.errMsg || e.name ||  e.toString(),
 		showCancel: false,
 		confirmColor: '#03a9f4',

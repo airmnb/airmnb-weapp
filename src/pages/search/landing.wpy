@@ -7,14 +7,15 @@
 
 <template>
 	<view style="overflow:hidden">
-    <text class="sub-title sub-title-header">{{i.landing_search_result}}</text>
-		<view class="cards">
-			<text wx:if="{{!activities.length}}" class="list-no-content">{{i.landing_search_empty}}</text>
-			<repeat for="{{activities}}">
-				<searchActivityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
-				</searchActivityBar>
-			</repeat>
-		</view>
+		<block wx:if="{{activities.length}}">
+			<text class="sub-title sub-title-header">{{i.landing_search_result}}</text>
+			<view class="cards">
+				<repeat for="{{activities}}">
+					<searchActivityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
+					</searchActivityBar>
+				</repeat>
+			</view>
+		</block>
 		<text class="sub-title sub-title-header">{{i.landing_recommended}}</text>
 		<view class="cards">
 			<repeat for="{{recommended}}">
@@ -56,7 +57,6 @@ export default class Landing extends wepy.page {
 		showsSearchBar: false,
 		lng: 0,
 		lat: 0,
-		keywords: '',
 		activities: [],
 		recommended: []
 	}
@@ -78,6 +78,10 @@ export default class Landing extends wepy.page {
 	async onLoad (options) {
 		this.setPageUx('map_title');
 		this.loadLastestSearchResult();
+		const recommended = await activityService.getRecommended(true);
+		this.updateData({
+			recommended
+		})
 	}
 	
 	pollTillLoggedIn() {
@@ -101,7 +105,7 @@ export default class Landing extends wepy.page {
 
 	async loadLastestSearchResult() {
 		const cached = cacheService.for('search').get();
-		const activities = cached || await activityService.getRecommended(true);
+		const activities = cached || []; // || await activityService.getRecommended(true);
 		this.updateData({
 			activities: activities,
 		})
@@ -125,7 +129,6 @@ export default class Landing extends wepy.page {
 		const activitiesTask = activityService.search(query, true);
 		const recommendedTask = activityService.getRecommended(true);
 		const result = await Promise.all([activitiesTask, recommendedTask]); 
-		console.log('result', result);
 		this.updateData({
 			activities: result[0],
 			recommended: result[1]

@@ -4,7 +4,7 @@
 <template>
   <view>
     <view class="search-bar">
-      <input placeholder="{{i.search_keywords}}" maxLength="50" focus="autoFocus" bindinput="changeKeyword" value="{{opt.keywords}}"/>
+      <input placeholder="{{i.search_keywords}}" maxLength="50" bindinput="changeKeyword" value="{{opt.keywords}}"/>
     </view>
 
     <view class="panel">   
@@ -80,7 +80,6 @@ export default class Filter extends wepy.page {
   }
   data = {
     i: amb.pageI18nData,
-    autoFocus: false,
     opt: {
       keywords: '',
       startDate: '',
@@ -126,6 +125,7 @@ export default class Filter extends wepy.page {
       });
     },
     async search() {
+      let activities;
       try{
         wepy.showLoading();
         const coord = await mapService.getCurrentCoordinate();
@@ -143,19 +143,22 @@ export default class Filter extends wepy.page {
             delete query[k];
           }
         })
-        await activityService.search(query, true);
-        wepy.navigateBack();
+        activities = await activityService.search(query, true);
+        if(activities.length) {
+          wepy.navigateBack();
+        }
       }finally{
         wepy.hideLoading();
+      }
+
+      if(!activities.length) {
+        amb.showError(this.i.landing_search_empty, '')
       }
     }
   }
 
   onLoad(option) {
     this.setPageUx('searchconfig_title');
-    this.updateData({
-      autoFocus: !!option.focus
-    });
   }
 
   onShow() {

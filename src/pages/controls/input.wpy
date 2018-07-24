@@ -10,10 +10,8 @@
           <input value="{{value}}" bindconfirm="ondone" focus="true" name="input" type="{{type}}"/>
         </view>
       </view>
-      <view class="{{type==='number' || type==='digit' ? 'panel' : 'hide'}}">
-        <view class="panel-item">
-          <button formType="submit">{{i.button_ok}}</button>
-        </view>
+      <view class="panel panel-buttons">
+        <button class="btn-block btn-primary" formType="submit">{{i.button_ok}}</button>
       </view>
     </form>
   </view>
