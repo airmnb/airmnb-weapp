@@ -142,12 +142,10 @@
         </view>
     </block>
 
-    <view class="panel">
+    <view class="panel panel-buttons">
       <picker mode="selector" value="{{babyId}}" bindchange="purchase" disabled="{{!selectedCount}}"
         range="{{babies}}" range-key="{{'nickName'}}"> 
-        <view class="panel-item warning">
-        <button>{{i.button_ok}}</button>
-      </view>
+        <button class="btn-block btn-primary">{{i.button_ok}}</button>
       </picker>
     </view>
   </view>
