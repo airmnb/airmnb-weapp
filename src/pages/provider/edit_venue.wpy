@@ -118,10 +118,7 @@ export default class AddVenue extends wepy.page {
       }
     },
     async delete(){
-      const result = await wepy.showModal({
-        title: amb.pageI18nData.baby_delete_confirm,
-        content: '',
-      })
+      const result = await amb.showConfirm(amb.pageI18nData.baby_delete_confirm)
       if(result.cancel) return;
       wepy.showLoading();
       console.log('venue to delete', this.baby);

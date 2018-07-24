@@ -178,6 +178,16 @@ amb.showError = function(e) {
 	})
 }
 
+amb.showConfirm = function(msg, title) {
+	return wepy.showModal({
+		title: title || '',
+		content: msg,
+		cancelText: amb.pageI18nData.button_cancel,
+		confirmColor: '#03a9f4',
+		confirmText: amb.pageI18nData.button_ok
+	})
+}
+
 amb.i18nTabbar = function(){
 	const list = amb.config.tabbars;
 	list.forEach(x => {

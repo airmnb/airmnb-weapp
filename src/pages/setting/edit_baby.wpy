@@ -92,10 +92,7 @@ export default class AddBaby extends wepy.page {
       wepy.navigateBack();
     },
     async delete(){
-      const result = await wepy.showModal({
-        title: amb.pageI18nData.baby_delete_confirm,
-        content: '',
-      })
+      const result = await amb.showConfirm(amb.pageI18nData.baby_delete_confirm)
       if(result.cancel) return;
       wepy.showLoading();
       console.log('baby to delete', this.baby);

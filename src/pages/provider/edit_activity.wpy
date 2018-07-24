@@ -241,10 +241,7 @@ export default class EditActivity extends wepy.page {
       }
     },
     async deleteOne(){
-      const result = await wepy.showModal({
-        title: amb.pageI18nData.activity_delete_confirm,
-        content: '',
-      })
+      const result = await amb.showConfirm(amb.pageI18nData.activity_delete_confirm)
       if(result.cancel) return;
 
       try{
