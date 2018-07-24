@@ -26,19 +26,13 @@ page {
     <text class="logo">{{i.welcome_title}}</text>
     <view class="view-width" wx:if="{{!loading}}">
       <text class="sub-title">{{i.login_use_wechat}}</text>
-      <view class="panel">
-        <view class="panel-item warning">
-          <button open-type="getUserInfo" bindgetuserinfo="loginWithWechat">{{i.login_title}}</button>
-        </view>
+      <view class="panel panel-buttons">
+        <button class="btn-block btn-primary" open-type="getUserInfo" bindgetuserinfo="loginWithWechat">{{i.login_title}}</button>
       </view>
       <text class="sub-title">{{i.login_choose_language}}</text>
-      <view class="panel panel-language">
-        <view class="panel-item">
-          <button @tap="chooseChinese">简体中文</button>
-        </view>
-        <view class="panel-item">
-          <button @tap="chooseEnglish">English</button>
-        </view>
+      <view class="panel panel-buttons">
+        <button class="btn-block" bindtap="chooseChinese">简体中文</button>
+        <button class="btn-block" bindtap="chooseEnglish">English</button>
       </view>
     </view>
   </view>

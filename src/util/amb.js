@@ -171,7 +171,7 @@ amb.showError = function(e) {
 	console.log('amb.showError', e)
 	wepy.showModal({
 		title: amb.pageI18nData.dialog_title_error,
-		content: e.toString(),
+		content: e.message || e.errMsg || e.name ||  e.toString(),
 		showCancel: false,
 		confirmColor: '#03a9f4',
 		confirmText: amb.pageI18nData.button_ok
