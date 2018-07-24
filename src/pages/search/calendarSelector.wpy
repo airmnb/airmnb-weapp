@@ -174,23 +174,30 @@ export default class CalendarSelector extends wepy.page {
 
   methods = {
     async purchase(e) {
-      const index = e.detail.value;
-      const babyId = this.babies[index].babyId;
-      const timeslotIds = this.availabilities
-      .filter(a => this.selectedDates.has(a.date))
-      .map(a => a.timeslotId);
+      try{
+        const index = e.detail.value;
+        const babyId = this.babies[index].babyId;
+        const timeslotIds = this.availabilities
+        .filter(a => this.selectedDates.has(a.date))
+        .map(a => a.timeslotId);
 
-      if(!babyId || !timeslotIds.length) throw new Error('Invalid arguments')
+        if(!babyId || !timeslotIds.length) throw new Error('Invalid arguments')
 
-      const purchase = await purchaseService.create(babyId, this.activityId, timeslotIds);
-      const purchaseId = purchase.purchaseId;
-      const activityId = purchase.activity.activityId;
-      await wepy.navigateBack({
-        delta: 3
-      })
-      wepy.navigateTo({
-        url: `/pages/search/view_activity?activityId=${activityId}&purchaseId=${purchaseId}`
-      });
+        wepy.showLoading()
+        const purchase = await purchaseService.create(babyId, this.activityId, timeslotIds);
+        const purchaseId = purchase.purchaseId;
+        const activityId = purchase.activity.activityId;
+        await wepy.navigateBack({
+          delta: 3
+        })
+        wepy.navigateTo({
+          url: `/pages/search/view_activity?activityId=${activityId}&purchaseId=${purchaseId}`
+        });
+      }catch(e) {
+        amb.showError(e)
+      }finally{
+        wepy.hideLoading()
+      }
     },
     selectAction(e) {
       console.log(e.currentTarget.dataset.object);
