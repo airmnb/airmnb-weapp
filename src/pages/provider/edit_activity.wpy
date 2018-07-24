@@ -217,12 +217,15 @@ export default class EditActivity extends wepy.page {
       });
     },
     async save() {
-      wepy.showLoading();
-      if(!this.activity.venueId) {
-        await this.setCurrentLocationAsVenue();
-      }
-      console.log('activity to save', this.activity);
+      // Required fileds check
+      if(!this.checkRequiredFiled()) return;
+      
       try{
+        wepy.showLoading();
+        if(!this.activity.venueId) {
+          await this.setCurrentLocationAsVenue();
+        }
+
         this.activity.timeOffset = amb.config.timeOffset;
         if(this.addMode) {
           await activityService.add(this.activity);
@@ -417,6 +420,17 @@ export default class EditActivity extends wepy.page {
     })
     wepy.stopPullDownRefresh();
     wepy.hideLoading();
+  }
+  checkRequiredFiled() {
+    return amb.checkRequired(this.activity, {
+      'name': this.i.activity_name,
+      'info': this.i.activity_info,
+      'venueId': this.i.activity_venue,
+      'startDate': this.i.activity_start_date,
+      'endDate': this.i.activity_end_date,
+      'startTime': this.i.activity_start_time,
+      'endTime': this.i.activity_end_time,
+    });
   }
 }
 </script>
