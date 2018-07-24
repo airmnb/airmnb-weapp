@@ -82,7 +82,6 @@
         <text class="{{style === 'card' ? 'info-text' : 'info-text activity-info'}}">{{activity.info}}</text>
         <text class="info-text">{{displayDate}}</text>
         <text class="info-text">{{activity.price ? i.activity_price_not_free : i.activity_price_free}}</text>
-        <navigator url="/pages/controls/reviews?activityId={{activity.activityId}}">{{i.button_reviews}}</navigator>
       </view>
       <view wx:if="{{style === 'card'}}" class="favorite" catchtap="toggleFavorite">
         <image wx:if="{{activity.favoriteId}}" src="../../icons/heart.svg"/>

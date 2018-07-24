@@ -11,9 +11,7 @@
   }
 }
 
-.light-text {
-  color: @secondary;
-}
+
 
 .activity-name {
   font-size: x-large;
@@ -88,9 +86,7 @@
       <text class="top-line">
         {{activity.info}}
       </text>
-    </view>
-    <view class="panel light-text">
-      {{i.button_reviews}}
+      <navigator class="light-text" url="/pages/controls/reviews?activityId={{activity.activityId}}">{{i.button_reviews}}</navigator>
     </view>
     <view>
       <view class="activity-info-container">
