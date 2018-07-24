@@ -96,9 +96,11 @@ export default class AddVenue extends wepy.page {
       });
     },
     async save() {
-      wepy.showLoading();
-      console.log('venue to save', this.venue)
+      // Required fileds check
+      if(!this.checkRequiredFiled()) return;
+
       try{
+        wepy.showLoading();
         if(this.addMode){
           await venueService.add(this.venue)
         }else {
@@ -110,11 +112,11 @@ export default class AddVenue extends wepy.page {
         const parentPage = pages[pages.length-2];
         if(parentPage.refresh) parentPage.refresh();
 
-        wepy.hideLoading();
         wepy.navigateBack();
       }catch(e){
-        wepy.hideLoading();
         amb.showError(e);
+      }finally {
+        wepy.hideLoading();
       }
     },
     async delete(){
@@ -165,6 +167,11 @@ export default class AddVenue extends wepy.page {
         info: '',
       }
     }
+  }
+  checkRequiredFiled() {
+    return amb.checkRequired(this.venue, {
+      'addr1': this.i.venue_addr1
+    });
   }
 }
 </script>
