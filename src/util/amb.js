@@ -8,6 +8,8 @@ const defaultLanguage = 'zh_CN';
 const now = new Date();
 const timezoneOffsetMinutes = - now.getTimezoneOffset();
 const timeOffset = timezoneOffsetMinutes >= 0 ? '+' + timezoneOffsetMinutes : '' + timezoneOffsetMinutes;
+const color_secondary = '#03a9f4';
+
 // const defaultLanguage = 'en';
 amb.config = { 
 	// app_url: isProd ? 'https://www.airmnb.com' : 'https://52.221.237.198', //'http://localhost:5000', 
@@ -173,7 +175,7 @@ amb.showError = function(e, title) {
 		title: (!title && title !== '') ? amb.pageI18nData.dialog_title_error : title,
 		content: e.message || e.errMsg || e.name ||  e.toString(),
 		showCancel: false,
-		confirmColor: '#03a9f4',
+		confirmColor: color_secondary,
 		confirmText: amb.pageI18nData.button_ok
 	})
 }
@@ -184,7 +186,7 @@ amb.showConfirm = function(msg, title) {
 		title: title || '',
 		content: msg,
 		cancelText: amb.pageI18nData.button_cancel,
-		confirmColor: '#03a9f4',
+		confirmColor: color_secondary,
 		confirmText: amb.pageI18nData.button_ok
 	})
 }
