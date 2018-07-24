@@ -1,5 +1,5 @@
 <style lang="less">
-@gray-dark: #888888;
+@gray: #D0D0D0;
 
 .activity-bar {
   margin-top: 20rpx;
@@ -18,7 +18,7 @@
     flex: 0 0 240rpx;
 
     &.activity-avatar-placeholder {
-      outline: 2rpx dashed @gray-dark;
+      outline: 2rpx dashed @gray;
       outline-offset: -2rpx;
     }
   }

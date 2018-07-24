@@ -18,7 +18,7 @@ page {
         </view>
         <view class="image-avatar">
           <view class="image-card image-placeholder" bindtap="addImage">
-            <image src="../../icons/plus.svg"/>
+            <image src="../../icons/plus-light.svg"/>
           </view>
         </view>
       </view>

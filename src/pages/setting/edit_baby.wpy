@@ -7,7 +7,7 @@
       <text class="sub-title">{{i.baby_avatar}}</text>
       <image class="avatar-upload" wx:if="{{avatarSrcUrl}}" src="{{avatarSrcUrl}}" mode="aspectFill"/>
       <view class="avatar-upload image-placeholder" wx:else>
-        <image src="../../icons/plus.svg"/>
+        <image src="../../icons/plus-light.svg"/>
       </view>
     </view>
     <view class="panel">

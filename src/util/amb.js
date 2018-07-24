@@ -2,7 +2,7 @@ import wepy from 'wepy';
 import i18n from '@/util/i18n'
 
 let isProd = true;
-isProd = false;
+// isProd = false;
 const amb = amb || {};
 const defaultLanguage = 'zh_CN';
 const now = new Date();
