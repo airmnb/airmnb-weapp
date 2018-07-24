@@ -78,6 +78,7 @@ export default class AddBaby extends wepy.page {
       });
     },
     async save() {
+      // Required fileds check
       if(!this.checkRequiredFiled()) return;
       try{
         wepy.showLoading();
