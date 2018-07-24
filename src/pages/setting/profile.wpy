@@ -3,20 +3,19 @@
 
 <template>
   <view>
-    <!-- <panel>Profile</panel> -->
-    <view class="panel">
+    <!-- <view class="panel">
       <view class="panel-item required">
         <text class="label">{{i.account_id}}</text>
         <text class="value uuid" selectable="true">{{user.userId}}</text>
-        <!-- <input class="uuid" value="{{user.id}}" disabled> -->
       </view>
-    </view>
+    </view> -->
 
     <view class="panel">
       <navigator url="/pages/controls/input?key=user.accountName&value={{user.accountName}}&label={{i.account_name}}" 
       hover-class="navigator-hover" class="required">{{i.account_name}}<text class="value">{{user.accountName}}</text>
       </navigator>
     </view>
+    <text class="sub-title">{{i.profile_my_info}}</text>
     <view class="panel">
       <navigator url="/pages/controls/input?key=user.fullName&value={{user.fullName}}&label={{i.fullname}}" 
       hover-class="navigator-hover">{{i.fullname}}<text class="value">{{user.fullName || ''}}</text>
