@@ -11,8 +11,6 @@
   }
 }
 
-
-
 .activity-name {
   font-size: x-large;
   color: @secondary-dark;
@@ -148,7 +146,7 @@ import drawQrcode from 'weapp-qrcode'
 
 export default class ViewActivity extends wepy.page {
   config = {
-    enablePullDownRefresh: true,
+    enablePullDownRefresh: false,
   }
   components = {
 		valueSelector: ValueSelector
