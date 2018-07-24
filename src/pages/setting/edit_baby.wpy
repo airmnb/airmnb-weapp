@@ -5,7 +5,10 @@
   <view>
     <view class="panel" bindtap="chooseImage">
       <text class="sub-title">{{i.baby_avatar}}</text>
-      <image class="avatar-upload" src="{{avatarSrcUrl}}" mode="aspectFill"/>
+      <image class="avatar-upload" wx:if="{{avatarSrcUrl}}" src="{{avatarSrcUrl}}" mode="aspectFill"/>
+      <view class="avatar-upload image-placeholder" wx:else>
+        <image src="../../icons/plus.svg"/>
+      </view>
     </view>
     <view class="panel">
       <navigator url="/pages/controls/input?key=baby.nickName&value={{baby.nickName || ''}}&label={{i.baby_nickname}}" 
@@ -75,36 +78,48 @@ export default class AddBaby extends wepy.page {
       });
     },
     async save() {
-      wepy.showLoading();
-      console.log('baby to save', this.baby);
-      if(this.addMode) {
-        await babyService.add(this.baby);
-      }else{
-        await babyService.update(this.baby);
-      }
+      if(!this.checkRequiredFiled()) return;
+      try{
+        wepy.showLoading();
+        console.log('baby to save', this.baby);
+        if(this.addMode) {
+          await babyService.add(this.baby);
+        }else{
+          await babyService.update(this.baby);
+        }
 
-      // Refresh parent page
-      const pages = getCurrentPages();
-      const parentPage = pages[pages.length-2];
-      parentPage.refresh();
-  
-      wepy.hideLoading();
-      wepy.navigateBack();
+        // Refresh parent page
+        const pages = getCurrentPages();
+        const parentPage = pages[pages.length-2];
+        parentPage.refresh();
+    
+        wepy.navigateBack();
+      }catch(e){
+        amb.showError(e)
+      }finally{
+        wepy.hideLoading();
+      }
     },
     async delete(){
       const result = await amb.showConfirm(amb.pageI18nData.baby_delete_confirm)
       if(result.cancel) return;
-      wepy.showLoading();
-      console.log('baby to delete', this.baby);
-      await babyService.delete(this.baby.babyId);
 
-      // Refresh parent page
-      const pages = getCurrentPages();
-      const parentPage = pages[pages.length-2];
-      parentPage.refresh();
-  
-      wepy.hideLoading();
-      wepy.navigateBack();
+      try{
+        wepy.showLoading();
+        console.log('baby to delete', this.baby);
+        await babyService.delete(this.baby.babyId);
+
+        // Refresh parent page
+        const pages = getCurrentPages();
+        const parentPage = pages[pages.length-2];
+        parentPage.refresh();
+    
+        wepy.navigateBack();
+      } catch(e) {
+        amb.showError(e);
+      } finally {
+        wepy.hideLoading();
+      }
     }
   }
 	onLoad(options) {
@@ -133,6 +148,11 @@ export default class AddBaby extends wepy.page {
     })
     wepy.stopPullDownRefresh();
     wepy.hideLoading();
+  }
+  checkRequiredFiled() {
+    return amb.checkRequired(this.baby, {
+      'nickName': this.i.baby_nickname
+    });
   }
 }
 </script>

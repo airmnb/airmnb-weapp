@@ -143,7 +143,8 @@ const i18n = {
     "map_button_filter": "Filter",
     "search_activity_only": "Free activity only",
     "review_content_placeholder": "Your review comment",
-    "dialog_title_error": "Error"
+    "dialog_title_error": "Error",
+    "dialog_title_missing_required_fields": "Required fields are empty"
   },
   "zh_CN": {
     "tabbar_search": "搜索",
@@ -289,7 +290,8 @@ const i18n = {
     "map_button_filter": "过滤",
     "search_activity_only": "仅限免费活动",
     "review_content_placeholder": "评论内容",
-    "dialog_title_error": "系统错误"
+    "dialog_title_error": "系统错误",
+    "dialog_title_missing_required_fields": "必填信息缺失"
   },
   "zh_TW": {}
 }

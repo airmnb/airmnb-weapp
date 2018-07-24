@@ -197,4 +197,20 @@ amb.i18nTabbar = function(){
 	});
 }
 
+amb.checkRequired = function(obj, propAndLabelDic) {
+	const invalids = [];
+	Object.keys(propAndLabelDic).forEach(k => {
+		const v = obj[k];
+		if (!v && v !==0) {
+			invalids.push(propAndLabelDic[k])
+		}
+	})
+	if(invalids.length) {
+		const msg = invalids.join(', ')
+		amb.showError(msg, amb.pageI18nData.dialog_title_missing_required_fields)
+		return false;
+	}
+	return true;
+}
+
 export default amb;
