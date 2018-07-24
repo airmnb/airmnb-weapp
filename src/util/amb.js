@@ -179,6 +179,7 @@ amb.showError = function(e, title) {
 }
 
 amb.showConfirm = function(msg, title) {
+	wepy.hideLoading();
 	return wepy.showModal({
 		title: title || '',
 		content: msg,
