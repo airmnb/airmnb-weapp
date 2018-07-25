@@ -13,7 +13,7 @@
 <template>
 	<view style="overflow:hidden">
 		<block wx:if="{{activities.length}}">
-			<text class="sub-title sub-title-header">{{i.landing_search_result}}({{activities.length}})</text>
+			<text class="sub-title sub-title-header">{{i.landing_search_result}} ({{activities.length}})</text>
 			<view class="cards">
 				<repeat for="{{activities}}">
 					<searchActivityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
@@ -23,7 +23,7 @@
 		</block>
 
 		<view class="separator"></view>
-		<text class="sub-title sub-title-header">{{i.landing_recommended}}({{recommended.length}})</text>
+		<text class="sub-title sub-title-header">{{i.landing_recommended}} ({{recommended.length}})</text>
 		<view class="cards">
 			<repeat for="{{recommended}}">
 				<recommendedActivityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
