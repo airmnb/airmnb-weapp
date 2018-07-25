@@ -144,7 +144,7 @@ export default class Reviews extends wepy.page {
       }catch(e) {
         amb.showError(e);
       }
-      wepy.navigateBack();
+      // wepy.navigateBack();
     }
   }
 
