@@ -191,13 +191,17 @@ export default class CalendarSelector extends wepy.page {
         const purchase = await purchaseService.create(babyId, this.activityId, timeslotIds);
         const purchaseId = purchase.purchaseId;
         const activityId = purchase.activity.activityId;
+        const confirmResult = await amb.showConfirm(this.i.pruchase_done_content, this.i.pruchase_done_title)
         await wepy.navigateBack({
-          delta: 3
+            delta: 3
         })
-        wepy.navigateTo({
-          url: `/pages/search/view_activity?activityId=${activityId}&purchaseId=${purchaseId}`
-        });
+        if(confirmResult.confirm) {
+          wepy.navigateTo({
+            url: `/pages/search/view_activity?activityId=${activityId}&purchaseId=${purchaseId}`
+          });
+        }
       }catch(e) {
+        console.log('purchase error', e)
         amb.showError(e)
       }finally{
         wepy.hideLoading()
@@ -354,7 +358,7 @@ export default class CalendarSelector extends wepy.page {
   }
   checkRequiredFiled(requiredFields) {
     return amb.checkRequired(requiredFields, {
-      'babyId': this.i.purchase_baby_required_field
+      'babyId': this.i.purchase_baby_required_field,
       'timeslotIds': this.i.purchase_timeslot_required_field
     });
   }
