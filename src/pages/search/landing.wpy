@@ -46,7 +46,7 @@ import ActivityBar from '../components/activityBar'
 	
 export default class Landing extends wepy.page {
 	config = {
-		enablePullDownRefresh: true
+		enablePullDownRefresh: false
 	};
 	components = {
 		searchActivityBar: ActivityBar,

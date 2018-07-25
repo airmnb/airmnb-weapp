@@ -127,7 +127,7 @@ export default class Filter extends wepy.page {
     async search() {
       let activities;
       try{
-        wepy.showLoading();
+        wepy.showLoading({mask: true});
         const coord = await mapService.getCurrentCoordinate();
         const query = Object.assign({
           clat: coord.latitude,
