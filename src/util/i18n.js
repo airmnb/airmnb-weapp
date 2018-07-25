@@ -297,7 +297,7 @@ const i18n = {
     "girl_only": "仅限女孩",
     "list_no_content": "无内容",
     "map_button_map": "地图",
-    "map_button_filter": "过滤",
+    "map_button_filter": "搜索",
     "search_activity_only": "仅限免费活动",
     "review_content_placeholder": "评论内容",
     "dialog_title_error": "系统错误",
