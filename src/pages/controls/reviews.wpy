@@ -115,14 +115,17 @@ export default class Reviews extends wepy.page {
   data = {
     i: amb.pageI18nData,
     activityId: null,
-    stars: 5,
+    stars: 3,
     content: '',
     reviews: [],
   }
 
   methods = {
     rankStar(e) {
-      const stars = parseInt(e.currentTarget.dataset.value);
+      let stars = parseInt(e.currentTarget.dataset.value);
+      if(stars === 1 && this.stars === 1) {
+        stars = 0
+      }
       this.updateData({
         stars
       })
