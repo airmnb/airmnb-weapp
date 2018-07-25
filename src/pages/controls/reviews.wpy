@@ -98,7 +98,7 @@ page {
           <image class="star" wx:else src="../../icons/star-o.svg"/>
         </view>
       </view>
-      <textarea placeholder="{{i.search_keywords}}" maxLength="100" bindinput="inputReviewContent"/>
+      <textarea placeholder="{{i.search_keywords}}" maxLength="100" bindinput="inputReviewContent" value="{{content}}"/>
       <button class="btn-block btn-primary" @tap="save">{{i.button_ok}}</button>
     </view>
   </view>
@@ -144,21 +144,24 @@ export default class Reviews extends wepy.page {
       }
       try{
         await activityService.saveReview(review);
+        await this.loadReviews(this.activityId);
+        this.updateData({
+          content: ''
+        })
       }catch(e) {
         amb.showError(e);
       }
-      // wepy.navigateBack();
     }
   }
 
-  onLoad(options) {
+  async onLoad(options) {
     const activityId = options.activityId;
     if(!activityId) throw new Error('activityId is not specified');
     this.updateData({
       activityId
     });
     this.setPageUx('button_reviews'); 
-    this.loadReviews(activityId);
+    await this.loadReviews(activityId);
   }
 
   async loadReviews(activityId) {
