@@ -181,7 +181,11 @@ export default class CalendarSelector extends wepy.page {
         .filter(a => this.selectedDates.has(a.date))
         .map(a => a.timeslotId);
 
-        if(!babyId || !timeslotIds.length) throw new Error('Invalid arguments')
+        const requiredFields = {
+          babyId,
+          timeslotIds: timeslotIds.length || ''
+        }
+        if(!this.checkRequiredFiled(requiredFields)) return;
 
         wepy.showLoading()
         const purchase = await purchaseService.create(babyId, this.activityId, timeslotIds);
@@ -347,6 +351,12 @@ export default class CalendarSelector extends wepy.page {
     }finally{
       wepy.hideLoading();
     }
+  }
+  checkRequiredFiled(requiredFields) {
+    return amb.checkRequired(requiredFields, {
+      'babyId': this.i.purchase_baby_required_field
+      'timeslotIds': this.i.purchase_timeslot_required_field
+    });
   }
   //初始化数据
   initData(start_year, start_month, months = 3) {
