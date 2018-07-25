@@ -2,13 +2,18 @@
 .sub-title-header {
 	margin-top: 20rpx;
 	margin-bottom: 10rpx;
+	font-size: 0.8rem;
+	font-weight: bold;
+}
+.separator {
+  margin: 40px;
 }
 </style>
 
 <template>
 	<view style="overflow:hidden">
 		<block wx:if="{{activities.length}}">
-			<text class="sub-title sub-title-header">{{i.landing_search_result}}</text>
+			<text class="sub-title sub-title-header">{{i.landing_search_result}}({{activities.length}})</text>
 			<view class="cards">
 				<repeat for="{{activities}}">
 					<searchActivityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
@@ -16,7 +21,9 @@
 				</repeat>
 			</view>
 		</block>
-		<text class="sub-title sub-title-header">{{i.landing_recommended}}</text>
+
+		<view class="separator"></view>
+		<text class="sub-title sub-title-header">{{i.landing_recommended}}({{recommended.length}})</text>
 		<view class="cards">
 			<repeat for="{{recommended}}">
 				<recommendedActivityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
@@ -43,7 +50,7 @@ import mapService from '@/util/mapService';
 import favoriteService from '@/util/favoriteService';
 import cacheService from "@/util/cacheService";
 import ActivityBar from '../components/activityBar'
-	
+
 export default class Landing extends wepy.page {
 	config = {
 		enablePullDownRefresh: false
@@ -90,7 +97,7 @@ export default class Landing extends wepy.page {
 			wepy.hideLoading()
 		}
 	}
-	
+
 	pollTillLoggedIn() {
 		const user = amb.config.user;
 		setInterval()
@@ -135,7 +142,7 @@ export default class Landing extends wepy.page {
 
 		const activitiesTask = activityService.search(query, true);
 		const recommendedTask = activityService.getRecommended(true);
-		const result = await Promise.all([activitiesTask, recommendedTask]); 
+		const result = await Promise.all([activitiesTask, recommendedTask]);
 		this.updateData({
 			activities: result[0],
 			recommended: result[1]

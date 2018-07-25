@@ -11,9 +11,9 @@ const timeOffset = timezoneOffsetMinutes >= 0 ? '+' + timezoneOffsetMinutes : ''
 const color_secondary = '#03a9f4';
 
 // const defaultLanguage = 'en';
-amb.config = { 
-	// app_url: isProd ? 'https://www.airmnb.com' : 'https://52.221.237.198', //'http://localhost:5000', 
-	app_url: isProd ? 'https://www.airmnb.com' : 'http://localhost:5000', 
+amb.config = {
+	// app_url: isProd ? 'https://www.airmnb.com' : 'https://52.221.237.198', //'http://localhost:5000',
+	app_url: isProd ? 'https://www.airmnb.com' : 'http://localhost:5000',
 	api_version: '1.0',
 	language: defaultLanguage,
 	timeOffset: timeOffset,
@@ -104,7 +104,7 @@ function translate(str) {
 }
 
 Object.defineProperty(String.prototype, 'i', {
-	get: function () { 
+	get: function () {
 		return translate(this);
 	},
 });
@@ -116,7 +116,7 @@ function refreshDic(){
 	Object.keys(i18n.en).forEach(k => {
 		amb.pageI18nData[k] = translate(k);
 		// Object.defineProperty(amb.pageI18nData, k, {
-		// 	get: function () { 
+		// 	get: function () {
 		// 		return translate(k);
 		// 	},
 		// });

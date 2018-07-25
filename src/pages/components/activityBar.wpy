@@ -27,7 +27,7 @@
 .activity-card {
   position: relative;
   flex: 0 0 200rpx;
-  margin: 10rpx;
+  margin: 30rpx 10rpx;
   border: 1px solid #ccc;
   box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
 
@@ -60,7 +60,20 @@
     // flex: 100%;
     margin-left: 10rpx;
     display: flex;
+    padding: 20rpx 10rpx;
     flex-direction: column;
+    text {
+      margin-bottom: 2rpx;
+    }
+     .star {
+       display: flex;
+       flex-direction: row;
+       justify-content: flex-start;
+        image{
+          width: 1rem;
+          height: 1rem;
+        }
+      }
   }
 
   .activity-info {
@@ -79,9 +92,16 @@
       <image wx:if="{{activity.avatarImageUrl || style == 'bar'}}" class="{{activity.avatarImageUrl ? 'activity-avatar' : 'activity-avatar activity-avatar-placeholder'}}" src="{{activity.avatarImageUrl}}" mode="aspectFill"/>
       <view class="activity-content">
         <text class="secondary-text">{{activity.name}}</text>
-        <text class="{{style === 'card' ? 'info-text' : 'info-text activity-info'}}">{{activity.info}}</text>
-        <text class="info-text">{{displayDate}}</text>
+        <text class="info-text">{{activity.venue.addr1}}</text>
+        <text class="info-text">{{displayLocalDay}}, {{displayLocalDate}}, {{displayLocalTime}}</text>
+        <text class="info-text"></text>
         <text class="info-text">{{activity.price ? i.activity_price_not_free : i.activity_price_free}}</text>
+        <view class="star">
+          <block wx:for="{{[1,2,3,4,5]}}" wx:key="index" data-value="{{item}}">
+             <image  wx:if="{{item <= reviewStars}}" src="../../icons/star.svg"/>
+             <image  wx:else src="../../icons/star-o.svg"/>
+           </block>
+        </view>
       </view>
       <view wx:if="{{style === 'card'}}" class="favorite" catchtap="toggleFavorite">
         <image wx:if="{{activity.favoriteId}}" src="../../icons/heart.svg"/>
@@ -94,6 +114,7 @@
 import wepy from 'wepy';
 import amb from '@/util/amb';
 import favoriteService from '@/util/favoriteService';
+import timeService from '@/util/timeService';
 
 export default class ActivityBar extends wepy.component {
   props = {
@@ -107,19 +128,45 @@ export default class ActivityBar extends wepy.component {
   }
   data = {
     i: amb.pageI18nData,
+    reviewStars:3
   }
   computed = {
-    displayDate() {
-      const a = this.activity;
-      if(!a) return '';
-      if(a.startDate) {
-        const d = amb.parseDateTime(a.startDate);
+    displayLocalDay() {
+      const temp = this.activity;
+      if(!temp||!temp.startDate) {
+        return '';
       }
-      if(a.endDate) {
-        const d = amb.parseDateTime(a.endDate);
+      console.log(temp);
+      let utcTime = `${temp.startDate} ${temp.startTime}`;
+      const localDay = timeService.getLocalDay(utcTime);
+      switch(localDay){
+        case 0: return this.i['dow_sun'];
+        case 1: return this.i['dow_mon'];
+        case 2: return this.i['dow_tue'];
+        case 3: return this.i['dow_wed'];
+        case 4: return this.i['dow_thu'];
+        case 5: return this.i['dow_fri'];
+        case 6: return this.i['dow_sat'];
       }
-      return `${a.startTime} - ${a.endTime}`;
-    }
+      return '';
+    },
+    displayLocalDate() {
+     const temp = this.activity;
+     if(!temp){
+        return '';
+     }
+     const utcStartTime = `${temp.startDate} ${temp.startTime}`;
+     return `${timeService.getLocalDate(utcStartTime)}`;
+    },
+    displayLocalTime() {
+     const temp = this.activity;
+     if(!temp){
+        return '';
+     }
+     const utcStartTime = `${temp.startDate} ${temp.startTime}`;
+     const utcEndTime = `${temp.endDate} ${temp.endTime}`;
+     return `${timeService.getLocalTime(utcStartTime)} - ${timeService.getLocalTime(utcEndTime)}`;
+   }
   }
   methods = {
     toggleFavorite(e){
@@ -129,11 +176,10 @@ export default class ActivityBar extends wepy.component {
   }
 
   async toggleFavorite() {
-    console.log('bar', this)
     const favoriteId = this.activity.favoriteId;
     if(favoriteId) {
       favoriteService.delete(favoriteId);
-      this.activity.favoriteId = null; 
+      this.activity.favoriteId = null;
     }else{
       this.activity.favoriteId = true;
       const fav = await favoriteService.add(this.activity);
