@@ -78,10 +78,17 @@ export default class Landing extends wepy.page {
 	async onLoad (options) {
 		this.setPageUx('map_title');
 		this.loadLastestSearchResult();
-		const recommended = await activityService.getRecommended(true);
-		this.updateData({
-			recommended
-		})
+		try{
+			wepy.showLoading({mask: true})
+			const recommended = await activityService.getRecommended(true);
+			this.updateData({
+				recommended
+			})
+		}catch(e){
+			amb.showError(e)
+		}finally{
+			wepy.hideLoading()
+		}
 	}
 	
 	pollTillLoggedIn() {
