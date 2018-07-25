@@ -27,7 +27,7 @@
 .activity-card {
   position: relative;
   flex: 0 0 200rpx;
-  margin: 30rpx 10rpx;
+  margin-bottom: 30rpx;
   border: 1px solid #ccc;
   box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
 
