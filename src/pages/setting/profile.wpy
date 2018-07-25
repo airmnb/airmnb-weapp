@@ -108,11 +108,17 @@
 
     methods = {
       async save() {
-        wepy.showLoading();
-        Object.assign(amb.config.user, this.user);
-        await userService.save(this.user);
-        wepy.hideLoading();
-        wepy.navigateBack();
+        // Required fileds check
+        if(!this.checkRequiredFiled()) return;
+        try{
+          wepy.showLoading();
+          Object.assign(amb.config.user, this.user);
+          await userService.save(this.user);
+          wepy.hideLoading();
+          wepy.navigateBack()
+        }catch(e){
+          amb.showError(e)
+        }
       },
       setGender(e) {
         this.updateData({
@@ -213,6 +219,12 @@
     changeLanguage(lang) {
       amb.chooseLanguage(lang);
       this.setPageUx('profile_title');
+    }
+
+    checkRequiredFiled() {
+      return amb.checkRequired(this.user, {
+        'accountName': this.i.account_name
+      });
     }
   }
 </script>
