@@ -27,7 +27,7 @@
 .activity-card {
   position: relative;
   flex: 0 0 200rpx;
-  margin: 10rpx;
+  margin: 30rpx 10rpx;
   border: 1px solid #ccc;
   box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
 
@@ -60,7 +60,20 @@
     // flex: 100%;
     margin-left: 10rpx;
     display: flex;
+    padding: 20rpx 10rpx;
     flex-direction: column;
+    text {
+      margin-bottom: 2rpx;
+    }
+     .star {
+       display: flex;
+       flex-direction: row;
+       justify-content: flex-start;
+        image{
+          width: 1rem;
+          height: 1rem;
+        }
+      }
   }
 
   .activity-info {
@@ -83,6 +96,12 @@
         <text class="info-text">{{displayLocalDay}}, {{displayLocalDate}}, {{displayLocalTime}}</text>
         <text class="info-text"></text>
         <text class="info-text">{{activity.price ? i.activity_price_not_free : i.activity_price_free}}</text>
+        <view class="star">
+          <block wx:for="{{[1,2,3,4,5]}}" wx:key="index" data-value="{{item}}">
+             <image  wx:if="{{item <= reviewStars}}" src="../../icons/star.svg"/>
+             <image  wx:else src="../../icons/star-o.svg"/>
+           </block>
+        </view>
       </view>
       <view wx:if="{{style === 'card'}}" class="favorite" catchtap="toggleFavorite">
         <image wx:if="{{activity.favoriteId}}" src="../../icons/heart.svg"/>
@@ -109,6 +128,7 @@ export default class ActivityBar extends wepy.component {
   }
   data = {
     i: amb.pageI18nData,
+    reviewStars:3
   }
   computed = {
     displayLocalDay() {
