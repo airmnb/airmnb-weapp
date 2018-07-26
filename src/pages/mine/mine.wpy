@@ -98,7 +98,7 @@ export default class Mine extends wepy.page {
 		const clientHeight = res.windowHeight;
 		const clientWidth = res.windowWidth;
 		const rpxR = 750 / clientWidth;
-    const calc = clientHeight * rpxR - 180;
+    const calc = clientHeight * rpxR - 100;
 		this.updateData({
 			'swiperHeight': calc
 		});
