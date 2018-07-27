@@ -158,6 +158,7 @@ export default class ViewActivity extends wepy.page {
     isPurchaseView: false,
     imageUrls: [],
     venueAddress: null,
+    options: null
   };
   methods = {
     preview(e) {
@@ -204,10 +205,19 @@ export default class ViewActivity extends wepy.page {
     const aTask = this.loadActivity(activityId);
     const pTask = this.loadPurchase(purchaseId);
     await Promise.all([aTask, pTask]);
+    this.updateData({
+      options
+    })
   }
   onPullDownRefresh () {
 		this.refresh(true);
-	}
+  }
+  onShareAppMessage() {
+    return {
+      title: '自定义转发标题',
+      path: `/page/search/view_activity?activityId=${options.activityId}&purchaseId=${options.purchaseId}`
+    }
+  }
   async refresh(force = false) {
     try {
       wepy.showLoading({mask: true});
