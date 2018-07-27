@@ -58,6 +58,7 @@
       <navigator url="/pages/setting/edit_baby?babyId={{baby.babyId}}" class="image-avatar" wx:for="{{babies}}" wx:key="index" wx:for-item="baby">
         <view class="image-card image-placeholder">{{baby.nickName}}</view>
         <image class="image-card image-image" src="{{baby.avatarSrcUrl}}" mode="aspectFill" />
+        <icon class="image-delete" type="clear" size="30" color="red" data-index="{{index}}" catchtap="deleteBaby"/>
       </navigator>
       <view class="image-avatar">
         <view class="image-card image-placeholder" bindtap="addBaby">
@@ -145,7 +146,28 @@
         });
         this.saveUserLanguage(lang);
         amb.i18nTabbar();
-      }
+      },
+      async deleteBaby(e) {
+        const i = e.currentTarget.dataset.index;
+        const baby = this.babies[i];
+
+        const result = await amb.showConfirm(amb.pageI18nData.baby_delete_confirm)
+        if(result.cancel) return;
+
+        try{
+          wepy.showLoading();
+          await babyService.delete(baby.babyId);
+
+          this.babies.splice(i, 1);
+          this.updateData({
+            'babies': this.babies,
+          });
+        } catch(e) {
+          amb.showError(e);
+        } finally {
+          wepy.hideLoading();
+        }
+      },
     }
 
     async onLoad() {

@@ -26,7 +26,8 @@ class BabyService {
     if(resp.error) {
       throw new Error(resp.error);
     }
-    this.cache.remove(id)    
+    this.cache.remove(id)
+    await this.getMine(true);
   }
   async add(baby) {
     baby = amb.cleanSetModel(baby);

@@ -48,17 +48,19 @@ swiper {
 }
 
 .button-add {
+	position:fixed;
 	right: 40rpx;	
 }
 
 .button-scan {
+	position:fixed;
 	right: 160rpx;	
 }
 </style>
 
 <template>
   <view>
-    <view class="" style="position:relative;">
+    <!-- <view class="" style="position:relative;">
       <scroll-view scroll-x="true" class="tab-h">
         <view class="tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="switchNav">
           <text data-current="0" class="tab-item-label">{{i.provider_ongoing}}</text>
@@ -78,7 +80,14 @@ swiper {
             </scroll-view>
         </swiper-item>
       </swiper>
-    </view>
+    </view> -->
+		<view>
+			<view class="list-no-content" wx:if="{{!activities || !activities.length}}">{{i.list_no_content}}</view>
+			<repeat for="{{activities}}">
+				<activityBar wx:if="{{!loading}}" :style="'bar'"
+					:navigateTo="'/pages/provider/edit_activity?activityId=' + item.activityId" :activity.sync="item"></activityBar>
+			</repeat>
+		</view>
     <view class="button-add float-button float-widget" @tap="add">
       <image src="../../icons/plus.svg"/>
 		</view>

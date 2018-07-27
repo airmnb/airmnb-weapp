@@ -40,7 +40,6 @@
     </view>
     <view class="panel panel-buttons">
       <button class="btn-block btn-primary" bindtap="save">{{i.button_save}}</button>
-      <button class="btn-block" bindtap="delete">{{i.button_delete}}</button>
     </view>
   </view>
 </template>
@@ -98,27 +97,6 @@ export default class AddBaby extends wepy.page {
       }catch(e){
         amb.showError(e)
       }finally{
-        wepy.hideLoading();
-      }
-    },
-    async delete(){
-      const result = await amb.showConfirm(amb.pageI18nData.baby_delete_confirm)
-      if(result.cancel) return;
-
-      try{
-        wepy.showLoading();
-        console.log('baby to delete', this.baby);
-        await babyService.delete(this.baby.babyId);
-
-        // Refresh parent page
-        const pages = getCurrentPages();
-        const parentPage = pages[pages.length-2];
-        parentPage.refresh();
-    
-        wepy.navigateBack();
-      } catch(e) {
-        amb.showError(e);
-      } finally {
         wepy.hideLoading();
       }
     }
