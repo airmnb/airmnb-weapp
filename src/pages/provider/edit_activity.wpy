@@ -13,7 +13,10 @@
       </navigator>
     </view>
     <view class="panel">
-      <navigator url="/pages/provider/venues" hover-class="navigator-hover">{{i.provider_venues}}</navigator>
+      <navigator url="/pages/controls/imageGallery?key=activity.imageIds&value={{activity.imageIds}}&label={{i.activity_images}}" 
+        hover-class="navigator-hover">{{i.activity_images}}
+      </navigator>
+      <!-- <navigator url="/pages/provider/venues" hover-class="navigator-hover">{{i.provider_venues}}</navigator> -->
       <!-- Add mode: choose venue -->
       <picker mode="selector" wx:if="{{addMode}}" class="top-line" value="{{activity.venueId}}" bindchange="venueChange"
         range="{{venueRange}}" range-key="{{'label'}}"> 
@@ -27,16 +30,12 @@
         <text class="label">{{i.activity_venue}}</text>
         <text class="value text-ellipsis">{{venueName}}</text>
       </view>
+    </view>
+    <view class="panel">
       <picker mode="date" disabled="{{!addMode}}" value="{{activity.startDate}}" start="2018-01-01" end="2028-12-31" bindchange="startDateChange">  
         <view class="panel-item required">
           <text class="label">{{i.activity_start_date}}</text>
           <text class="value">{{activity.startDate}}</text>
-        </view>
-      </picker>
-      <picker mode="date" disabled="{{!addMode}}" class="top-line" value="{{activity.endDate}}" start="2018-01-01" end="2028-12-31" bindchange="endDateChange">  
-        <view class="panel-item required">
-          <text class="label">{{i.activity_end_date}}</text>
-          <text class="value">{{activity.endDate}}</text>
         </view>
       </picker>
       <picker mode="time" disabled="{{!addMode}}" class="top-line" value="{{activity.startTime}}" start="06:00" end="20:00" bindchange="startTimeChange">  
@@ -45,17 +44,18 @@
           <text class="value">{{activity.startTime}}</text>
         </view>
       </picker>
+      <picker mode="date" disabled="{{!addMode}}" class="top-line" value="{{activity.endDate}}" start="2018-01-01" end="2028-12-31" bindchange="endDateChange">  
+        <view class="panel-item required">
+          <text class="label">{{i.activity_end_date}}</text>
+          <text class="value">{{activity.endDate}}</text>
+        </view>
+      </picker>
       <picker mode="time" disabled="{{!addMode}}" class="top-line" value="{{activity.endTime}}" start="06:00" end="20:00" bindchange="endTimeChange">  
         <view class="panel-item required">
           <text class="label">{{i.activity_end_time}}</text>
           <text class="value">{{activity.endTime}}</text>
         </view>
       </picker>
-    </view>
-    <view class="panel">
-      <navigator url="/pages/controls/imageGallery?key=activity.imageIds&value={{activity.imageIds}}&label={{i.activity_images}}" 
-        hover-class="navigator-hover">{{i.activity_images}}
-      </navigator>
       <view class="panel-item panel-item-v">
         <view class="label">{{i.activity_dayofweek}}</view>
         <repeat class="value" for="{{[0]}}">
@@ -65,6 +65,8 @@
           class="value"></dowSelector>
         </repeat>
       </view>
+    </view>
+    <view class="panel">
       <view class="panel-item panel-item-v">
         <view class="label">{{i.cat_title}}</view>
         <repeat class="value" for="{{[0]}}">
