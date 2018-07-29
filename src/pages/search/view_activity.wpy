@@ -214,7 +214,7 @@ export default class ViewActivity extends wepy.page {
   }
   onShareAppMessage() {
     return {
-      title: '自定义转发标题',
+      title: this.activity.name,
       path: `/page/search/view_activity?activityId=${options.activityId}&purchaseId=${options.purchaseId}`
     }
   }

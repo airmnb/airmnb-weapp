@@ -427,7 +427,7 @@ export default class EditActivity extends wepy.page {
     return amb.checkRequired(this.activity, {
       'name': this.i.activity_name,
       'info': this.i.activity_info,
-      'venueId': this.i.activity_venue,
+      // 'venueId': this.i.activity_venue,
       'startDate': this.i.activity_start_date,
       'endDate': this.i.activity_end_date,
       'startTime': this.i.activity_start_time,
