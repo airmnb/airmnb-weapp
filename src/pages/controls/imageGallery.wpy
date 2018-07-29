@@ -76,7 +76,10 @@ export default class ImageGallery extends wepy.page {
         urls: this.imageUrls
       })
     },
-    delete(e) {
+    async delete(e) {
+      const result = await amb.showConfirm(amb.pageI18nData.image_delete_confirm)
+      if(result.cancel) return;
+
       const i = e.currentTarget.dataset.index;
       this.value.splice(i, 1);
       this.updateData({
