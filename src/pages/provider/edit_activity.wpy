@@ -228,6 +228,7 @@ export default class EditActivity extends wepy.page {
           await this.setCurrentLocationAsVenue();
         }
 
+        await imageService.uploadImages(this.activity.imageIds)
         this.activity.timeOffset = amb.config.timeOffset;
         if(this.addMode) {
           await activityService.add(this.activity);

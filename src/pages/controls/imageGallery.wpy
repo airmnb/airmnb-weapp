@@ -16,7 +16,7 @@ page {
           <!-- <i class="image-card image-delete" bindtap="delete"></i> -->
           <icon class="image-delete" type="clear" size="30" color="red" data-index="{{index}}" bindtap="delete"/>
         </view>
-        <view class="image-avatar">
+        <view class="image-avatar" wx:if="{{imageUrls.length < 9}}">
           <view class="image-card image-placeholder" bindtap="addImage">
             <image src="../../icons/plus-light.svg"/>
           </view>
@@ -29,76 +29,90 @@ page {
   </view>
 </template>
 <script>
-  import wepy from 'wepy'
-  import amb from '@/util/amb'
-  import imageService from '@/util/imageService'
-  
-  export default class ImageGallery extends wepy.page {
-    config = {
-    }
+import wepy from 'wepy'
+import amb from '@/util/amb'
+import imageService from '@/util/imageService'
+import cacheService from "@/util/cacheService";
 
-    data = {
-      key: undefined,
-      value: '',
-      label: amb.pageI18nData.label_input,
-      i: amb.pageI18nData,
-      value: [],
-      imageUrls: [],
-    }
+const cache = cacheService.for('images')
 
-    methods = {
-      async addImage() {
-        const imageIds = await imageService.chooseImage(9);
-        this.value = this.value.concat(imageIds);
-        this.updateData({
-          'value': this.value,
-          'imageUrls': this.getImageUrls(),
-        });
-      },
-      preview(e) {
-        const i = e.currentTarget.dataset.index;
-        wepy.previewImage({
-          current: this.imageUrls[i],
-          urls: this.imageUrls
-        })
-      },
-      delete(e) {
-        const i = e.currentTarget.dataset.index;
-        this.value.splice(i, 1);
-        this.updateData({
-          'value': this.value,
-          'imageUrls': this.getImageUrls(),
-        });
-      },
-      save(e){
-        this.updateParentData(this.value);
+export default class ImageGallery extends wepy.page {
+  config = {
+  }
+
+  data = {
+    key: undefined,
+    value: '',
+    label: amb.pageI18nData.label_input,
+    i: amb.pageI18nData,
+    value: [],
+    imageUrls: [],
+    newImageMap: new Map()
+  }
+
+  methods = {
+    async addImage() {
+      const map = await imageService.chooseImage(9);
+      if(this.value.length + map.size > 9) {
+        amb.showError(this.i.image_exceed_max_count);
+        return;
       }
-    }
-
-    getImageUrls() {
-      return this.value.map(x => imageService.getSrcUrl(x));
-    }
-
-    onLoad(options) {
-      this.key = options.key || '';
-      console.log('options', options);
-      this.value = options.value ? options.value.split(',') : [];
-      this.imageUrls = this.getImageUrls();
-
-      this.setPageUx('activity_images'); 
-      if(options.label) {
-        wepy.setNavigationBarTitle({title: options.label});
+      this.value = this.value || [];
+      this.imageUrls = this.imageUrls || [];
+      for (var [imageId, tempPath] of map.entries()) {
+        this.value.push(imageId);
+        this.imageUrls.push(tempPath);
+        cache.set(imageId, tempPath);
       }
-    }
-
-    updateParentData(value) {
-      const pages = getCurrentPages();
-      const prePage = pages[pages.length - 2];
-      const key = this.key;
-      prePage.updateData({
-        [key]: value
+      this.updateData({
+        'value': this.value,
+        'imageUrls': this.imageUrls,
       });
-      wepy.navigateBack();
+    },
+    preview(e) {
+      const i = e.currentTarget.dataset.index;
+      wepy.previewImage({
+        current: this.imageUrls[i],
+        urls: this.imageUrls
+      })
+    },
+    delete(e) {
+      const i = e.currentTarget.dataset.index;
+      this.value.splice(i, 1);
+      this.updateData({
+        'value': this.value,
+        'imageUrls': this.getImageUrls(),
+      });
+    },
+    save(e){
+      this.updateParentData(this.value);
     }
   }
+
+  getImageUrls() {
+    return this.value.map(x => cache.get(x) || imageService.getSrcUrl(x));
+  }
+
+  onLoad(options) {
+    this.key = options.key || '';
+    console.log('options', options);
+    this.value = options.value ? options.value.split(',') : [];
+    this.imageUrls = this.getImageUrls();
+
+    this.setPageUx('activity_images'); 
+    if(options.label) {
+      wepy.setNavigationBarTitle({title: options.label});
+    }
+  }
+
+  updateParentData(value) {
+    const pages = getCurrentPages();
+    const prePage = pages[pages.length - 2];
+    const key = this.key;
+    prePage.updateData({
+      [key]: value
+    });
+    wepy.navigateBack();
+  }
+}
 </script>
