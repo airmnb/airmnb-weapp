@@ -11,15 +11,17 @@
     </view> -->
 
     <view class="panel">
-      <navigator url="/pages/controls/input?key=user.accountName&value={{user.accountName}}&label={{i.account_name}}" 
-      hover-class="navigator-hover" class="required">{{i.account_name}}<text class="value">{{user.accountName}}</text>
-      </navigator>
+      <view class="panel-item required">
+        <text class="label">{{i.account_name}}</text>
+        <input class="value" value="{{user.accountName || ''}}" bindinput="updateAccountName" name="input" type="text"/>
+      </view>
     </view>
     <text class="sub-title">{{i.profile_my_info}}</text>
     <view class="panel">
-      <navigator url="/pages/controls/input?key=user.fullName&value={{user.fullName}}&label={{i.fullname}}" 
-      hover-class="navigator-hover">{{i.fullname}}<text class="value">{{user.fullName || ''}}</text>
-      </navigator>
+      <view class="panel-item">
+        <text class="label">{{i.fullname}}</text>
+        <input class="value" value="{{user.fullName || ''}}" bindinput="updateFullName" name="input" type="text"/>
+      </view>
       <view class="panel-item">
         <text class="label">{{i.gender}}</text>
         <radio-group class="radio-group" bindchange="setGender">
@@ -37,12 +39,14 @@
           <text class="value">{{user.dob}}</text>
         </view>
       </picker>
-      <navigator url="/pages/controls/input?key=user.phone&value={{user.phone}}&type=number&label={{i.mobile}}" 
-      hover-class="navigator-hover">{{i.mobile}}<text class="value">{{user.phone || ''}}</text>
-      </navigator>
-      <navigator url="/pages/controls/input?key=user.email&value={{user.email}}&label={{i.email}}" 
-      hover-class="navigator-hover">{{i.email}}<text class="value">{{user.email || ''}}</text>
-      </navigator>
+      <view class="panel-item">
+        <text class="label">{{i.mobile}}</text>
+        <input class="value" value="{{user.phone || ''}}" bindinput="updatePhone" type="number"/>
+      </view>
+      <view class="panel-item">
+        <text class="label">{{i.email}}</text>
+        <input class="value" value="{{user.email || ''}}" bindinput="updateEmail" type="text"/>
+      </view>
     </view>
     <view class="panel">
       <picker mode="selector" value="{{null}}" bindchange="langChange"
@@ -108,6 +112,26 @@
     }
 
     methods = {
+      updateAccountName(e){
+        this.updateData({
+          'user.accountName': e.detail.value
+        })
+      },
+      updateFullName(e){
+        this.updateData({
+          'user.fullName': e.detail.value
+        })
+      },
+      updatePhone(e){
+        this.updateData({
+          'user.phone': e.detail.value
+        })
+      },
+      updateEmail(e){
+        this.updateData({
+          'user.email': e.detail.value
+        })
+      },
       async save() {
         // Required fileds check
         if(!this.checkRequiredFiled()) return;
