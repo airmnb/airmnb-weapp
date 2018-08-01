@@ -146,7 +146,7 @@ import drawQrcode from 'weapp-qrcode'
 
 export default class ViewActivity extends wepy.page {
   config = {
-    enablePullDownRefresh: false,
+    enablePullDownRefresh: true,
   }
   components = {
 		valueSelector: ValueSelector
@@ -228,7 +228,7 @@ export default class ViewActivity extends wepy.page {
       wepy.hideLoading();
     }
   }
-  async loadPurchase(purchaseId, force = false) {
+  async loadPurchase(purchaseId, force = true) {
     if(!purchaseId) return;
     const purchase = await purchaseService.get(purchaseId, force);
     this.updateData({
@@ -241,7 +241,7 @@ export default class ViewActivity extends wepy.page {
       text: purchase.purchaseId
     })
   }
-  async loadActivity(activityId, force = false){
+  async loadActivity(activityId, force = true){
     wepy.showLoading();
     const activity = await activityService.get(activityId, force);
     this.updateData({

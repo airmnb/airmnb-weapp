@@ -56,12 +56,7 @@
       </picker>
       <view class="panel-item panel-item-v">
         <view class="label">{{i.activity_dayofweek}}</view>
-        <repeat class="value" for="{{[0]}}">
-          <!-- Use repeat to work around wepy component -->
-          <dowSelector :value.sync="activity.daysOfWeek" key="daysOfWeek" :owner.sync="activity" :readonly.sync="!addMode"
-          :definition="dowDefinition"
-          class="value"></dowSelector>
-        </repeat>
+        <dow-tag class="value" value="{{activity.daysOfWeek}}" readonly="{{!addMode}}" bindchange="changeDow"></dow-tag>
       </view>
     </view>
     <view class="panel">
@@ -136,7 +131,8 @@ export default class EditActivity extends wepy.page {
   config = {
     enablePullDownRefresh: false,
     usingComponents: {
-      'input-bar': '/pages/nativeComponents/input-bar/input-bar'
+      'input-bar': '/pages/nativeComponents/input-bar/input-bar',
+      'dow-tag': '/pages/nativeComponents/dow-tag/dow-tag',
     }
   }
   components = {
@@ -161,6 +157,11 @@ export default class EditActivity extends wepy.page {
       console.log('gender', value);
       this.updateData({
         'activity.gender': value,
+      });
+    },
+    changeDow(e) {
+      this.updateData({
+        'activity.daysOfWeek': e.detail.value
       });
     },
     updateName(e){
