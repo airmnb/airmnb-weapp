@@ -1,0 +1,3 @@
+<block>
+  <value-tag definition="{{definition}}" value="{{value}}" key="{{key}}" owner="{{owner}}" readonly="{{readonly}}" bindchange="changeValue"></value-tag>
+</block>

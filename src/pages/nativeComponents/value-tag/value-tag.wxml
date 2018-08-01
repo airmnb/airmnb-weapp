@@ -1,0 +1,9 @@
+<view class="value-selector">
+  <block>
+    <view class="value-selector-item" wx:for="{{definition}}" wx:key="{{index}}">
+      <view class="{{(value & item.value) ? 'value-tag checked' : 'value-tag'}}" data-value="{{item.value}}" bindtap="toggle">
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+  </block>
+</view>
