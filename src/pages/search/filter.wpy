@@ -35,21 +35,11 @@
       </picker> -->
       <view class="panel-item panel-item-v">
         <view class="label">{{i.activity_dayofweek}}</view>
-        <repeat class="value" for="{{[0]}}">
-          <!-- Use repeat to work around wepy component -->
-          <dowSelector :value="opt.daysOfWeek" key="daysOfWeek" :owner.sync="opt" :readonly="false"
-          :definition="dowDefinition"
-          class="value"></dowSelector>
-        </repeat>
+        <dow-tag class="value" value="{{opt.daysOfWeek}}" readonly="{{false}}" bindchange="changeDow"></dow-tag>
       </view>
       <view class="panel-item panel-item-v">
         <view class="label">{{i.cat_title}}</view>
-        <repeat class="value" for="{{[0]}}">
-          <!-- Use repeat to work around wepy component -->
-          <categorySelector :value="opt.category" key="category" :owner.sync="opt" :readonly="false"
-          :definition="categoryDefinition"
-          class="value"></categorySelector>
-        </repeat>
+        <category-tag class="value" value="{{opt.category}}" readonly="{{false}}" bindchange="changeCategory"></category-tag>
       </view>
     </view>
     
@@ -75,9 +65,11 @@ import mapService from '@/util/mapService'
 import cacheService from "@/util/cacheService";
 
 export default class Filter extends wepy.page {
-  components = {
-    dowSelector: ValueSelector,
-    categorySelector: ValueSelector
+  config = {
+    usingComponents: {
+      'dow-tag': '/pages/nativeComponents/dow-tag/dow-tag',
+      'category-tag': '/pages/nativeComponents/category-tag/category-tag',
+    }
   }
   data = {
     i: amb.pageI18nData,
@@ -99,6 +91,16 @@ export default class Filter extends wepy.page {
     changeKeyword(e) {
       this.updateData({
         'opt.keywords': e.detail.value
+      });
+    },
+    changeDow(e) {
+      this.updateData({
+        'opt.daysOfWeek': e.detail.value
+      });
+    },
+    changeCategory(e){
+      this.updateData({
+        'opt.category': e.detail.value
       });
     },
     startDateChange(e) {

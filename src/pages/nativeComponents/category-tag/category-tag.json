@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "value-tag": "../value-tag/value-tag"
+  }
+}

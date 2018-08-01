@@ -62,12 +62,7 @@
     <view class="panel">
       <view class="panel-item panel-item-v">
         <view class="label">{{i.cat_title}}</view>
-        <repeat class="value" for="{{[0]}}">
-          <!-- Use repeat to work around wepy component -->
-          <categorySelector :value.sync="activity.category" key="category" :owner.sync="activity" :readonly.sync="!addMode"
-          :definition="categoryDefinition"
-          class="value"></categorySelector>
-        </repeat>
+        <category-tag class="value" value="{{activity.category}}" readonly="{{!addMode}}" bindchange="changeCategory"></category-tag>
       </view>
       <!-- <view class="panel-item">
         <text class="label">{{i.gender}}</text>
@@ -133,11 +128,10 @@ export default class EditActivity extends wepy.page {
     usingComponents: {
       'input-bar': '/pages/nativeComponents/input-bar/input-bar',
       'dow-tag': '/pages/nativeComponents/dow-tag/dow-tag',
+      'category-tag': '/pages/nativeComponents/category-tag/category-tag',
     }
   }
   components = {
-    dowSelector: ValueSelector,
-    categorySelector: ValueSelector
 	}
 	data = {
     i: amb.pageI18nData,
@@ -162,6 +156,11 @@ export default class EditActivity extends wepy.page {
     changeDow(e) {
       this.updateData({
         'activity.daysOfWeek': e.detail.value
+      });
+    },
+    changeCategory(e){
+      this.updateData({
+        'activity.category': e.detail.value
       });
     },
     updateName(e){
