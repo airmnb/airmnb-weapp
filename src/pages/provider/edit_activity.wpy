@@ -107,10 +107,8 @@
         </view>
       </picker>
     </view>
-    <!-- <view class="panel">
-      <navigator disabled="{{!addMode}}" url="/pages/controls/input?key=activity.price&value={{activity.price}}&type=digit&label={{i.activity_price}}" 
-      hover-class="navigator-hover">{{i.activity_price}}<text class="value">{{activity.price}}</text>
-      </navigator>
+    <view class="panel">
+      <input-bar label="{{i.activity_price}}" value="{{activity.price}}" bindchange="priceChange" type="digit"></input-bar>
       <picker mode="selector" disabled="{{!addMode}}" class="top-line" value="{{activity.currency}}" bindchange="currencyChange"
         range="{{currencyRange}}">
         <view class="panel-item">
@@ -118,7 +116,7 @@
           <text class="value">{{activity.currency}}</text>
         </view>
       </picker>
-    </view> -->
+    </view>
     <view class="panel panel-buttons">
       <button class="btn-block btn-primary" @tap="save">{{i.button_save}}</button>
       <button wx:if="{{!addMode}}" class="btn-block" @tap="deleteOne">{{i.button_delete}}</button>
@@ -203,6 +201,13 @@ export default class EditActivity extends wepy.page {
     capChange(e) {
       this.updateData({
         'activity.capacity': this.capRange[e.detail.value]
+      });
+    },
+    priceChange(e) {
+      const value = e.detail.value || 0;
+      const number = parseFloat(value);
+      this.updateData({
+        'activity.price': number,
       });
     },
     currencyChange(e) {

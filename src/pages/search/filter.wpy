@@ -6,7 +6,7 @@
     <view class="search-bar">
       <input placeholder="{{i.search_keywords}}" maxLength="50" bindinput="changeKeyword" value="{{opt.keywords}}"/>
     </view>
-
+    
     <view class="panel">   
       <!-- Start time -->
       <!-- <picker mode="date" value="{{opt.startDate}}" start="2018-01-01" end="2028-12-31" bindchange="startDateChange">  
@@ -62,6 +62,7 @@
 
     <view class="panel panel-buttons">
       <button class="btn-block btn-primary" @tap="search">{{i.map_search_bar}}</button>
+      <button class="btn-block" @tap="gotoMap">{{i.map_button_map}}</button>
     </view>
   </view>
 </template>
@@ -90,6 +91,7 @@ export default class Filter extends wepy.page {
       category: 0,
       freeOnly: false
     },
+    geo: {},
     categoryDefinition: [],
     dowDefinition: []
   }
@@ -154,7 +156,12 @@ export default class Filter extends wepy.page {
       if(!activities.length) {
         amb.showError(this.i.landing_search_empty, '')
       }
-    }
+    },
+    gotoMap(){
+      wepy.navigateTo({
+        url: '/pages/search/map'
+      })
+    },
   }
 
   onLoad(option) {
