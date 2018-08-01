@@ -11,17 +11,11 @@
     </view> -->
 
     <view class="panel">
-      <view class="panel-item required">
-        <text class="label">{{i.account_name}}</text>
-        <input class="value" value="{{user.accountName || ''}}" bindinput="updateAccountName" name="input" type="text"/>
-      </view>
+      <input-bar label="{{i.account_name}}" value="{{user.accountName}}" bindchange="updateAccountName" required></input-bar>
     </view>
     <text class="sub-title">{{i.profile_my_info}}</text>
     <view class="panel">
-      <view class="panel-item">
-        <text class="label">{{i.fullname}}</text>
-        <input class="value" value="{{user.fullName || ''}}" bindinput="updateFullName" name="input" type="text"/>
-      </view>
+      <input-bar label="{{i.fullname}}" value="{{user.fullName}}" bindchange="updateFullName"></input-bar>
       <view class="panel-item">
         <text class="label">{{i.gender}}</text>
         <radio-group class="radio-group" bindchange="setGender">
@@ -39,14 +33,8 @@
           <text class="value">{{user.dob}}</text>
         </view>
       </picker>
-      <view class="panel-item">
-        <text class="label">{{i.mobile}}</text>
-        <input class="value" value="{{user.phone || ''}}" bindinput="updatePhone" type="number"/>
-      </view>
-      <view class="panel-item">
-        <text class="label">{{i.email}}</text>
-        <input class="value" value="{{user.email || ''}}" bindinput="updateEmail" type="text"/>
-      </view>
+      <input-bar label="{{i.mobile}}" value="{{user.phone}}" bindchange="updatePhone" type="number"></input-bar>
+      <input-bar label="{{i.email}}" value="{{user.email}}" bindchange="updateEmail"></input-bar>
     </view>
     <view class="panel">
       <picker mode="selector" value="{{null}}" bindchange="langChange"
@@ -94,6 +82,9 @@
   export default class Profile extends wepy.page {
     config = {
       enablePullDownRefresh: false,
+      usingComponents: {
+        'input-bar': '/pages/nativeComponents/input-bar/input-bar'
+      }
     }
     data = {
       i: amb.pageI18nData,
@@ -128,6 +119,7 @@
         })
       },
       updateEmail(e){
+        console.log('updateEmail', e, e.detail.value);
         this.updateData({
           'user.email': e.detail.value
         })

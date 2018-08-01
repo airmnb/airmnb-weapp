@@ -4,9 +4,7 @@
 <template>
   <view>
     <view class="panel">
-      <navigator url="/pages/controls/input?key=activity.name&value={{activity.name}}&label={{i.activity_name}}" 
-      hover-class="navigator-hover" class="required">{{i.activity_name}}<text class="value">{{activity.name}}</text>
-      </navigator>
+      <input-bar label="{{i.activity_name}}" value="{{activity.name}}" bindchange="updateName" required></input-bar>
       <navigator url="/pages/controls/textarea?key=activity.info&value={{activity.info}}&label={{i.activity_info}}" 
         hover-class="navigator-hover" class="required">{{i.activity_info}}
         <text class="value text-ellipsis">{{activity.info}}</text>
@@ -137,6 +135,12 @@ import mapService from '@/util/mapService'
 import ValueSelector from '../components/valueSelector'
 
 export default class EditActivity extends wepy.page {
+  config = {
+    enablePullDownRefresh: false,
+    usingComponents: {
+      'input-bar': '/pages/nativeComponents/input-bar/input-bar'
+    }
+  }
   components = {
     dowSelector: ValueSelector,
     categorySelector: ValueSelector
@@ -160,6 +164,11 @@ export default class EditActivity extends wepy.page {
       this.updateData({
         'activity.gender': value,
       });
+    },
+    updateName(e){
+      this.updateData({
+        'activity.name': e.detail.value
+      })
     },
     startDateChange(e) {
       this.updateData({

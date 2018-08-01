@@ -1,0 +1,38 @@
+// outExt: .wxss, compress:false, sourceMap:false
+
+@import "../../../app.less";
+
+:host {
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+}
+
+.panel-item {
+  width: 100%;
+  min-height: 80rpx;
+  display: flex;  
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1rpx solid @gray;
+  background-color: @white;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+  white-space: nowrap;
+  .label {
+    flex: 1 1;
+  }
+  input,.value {
+    width: 100%;
+    color: @gray-dark;
+    flex: 2 2;
+  }
+  .value {
+    text-align: right;
+  }
+  &.required {
+    border-left: 4rpx solid red;
+  }
+}

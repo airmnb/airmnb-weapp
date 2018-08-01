@@ -1,0 +1,4 @@
+  <view class="panel-item {{required ? 'required' : ''}}" bindtap="focusInput">
+    <text class="label">{{label}}</text>
+    <input class="value" value="{{value}}" bindinput="update" type="{{type}}" focus="{{focus}}"/>
+  </view>
