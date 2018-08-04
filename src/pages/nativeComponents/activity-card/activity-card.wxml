@@ -6,7 +6,7 @@
     <view class="activity-content">
       <text class="secondary-text">{{activity.name}}</text>
       <text class="info-text">{{activity.venue.addr1}}</text>
-        <dow-tag class="shrink" value="{{activity.daysOfWeek}}" readonly="{{true}}"></dow-tag>
+      <dow-tag class="shrink" value="{{activity.daysOfWeek}}" readonly="{{true}}"></dow-tag>
       <text class="info-text">{{displayLocalDate}}, {{displayLocalTime}}</text>
       <text class="info-text"></text>
       <text class="info-text">{{activity.price ? i.activity_price_not_free : i.activity_price_free}}</text>

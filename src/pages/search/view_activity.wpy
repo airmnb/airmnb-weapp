@@ -85,6 +85,7 @@
         {{activity.info}}
       </text>
       <navigator class="light-text" url="/pages/controls/reviews?activityId={{activity.activityId}}">{{i.button_reviews}}</navigator>
+      <dow-tag class="smaller-dow-tag" value="{{activity.daysOfWeek}}" readonly="{{true}}"></dow-tag>
     </view>
     <view>
       <view class="activity-info-container">
@@ -99,13 +100,6 @@
         <view class="card" wx:if="{{activity.gender === 1}}">
           <image class="icon" src="../../icons/mars.svg"/>
           <text class="content">i.boy_only</text>
-        </view>
-        <view class="card">
-          <repeat for="{{[0]}}">
-            <!-- Use repeat to work around wepy component -->
-            <!-- <valueSelector :value="activity.daysOfWeek" :readonly="true"
-            :labels="[i.dow_mon_s,i.dow_tue_s,i.dow_wed_s,i.dow_thu_s,i.dow_fri_s,i.dow_sat_s,i.dow_sun_s]"></valueSelector> -->
-          </repeat>
         </view>
         <view class="card card-long" wx:if="{{!purchase}}">
           <image class="icon" src="../../icons/calendar.svg"/>
@@ -146,6 +140,9 @@ import drawQrcode from 'weapp-qrcode'
 export default class ViewActivity extends wepy.page {
   config = {
     enablePullDownRefresh: true,
+    usingComponents: {
+      'dow-tag': '/pages/nativeComponents/dow-tag/dow-tag',
+    }
   }
   components = {
 	}
