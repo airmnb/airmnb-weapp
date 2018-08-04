@@ -93,6 +93,7 @@
       <view class="activity-content">
         <text class="secondary-text">{{activity.name}}</text>
         <text class="info-text">{{activity.venue.addr1}}</text>
+        daysOfWeek{{activity.daysOfWeek}} <dow-tag value="{{activity.daysOfWeek}}" readonly="{{false}}"></dow-tag>
         <text class="info-text">{{displayLocalDay}}, {{displayLocalDate}}, {{displayLocalTime}}</text>
         <text class="info-text"></text>
         <text class="info-text">{{activity.price ? i.activity_price_not_free : i.activity_price_free}}</text>
@@ -117,6 +118,12 @@ import favoriteService from '@/util/favoriteService';
 import timeService from '@/util/timeService';
 
 export default class ActivityBar extends wepy.component {
+  config = {
+    usingComponents: {
+      'dow-tag': '/pages/nativeComponents/dow-tag/dow-tag',
+      'category-tag': '/pages/nativeComponents/category-tag/category-tag',
+    }
+  }
   props = {
     activity: {
       type: Object,
