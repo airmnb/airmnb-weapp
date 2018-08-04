@@ -8,7 +8,7 @@ Component({
   },
   methods: {
     toggle(e) {
-      if(this.readonly) return;
+      if(this.data.readonly) return;
       const v = e.currentTarget.dataset.value;
       const newValue = this.data.value ^ v;
       this.setData({
@@ -16,5 +16,8 @@ Component({
       });
       this.triggerEvent('change', {value:newValue});
     }
+  },
+  ready() {
+    console.log('value-tag', this.data, this.data.readonly);
   }
 })
