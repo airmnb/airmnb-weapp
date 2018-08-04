@@ -12,19 +12,27 @@
 		<block wx:if="{{activities.length}}">
 			<text class="sub-title sub-title-header">{{i.landing_search_result}} ({{activities.length}})</text>
 			<view class="cards">
-				<repeat for="{{activities}}">
+				<!-- <repeat for="{{activities}}">
 					<searchActivityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
 					</searchActivityBar>
-				</repeat>
+				</repeat> -->
+				<activity-card wx:for="{{activities}}" wx:key="{{index}}" 
+					activity="{{item}}" url="{{'/pages/search/view_activity?activityId=' + item.activityId}}"
+					data-activity="{{item}}" bindchange="toggleFav">
+				</activity-card>
 			</view>
 		</block>
 		<block wx:else>
 			<text class="sub-title sub-title-header">{{i.landing_recommended}} ({{recommended.length}})</text>
 			<view class="cards">
-				<repeat for="{{recommended}}">
+				<activity-card wx:for="{{recommended}}" wx:key="{{index}}"
+				 	activity="{{item}}" url="{{'/pages/search/view_activity?activityId=' + item.activityId}}"
+					data-activity="{{item}}" bindchange="toggleFav">
+				 </activity-card>
+				<!-- <repeat for="{{recommended}}">
 					<recommendedActivityBar :style="'card'" :navigateTo="'/pages/search/view_activity?activityId=' + item.activityId" :activity.sync="item">
 					</recommendedActivityBar>
-				</repeat>
+				</repeat> -->
 			</view>
 		</block>
 
@@ -52,7 +60,10 @@ import ActivityBar from '../components/activityBar'
 
 export default class Landing extends wepy.page {
 	config = {
-		enablePullDownRefresh: false
+		enablePullDownRefresh: false,
+		usingComponents: {
+      'activity-card': '/pages/nativeComponents/activity-card/activity-card',
+    }
 	};
 	components = {
 		searchActivityBar: ActivityBar,
@@ -79,6 +90,24 @@ export default class Landing extends wepy.page {
 		gotoSearchConfig() {
 			wepy.navigateTo({url: '/pages/search/filter'});
 		},
+		toggleFav(e) {
+			const favoriteId = e.detail.value;
+			const activityId = e.target.dataset.activity.activityId;
+			this.activities.forEach(x => {
+				if(x.activityId === activityId) {
+					x.favoriteId = favoriteId
+				}
+			})
+			this.recommended.forEach(x => {
+				if(x.activityId === activityId) {
+					x.favoriteId = favoriteId
+				}
+			})
+			this.updateData({
+				activities: this.activities,
+				recommended: this.recommended
+			})
+		}
 	}
 
 	async onLoad (options) {

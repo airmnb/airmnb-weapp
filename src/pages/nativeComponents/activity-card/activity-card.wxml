@@ -1,0 +1,25 @@
+<navigator url="{{url}}">
+  <view class="activity-card">
+    <view class="activity-avatar-placeholder"></view>
+    <image wx:if="{{activity.avatarImageUrl}}" class="{{activity.avatarImageUrl ? 'activity-avatar' : 'activity-avatar activity-avatar-placeholder'}}" 
+    src="{{activity.avatarImageUrl}}" mode="aspectFill"/>
+    <view class="activity-content">
+      <text class="secondary-text">{{activity.name}}</text>
+      <text class="info-text">{{activity.venue.addr1}}</text>
+        <dow-tag class="shrink" value="{{activity.daysOfWeek}}" readonly="{{true}}"></dow-tag>
+      <text class="info-text">{{displayLocalDate}}, {{displayLocalTime}}</text>
+      <text class="info-text"></text>
+      <text class="info-text">{{activity.price ? i.activity_price_not_free : i.activity_price_free}}</text>
+      <view class="star">
+        <block wx:for="{{[1,2,3,4,5]}}" wx:key="index" data-value="{{item}}">
+            <image  wx:if="{{item <= reviewStars}}" src="../../../icons/star.svg"/>
+            <image  wx:else src="../../../icons/star-o.svg"/>
+          </block>
+      </view>
+    </view>
+    <view class="favorite" catchtap="toggleFavorite">
+      <image wx:if="{{activity.favoriteId}}" src="../../../icons/heart.svg"/>
+      <image wx:else src="../../../icons/heart-o.svg"/>
+    </view>
+  </view>
+</navigator>
