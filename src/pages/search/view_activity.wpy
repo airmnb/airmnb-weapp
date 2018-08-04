@@ -194,7 +194,7 @@ export default class ViewActivity extends wepy.page {
 	async onLoad(options) {
     const activityId = options.activityId;
     const purchaseId = options.purchaseId;
-    this.setPageUx(this.addMode ? 'addactivity_title' : 'editactivity_title');
+    this.setPageUx(this.addMode ? 'addactivity_title' : 'activity_detail');
     const aTask = this.loadActivity(activityId);
     const pTask = this.loadPurchase(purchaseId);
     await Promise.all([aTask, pTask]);

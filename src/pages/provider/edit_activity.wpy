@@ -283,7 +283,7 @@ export default class EditActivity extends wepy.page {
 	async onLoad(options) {
     const activityId = options.activityId;
     this.addMode = !activityId;
-    this.setPageUx(this.addMode ? 'addactivity_title' : 'editactivity_title');
+    this.setPageUx(this.addMode ? 'addactivity_title' : 'activity_detail');
     wepy.showLoading({mask: true});
     try{
       // await this.initModel();
