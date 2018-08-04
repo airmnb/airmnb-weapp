@@ -120,7 +120,6 @@ import imageService from '@/util/imageService'
 import activityService from '@/util/activityService'
 import venueService from '@/util/venueService'
 import mapService from '@/util/mapService'
-import ValueSelector from '../components/valueSelector'
 
 export default class EditActivity extends wepy.page {
   config = {

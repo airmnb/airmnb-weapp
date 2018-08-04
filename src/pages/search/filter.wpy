@@ -59,7 +59,6 @@
 <script>
 import wepy from 'wepy'
 import amb from '@/util/amb'
-import ValueSelector from '../components/valueSelector'
 import activityService from '@/util/activityService'
 import mapService from '@/util/mapService'
 import cacheService from "@/util/cacheService";
