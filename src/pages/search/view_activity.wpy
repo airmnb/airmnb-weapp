@@ -86,13 +86,10 @@
       </text>
       <navigator class="light-text" url="/pages/controls/reviews?activityId={{activity.activityId}}">{{i.button_reviews}}</navigator>
       <dow-tag class="smaller-dow-tag" value="{{activity.daysOfWeek}}" readonly="{{true}}"></dow-tag>
+      <category-tag class="smaller-dow-tag" value="{{activity.category}}" readonly="{{true}}"></category-tag>
     </view>
     <view>
       <view class="activity-info-container">
-        <view class="card">
-          <image class="icon" src="../../icons/tag.svg"/>
-          <text class="content">{{activity.category}}</text>
-        </view>
         <view class="card" wx:if="{{activity.gender === 2}}">
           <image class="icon" src="../../icons/venus.svg"/>
           <text class="content">i.girl_only</text>
@@ -142,6 +139,7 @@ export default class ViewActivity extends wepy.page {
     enablePullDownRefresh: true,
     usingComponents: {
       'dow-tag': '/pages/nativeComponents/dow-tag/dow-tag',
+      'category-tag': '/pages/nativeComponents/category-tag/category-tag',
     }
   }
   components = {
